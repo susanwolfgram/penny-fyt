@@ -52,12 +52,12 @@ of those sections to manage the look and feel of the site. */
     background: #fff;
 }
 
-/*.contact-section {
-    height: 100%;
-    padding-top: 150px;
+.contact-section {
+    height: 15%;
+    padding-top: 20px;
     text-align: center;
     background: #eee;
-}*/
+}
 
 #logoImg {
     height: 20em;
@@ -79,4 +79,8 @@ of those sections to manage the look and feel of the site. */
     width: 80%;
     margin-left: auto;
     margin-right: auto;
+}
+
+#contact img {
+    width: 50px;
 }
