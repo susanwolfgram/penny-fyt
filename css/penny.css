@@ -52,7 +52,7 @@ of those sections to manage the look and feel of the site. */
     background: #fff;
 }
 
-.contact-section {
+.footer-section {
     height: 15%;
     padding-top: 20px;
     text-align: center;
@@ -81,6 +81,6 @@ of those sections to manage the look and feel of the site. */
     margin-right: auto;
 }
 
-#contact img {
+#footer img {
     width: 50px;
 }
