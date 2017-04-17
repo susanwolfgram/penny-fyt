@@ -85,3 +85,57 @@ html {
 
 /* end Landing page styles */
 
+/* reload page styles */
+
+#reload {
+    text-align: center;
+}
+
+#reload-form {
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+}
+
+/* end reload page styles */
+
+/* content management page styles */
+
+#content-manager {
+    text-align: center;
+}
+
+#post-feed {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    width: 600px;
+}
+
+.user-post {
+    border: 1px solid grey;
+    padding: 10px;
+}
+
+.post-header-left {
+    display: inline-block;
+    margin-bottom: 5px;
+    width: 80%;
+}
+
+.post-header-right {
+    display: inline-block;
+    font-size: 20pt;
+    text-align: right;
+    width: 19%;
+}
+
+.post-avatar {
+    height: 50px;
+    width: 50px;
+}
+
+.user-name {
+    color: black;
+    font-weight: bold;
+}
