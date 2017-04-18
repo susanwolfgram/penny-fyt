@@ -112,14 +112,14 @@ html {
 .post-header-left {
     display: inline-block;
     margin-bottom: 5px;
-    width: 80%;
+    width: 70%;
 }
 
 .post-header-right {
     display: inline-block;
     font-size: 20pt;
     text-align: right;
-    width: 19%;
+    width: 29%;
 }
 
 .post-avatar {
@@ -217,4 +217,15 @@ html {
 #update-submit {
     float: right;
     margin-top: 5px;
+}
+
+/* donation page styles */
+
+#donated {
+    color: gray;
+    font-size: 24px;
+}
+
+#raised{
+    font-size: 14px;
 }
