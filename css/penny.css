@@ -83,5 +83,84 @@ html {
     width: 50px;
 }
 
-/* end Landing page styles */
+/* discover page styles */
+/* adapted from sherry's content management pg to keep post tags consistent */
+
+#discover {
+    text-align: center;
+}
+
+#post-feed {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    width: 800px;
+} 
+
+#totop {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
+.user-post {
+    border: 2px solid grey;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 30px;
+}
+
+.post-header-left {
+    display: inline-block;
+    margin-bottom: 5px;
+    width: 80%;
+}
+
+.post-header-right {
+    display: inline-block;
+    font-size: 20pt;
+    text-align: right;
+    width: 19%;
+}
+
+.post-avatar {
+    height: 50px;
+    width: 50px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.post-footer > ul{
+    list-style-type: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 0px;
+}
+
+.post-footer > ul > li{
+    display: inline;
+    text-align: center;
+    margin: 5px;
+}
+
+.post-body{
+    margin-left: 50px;
+    padding-left: 10px;
+}
+
+.cause-name {
+    color: black;
+    font-weight: bold;
+    font-size: 30px;
+} 
+
+.npo-name {
+    color: gray;
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+#moneyraised{
+    border-bottom: 1px dotted #000;
+}
 
