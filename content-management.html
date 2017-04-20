@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- 
+Copy and paste the contents of this file into a new file (do not edit template.html).
+Nav bar links for all pages except the landing page should be consistent (maybe Penny-fyt (home/feed), About, My Account, Discover etc.?).
+Append new css to penny.css but comment the start and end of the section pertaining to each page you develop. Make sure id and class names are unique so as to not mess with the stylings for other pages. 
+Create a new branch to push changes to, do not push to master. Once you're done, open a pull request but do not merge yet. 
+If you want to add a modal, check index.html and you can copy and paste the modal code from there. 
+Images (e.g. big and small logos) are in the assets folder, let me know if you need any other images made. 
+-->
 
 <head>
 
@@ -51,10 +59,10 @@
                         <a class="page-scroll" href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="index.html">About</a>
+                        <a class="page-scroll" href="#about">About</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="signup.html">Sign Up</a>
+                        <a class="page-scroll" href="#signup">Sign Up</a>
                     </li>
                     <li>
                         <a class="page-scroll" data-toggle="modal" data-target="#myModal" style="cursor: pointer;">Login</a>
@@ -69,62 +77,34 @@
         <!-- /.container -->
     </nav>
 
+    <!-- content goes here --> 
+    <section id="content-manager">
+        <div class="container" style="padding-top:100px">
+            <h1>Tagged Posts</h1>
+            <div id="post-feed">
+                <div class="user-post">
+                    <div class="post-header-left">
+                        <img src="" class="post-avatar" alt="user profile thumbnail" />
 
-    <!-- About Section -->
-    <section id="about" class="about-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1>About Us</h1>
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/5mJX6zNIvrw" frameborder="0" allowfullscreen></iframe>
-                    <p>Penny-fyt is a social media platform that makes donating to charity easy and quick. Non-profit organizations and charities post content that users can like, comment, and share to contribute a penny (or more!) towards that charity. We hope to remove the confusion surrounding donation processes that many would-be contributors face, while also creating an online community where avid activists and casual users can come together and contribute to causes that they are passionate about.</p>
+                        <a href="" class="user-name">Test Name</a>
+                    </div>
+
+                    <div class="post-header-right">
+                    $0.00
+                    </div>
+
+                    <div class="post-body">
+                        <p>Test post body</p>
+                    </div>
+
+                    <div class="post-footer">
+                        Like Comment Share Report
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-
-
-    <!-- Modal -->
-    <div id="myModal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Login</h4>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-            <label for="email">Email address:</label>
-            <input type="email" class="form-control" id="email">
-          </div>
-          <div class="form-group">
-            <label for="pwd">Password:</label>
-            <input type="password" class="form-control" id="pwd">
-          </div>
-          <div class="checkbox">
-            <label><input type="checkbox"> Remember me</label>
-          </div>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-default" data-dismiss="modal">Submit</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Footer Section -->
-    <!-- <section id="footer" class="footer-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <img src="assets/pennylogo.png" />
-                </div>
-            </div>
-        </div>
-    </section> -->
+    
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
