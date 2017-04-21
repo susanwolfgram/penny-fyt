@@ -13,7 +13,6 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			  	user = firebase.auth().currentUser;
 				console.log(user);
 				console.log($scope.users);
-				var id = userData.uid;
 				// $scope.users.$add({
 				// 	fName: $scope.fName, 
 				// 	lName: $scope.lName
@@ -25,14 +24,14 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 				form.reset();
 				$scope.loggedIn = true; 
 			}).catch(function(error) {
-			  console.error("Error: ", error);
+			  	console.error("Error: ", error);
 			});
 
 
 
 		}
 	}
-	
+
 	$scope.checkPwd = function() {
 		if ($scope.pwd && $scope.pwd.length < 6) {
 			document.getElementById("pwdMessage").innerHTML = "Password must be at least 6 characters.";
@@ -60,7 +59,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		}
 	}
 
-	$scope.login = function() {
+	$scope.login = function(result) {
 		console.log("login");
 		firebase.auth().signInWithEmailAndPassword($scope.loginEmail, $scope.loginPwd).then(function(userData) {
 			user = firebase.auth().currentUser;
@@ -74,6 +73,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			// window.location = "discover.html";
 			$scope.loggedIn = true; 
 			$scope.user = user; 
+			$('#myModal').modal('hide');
 		}).catch(function(error) {
 		  // Handle Errors here.
 		  var errorCode = error.code;

@@ -80,13 +80,13 @@
                         <a class="page-scroll" href="signup.html">Sign Up</a>
                     </li> -->
                     <li>
-                        <a class="page-scroll" data-toggle="modal" data-target="#myModal" style="cursor: pointer;">Login</a>
+                        <a class="page-scroll" data-toggle="modal" data-target="#myModal" ng-show="!loggedIn" style="cursor: pointer;">Login</a>
                     </li>
                     <!-- <li>
                         <a class="page-scroll" href="#contact">Contact</a>
                     </li> -->
                 </ul>
-                <!-- <a href="profilepage.html"><img src="assets/penny-icon.png" width="30px" style="float:right; padding-top: 10px;"/></a> -->
+                <img src="assets/penny-icon.png" id="user-icon" width="30px" ng-show="loggedIn" />
             </div>
             <!-- /.navbar-collapse -->
         </div>
@@ -94,7 +94,7 @@
     </nav>
 
     <!-- content goes here --> 
-    <section id="signup" class="signup-section">
+    <section id="signup" class="signup-section" ng-show="!loggedIn">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 signuplinks">
@@ -133,10 +133,45 @@
         </div>
     </section>
 
+    <!-- Discover Section -->
+    <section ng-show="loggedIn">
+        <div class="container" style="padding-top:100px">
+            <div id="discover">
+                <h1>Discover</h1>
+                <div id="post-feed">
+                    <div class="user-post">
+                        <div class="post-header-left">
+                            <img src="" class="post-avatar" alt="user profile thumbnail" />
+                            <a href="" class="cause-name">Cause Name</a>
+                            <a href="" class="npo-name">NPO Name</a>
+                        </div>
+                        <div class="post-header-right">
+                        <!--should add tooltip to expain $ with js -->
+                        <span id="moneyraised" title="Amount Raised">$0.00</span>
+                        </div>
+                        <div class="post-body">
+                            <p>Lorem ipsum dolor sit amet, sit an nonumes molestiae, nec et probatus legendos explicari, dicam vidisse cu ius. 
+                            Et est suscipit reprimique, nec ex utroque praesent. Facilis patrioque prodesset his id. Quo feugait dolores consulatu cu. 
+                            Ad pri delenit fabellas.</p>
+                        </div>
+                        <div class="post-footer">
+                            <ul>
+                                <li>Like</li>
+                                <li>Comment</li>
+                                <li>Share</li>
+                                <li>Report</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <a class="btn btn-default" id="totop" href="#discover">Back To Top</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
      <!-- Login Modal -->
     <div id="myModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
