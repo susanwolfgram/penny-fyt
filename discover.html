@@ -31,12 +31,35 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDWON7t6-oxvb_U3Z8mZAqYZYT5YmNQlZA",
+        authDomain: "penny-fyt.firebaseapp.com",
+        databaseURL: "https://penny-fyt.firebaseio.com",
+        projectId: "penny-fyt",
+        storageBucket: "penny-fyt.appspot.com",
+        messagingSenderId: "472416068627"
+      };
+      firebase.initializeApp(config);
+    </script>
+
+    <!-- AngularJS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/2.0.2/angularfire.min.js"></script>
+
+
+    <!-- scripts -->
+    <script type="text/javascript" src="js/penny.js"></script>
 
 </head>
 
 <!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
 
-<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" ng-app="myApp" ng-controller="myCtrl">
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -71,6 +94,7 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
                         <a class="page-scroll" href="#contact">Contact</a>
                     </li> -->
                 </ul>
+                <img ng-show="loggedIn" ng-click="logOut()" src="assets/penny-icon.png" width="30px" style="float:right; padding-top: 10px;"/>
             </div>
             <!-- /.navbar-collapse -->
         </div>

@@ -1,13 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- 
-Copy and paste the contents of this file into a new file (do not edit template.html).
-Nav bar links for all pages except the landing page should be consistent (maybe Penny-fyt (home/feed), About, My Account, Discover etc.?).
-Append new css to penny.css but comment the start and end of the section pertaining to each page you develop. Make sure id and class names are unique so as to not mess with the stylings for other pages. 
-Create a new branch to push changes to, do not push to master. Once you're done, open a pull request but do not merge yet. 
-If you want to add a modal, check index.html and you can copy and paste the modal code from there. 
-Images (e.g. big and small logos) are in the assets folder, let me know if you need any other images made. 
--->
 
 <head>
 
@@ -84,9 +76,9 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
                     <li>
                         <a class="page-scroll" href="index.html">About</a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a class="page-scroll" href="signup.html">Sign Up</a>
-                    </li>
+                    </li> -->
                     <li>
                         <a class="page-scroll" data-toggle="modal" data-target="#myModal" style="cursor: pointer;">Login</a>
                     </li>
@@ -94,6 +86,7 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
                         <a class="page-scroll" href="#contact">Contact</a>
                     </li> -->
                 </ul>
+                <!-- <a href="profilepage.html"><img src="assets/penny-icon.png" width="30px" style="float:right; padding-top: 10px;"/></a> -->
             </div>
             <!-- /.navbar-collapse -->
         </div>
@@ -108,7 +101,7 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
                     <h1>User Sign Up</h1>
                     <p>(If you wish to register an NPO please <a href="npo-signup.html">click here</a>.)</p>
                     <div class="form-group">
-                        <form ng-submit="signup()">
+                        <form ng-submit="signup()" id="signupForm">
                             <div class="form-group">
                                 <label for="fName">First Name:</label>
                                 <input type="text" class="form-control" id="fName" ng-model="fName">
@@ -140,7 +133,7 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
         </div>
     </section>
 
-     <!-- Modal -->
+     <!-- Login Modal -->
     <div id="myModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
 
@@ -151,21 +144,23 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
             <h4 class="modal-title">Login</h4>
           </div>
           <div class="modal-body">
-            <div class="form-group">
-            <label for="email">Email address:</label>
-            <input type="email" class="form-control" id="email">
-          </div>
-          <div class="form-group">
-            <label for="pwd">Password:</label>
-            <input type="password" class="form-control" id="pwd">
-          </div>
-          <div class="checkbox">
-            <label><input type="checkbox"> Remember me</label>
-          </div>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-default" data-dismiss="modal">Submit</button>
-          </div>
+            <form ng-submit="login()" id="loginForm">
+                <div class="form-group">
+                <label for="email">Email address:</label>
+                <input type="email" class="form-control" id="email" ng-model="loginEmail">
+              </div>
+              <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" id="pwd" ng-model="loginPwd">
+              </div>
+              <!-- <div class="checkbox">
+                <label><input type="checkbox"> Remember me</label>
+              </div> -->
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-default">Submit</button>
+              </div>
+          </form>
         </div>
 
       </div>
