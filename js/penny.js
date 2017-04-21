@@ -3,7 +3,7 @@ var app = angular.module("myApp", ["firebase"]);
 app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $firebaseAuth, $interval) {
 	var user;
 	$scope.signup = function () {
-		if ($scope.pwd == $scope.pwd2) {
+		if ($scope.pwd.length >= 6 && $scope.pwd == $scope.pwd2) {
 			var userRef = firebase.database().ref().child("users");
 			// create a synchronized array
 			$scope.users = $firebaseArray(userRef);
@@ -23,8 +23,8 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 				firebase.database().ref().child("users").child(userData.uid).set({
 			      name: $scope.fName
 			    });
-				// var form = document.getElementById("signupForm");
-				// form.reset();
+				var form = document.getElementById("signupForm");
+				form.reset();
 			}).catch(function(error) {
 			  console.error("Error: ", error);
 			});
@@ -33,18 +33,29 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 
 		}
 	}
-
 	$scope.checkPwd = function() {
-		if ($scope.pwd2 && $scope.pwd != $scope.pwd2) {
-			document.getElementById("pwdMessage").innerHTML = "Passwords do not match.";
+		if ($scope.pwd && $scope.pwd.length < 6) {
+			document.getElementById("pwdMessage").innerHTML = "Password must be at least 6 characters.";
 			document.getElementById("pwdMessage").style.color = "red";
+		} else if ($scope.pwd) {
+			document.getElementById("pwdMessage").innerHTML = "";
+			document.getElementById("pwd").style.border = "solid 2px #B8DEB8";
+		} else {
+			document.getElementById("pwd").style.border = "";
+		}
+	}
+
+	$scope.checkPwdMatch = function() {
+		if ($scope.pwd2 && $scope.pwd != $scope.pwd2) {
+			document.getElementById("pwd2Message").innerHTML = "Passwords do not match.";
+			document.getElementById("pwd2Message").style.color = "red";
 			document.getElementById("pwd2").style.border = "";
 		} else if ($scope.pwd2) {
 			document.getElementById("pwd2").style.border = "solid 2px #B8DEB8";
-			document.getElementById("pwdMessage").innerHTML = "";
+			document.getElementById("pwd2Message").innerHTML = "";
 		} else {
 			document.getElementById("pwd2").style.border = "";
-			document.getElementById("pwdMessage").innerHTML = "";
+			document.getElementById("pwd2Message").innerHTML = "";
 		}
 	}
 
@@ -59,7 +70,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			console.log(userObj);
 			var form = document.getElementById("loginForm");
 			form.reset();
-			window.location = "discover.html";
+			// window.location = "discover.html";
 			$scope.loggedIn = true; 
 			$scope.user = user; 
 		}).catch(function(error) {
