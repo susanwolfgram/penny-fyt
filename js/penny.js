@@ -41,6 +41,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			document.getElementById("pwdMessage").innerHTML = "";
 			document.getElementById("pwd").style.border = "solid 2px #B8DEB8";
 		} else {
+			document.getElementById("pwdMessage").innerHTML = "";
 			document.getElementById("pwd").style.border = "";
 		}
 	}
