@@ -25,6 +25,20 @@ html {
     .top-nav-collapse {
         padding: 0;
     }
+
+    #user-icon {
+        float:right; 
+        margin: 10px;
+    }
+
+  
+}
+
+@media(max-width:767px) {
+    #user-icon {
+        /*visibility: hidden;*/
+        display: none;
+    }
 }
 
 /* start Landing page styles */

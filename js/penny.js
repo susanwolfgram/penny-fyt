@@ -2,14 +2,12 @@ var app = angular.module("myApp", ["firebase"]);
 
 app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $firebaseAuth, $interval) {
 	var user;
+	$scope.loggedIn = false; 
 	$scope.signup = function () {
 		if ($scope.pwd.length >= 6 && $scope.pwd == $scope.pwd2) {
 			var userRef = firebase.database().ref().child("users");
 			// create a synchronized array
 			$scope.users = $firebaseArray(userRef);
-
-
-
 			firebase.auth().createUserWithEmailAndPassword($scope.email, $scope.pwd).then(function(userData) {
 			  	console.log("User " + userData.uid + " created successfully!");
 			  	user = firebase.auth().currentUser;
@@ -25,6 +23,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			    });
 				var form = document.getElementById("signupForm");
 				form.reset();
+				$scope.loggedIn = true; 
 			}).catch(function(error) {
 			  console.error("Error: ", error);
 			});
@@ -33,6 +32,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 
 		}
 	}
+	
 	$scope.checkPwd = function() {
 		if ($scope.pwd && $scope.pwd.length < 6) {
 			document.getElementById("pwdMessage").innerHTML = "Password must be at least 6 characters.";
