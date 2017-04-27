@@ -74,6 +74,9 @@
                         <a class="page-scroll" href="#page-top"></a>
                     </li>
                     <li>
+                        <a class="page-scroll" ng-show="loggedIn">Home</a>
+                    </li>
+                    <li>
                         <a class="page-scroll" href="index.html">About</a>
                     </li>
                     <!-- <li>
@@ -81,10 +84,7 @@
                     </li> -->
                     <li>
                         <a class="page-scroll" data-toggle="modal" data-target="#myModal" ng-show="!loggedIn" style="cursor: pointer;">Login</a>
-                    </li>
-                    <!-- <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
-                    </li> -->
+                    </li> 
                 </ul>
                 <img src="assets/penny-icon.png" id="user-icon" width="30px" ng-show="loggedIn" />
             </div>
@@ -94,6 +94,20 @@
     </nav>
 
     <!-- content goes here --> 
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>About Us</h1>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/5mJX6zNIvrw" frameborder="0" allowfullscreen></iframe>
+                    <p>Penny-fyt is a social media platform that makes donating to charity easy and quick. Non-profit organizations and charities post content that users can like, comment, and share to contribute a penny (or more!) towards that charity. We hope to remove the confusion surrounding donation processes that many would-be contributors face, while also creating an online community where avid activists and casual users can come together and contribute to causes that they are passionate about.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sign up section -->
     <section id="signup" class="signup-section" ng-show="!loggedIn">
         <div class="container">
             <div class="row">
@@ -135,6 +149,42 @@
 
     <!-- Discover Section -->
     <section ng-show="loggedIn">
+        <div class="container" style="padding-top:100px">
+            <div id="discover">
+                <h1>Discover</h1>
+                <div id="post-feed">
+                    <div class="user-post">
+                        <div class="post-header-left">
+                            <img src="" class="post-avatar" alt="user profile thumbnail" />
+                            <a href="" class="cause-name">Cause Name</a>
+                            <a href="" class="npo-name">NPO Name</a>
+                        </div>
+                        <div class="post-header-right">
+                        <!--should add tooltip to expain $ with js -->
+                        <span id="moneyraised" title="Amount Raised">$0.00</span>
+                        </div>
+                        <div class="post-body">
+                            <p>Lorem ipsum dolor sit amet, sit an nonumes molestiae, nec et probatus legendos explicari, dicam vidisse cu ius. 
+                            Et est suscipit reprimique, nec ex utroque praesent. Facilis patrioque prodesset his id. Quo feugait dolores consulatu cu. 
+                            Ad pri delenit fabellas.</p>
+                        </div>
+                        <div class="post-footer">
+                            <ul>
+                                <li>Like</li>
+                                <li>Comment</li>
+                                <li>Share</li>
+                                <li>Report</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <a class="btn btn-default" id="totop" href="#discover">Back To Top</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feed Section -->
+    <section ng-show="loggedIn && feed">
         <div class="container" style="padding-top:100px">
             <div id="discover">
                 <h1>Discover</h1>

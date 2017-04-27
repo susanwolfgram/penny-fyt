@@ -2,7 +2,13 @@ var app = angular.module("myApp", ["firebase"]);
 
 app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $firebaseAuth, $interval) {
 	var user;
+	var userObj;
 	$scope.loggedIn = false; 
+	$scope.feed = false;
+	$scope.about = true;
+	$scope.showSignup = false;
+	$scope.feed = false;
+	$scope.discover = false;
 	$scope.signup = function () {
 		if ($scope.pwd.length >= 6 && $scope.pwd == $scope.pwd2) {
 			var userRef = firebase.database().ref().child("users");
@@ -23,12 +29,10 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 				var form = document.getElementById("signupForm");
 				form.reset();
 				$scope.loggedIn = true; 
+				$scope.discover = true;
 			}).catch(function(error) {
 			  	console.error("Error: ", error);
 			});
-
-
-
 		}
 	}
 
@@ -74,6 +78,9 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			$scope.loggedIn = true; 
 			$scope.user = user; 
 			$('#myModal').modal('hide');
+			$scope.about = false;
+			$scope.feed = true;
+			$scope.loadfeed();
 		}).catch(function(error) {
 		  // Handle Errors here.
 		  var errorCode = error.code;
@@ -89,6 +96,26 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		}).catch(function(error) {
 		  // An error happened.
 		});
+	}
+
+	$scope.createPost = function() {
+		console.log(document.getElementById("postText").value);	
+		firebase.database().ref().child("posts").push({
+			user: userObj.name,
+			text: $scope.postText,
+			npo: $scope.npo,
+			raised: 0,
+			likes: 0,
+			comments: 0
+		});
+		var form = document.getElementById("createPostForm");
+		form.reset();
+	}
+
+	$scope.loadfeed = function() {
+		var userRef = firebase.database().ref().child("posts");
+		$scope.posts = $firebaseArray(userRef);
+		console.log($scope.posts);
 	}
 
 	

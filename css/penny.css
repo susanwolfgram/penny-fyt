@@ -41,6 +41,10 @@ html {
     }
 }
 
+.nav li {
+    cursor: pointer;
+}
+
 /* start Landing page styles */
 
 .about-section {
@@ -63,7 +67,7 @@ html {
 /* end Landing page styles */
 
 /* start sign up page styles */
-#signup {
+#signup, #createPost {
     padding-top: 110px;
     margin-left: auto;
     margin-right: auto;
@@ -274,4 +278,12 @@ html {
 
 #raised{
     font-size: 14px;
+}
+
+/* end donation page styles */
+
+/* create post styles, some styles with signup section */
+
+.postRight {
+    float: right;
 }
