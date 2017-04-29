@@ -1,0 +1,101 @@
+body {
+	background-color: #A9A9A9;
+}
+
+.post-avatar-card {
+	border-radius: 5px 5px 0 0;
+	width: 100%;
+}
+
+.card-body, .card-footer-bottom {
+	padding: 10px;
+}
+
+.card-col {
+	display: inline-block;
+	font-size: 14pt;
+	font-weight: bold;
+	text-align: center;
+	width: 32%;
+}
+
+.card-footer-top {
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 12px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.card-footer-bottom {
+	text-align: right;
+}
+
+.card-header {
+	margin-top: 10px;
+}
+
+.card-img-header {
+	background-color: white;
+	border-radius: 5px 5px 0 0;
+	height: 200px;
+	overflow: hidden;
+}
+
+.card-npo-name {
+	color: black;
+	font-size: 18pt;
+	font-weight: bold;
+	margin-left: 10px;
+}
+
+.card-post {
+	background-color: #D3D3D3;
+	display: inline-block;
+	margin-bottom: 25px;
+	margin-top: 25px;
+    width: 300px;
+    border-radius: 5px;
+    vertical-align: top;
+    *display: inline;
+    zoom: 1
+}
+
+.follow-btn {
+	background-color: #687E5A;
+	color: white;
+	font-size: 13pt;
+}
+
+.stretch {
+    width: 100%;
+    display: inline-block;
+    font-size: 0;
+    line-height: 0
+}
+
+#card-feed {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: justify;
+    -ms-text-justify: distribute-all-lines;
+    text-justify: distribute-all-lines;
+}
+
+h1 {
+	text-align: left;
+	padding-left: 50px;
+}
+
+@media(max-width:650px) {
+	.card-post {
+		display: inline;
+	    width: 100%;
+	}
+}
+
+@media(min-width:1100px) {
+	#card-feed {
+		width: 1000px;
+	}
+}

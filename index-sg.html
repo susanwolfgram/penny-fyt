@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Penny-fyt</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/penny-sg.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDWON7t6-oxvb_U3Z8mZAqYZYT5YmNQlZA",
+        authDomain: "penny-fyt.firebaseapp.com",
+        databaseURL: "https://penny-fyt.firebaseio.com",
+        projectId: "penny-fyt",
+        storageBucket: "penny-fyt.appspot.com",
+        messagingSenderId: "472416068627"
+      };
+      firebase.initializeApp(config);
+    </script>
+
+    <!-- AngularJS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/2.0.2/angularfire.min.js"></script>
+
+
+    <!-- scripts -->
+    <script type="text/javascript" src="js/penny.js"></script>
+
+</head>
+
+<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" ng-app="myApp" ng-controller="myCtrl">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">Penny-fyt</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a class="page-scroll" href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" ng-show="loggedIn && !feed" ng-click="feed = true; about = false; discover = false; loadfeed();">Home</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" ng-show="!about" ng-click="about = true; showSignup = false; feed = false;">About</a>
+                    </li>
+                     <li>
+                        <a class="page-scroll" ng-show="!loggedIn && !showSignup" ng-click="showSignup = true; about = false;">Sign Up</a>
+                    </li> 
+                    <li>
+                        <a class="page-scroll" data-toggle="modal" data-target="#myModal" ng-show="!loggedIn" style="cursor: pointer;">Login</a>
+                    </li> 
+                    <li>
+                        <a class="page-scroll" ng-show="loggedIn">Log Out</a>
+                    </li> 
+                </ul>
+                <img src="assets/penny-icon.png" id="user-icon" width="30px" ng-show="loggedIn" />
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <section id="npo-signup" style="padding-top:100px">
+        <div id="npo-signup-banner-left">
+            <p>Do you work for a nonprofit? Reach out to us and we'll help you get started!</p>
+        </div>
+        <div id="npo-signup-banner-right">
+            <a href="">Email Us</a>
+        </div>
+    </section>
+
+    <section id="header-title">
+        <div id="header-title-text">
+            <h1 id="title-text"><strong>Penny-f</strong>or <strong>y</strong>our <strong>t</strong>houghts</h1>
+            <p id="header-tagline">We make donating to charities quick, effortless, and uncomplicated.</p>
+        </div>
+    </section>
+
+    <!-- content goes here --> 
+    <!-- About Section -->
+    <section id="about" class="about-section" ng-show="about">
+            <h2 id="about-title">About Us</h2>
+            <div id="about-body">
+                <div class="about-col">
+                    <iframe width="426" height="240" src="https://www.youtube.com/embed/5mJX6zNIvrw" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <div class="about-col">
+                    <p><strong>Penny-fyt</strong> is a social media platform that makes donating to charity easy and quick. Non-profit organizations and charities post content that users can like, comment, and share to contribute a penny (or more!) towards that charity. We hope to remove the confusion surrounding donation processes that many would-be contributors face, while also creating an online community where avid activists and casual users can come together and contribute to causes that they are passionate about.</p>
+                </div>
+            </div>
+    </section>
+
+    <section id="how-to-section">
+        <div id="how-to">
+            <h2>How to Penny-fyt</h2>
+            <ol>
+                <li>Create a Profile</li>
+                <li>Load Your Wallet</li>
+                <li>Discover and Follow Organizations</li>
+                <li>Like, Comment, and Share to Raise Money!</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- Sign up section -->
+    <section id="signup" class="signup-section" ng-show="!loggedIn && showSignup">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 signuplinks">
+                    <h1>User Sign Up</h1>
+                    <p>(If you wish to register an NPO please <a href="npo-signup.html">click here</a>.)</p>
+                    <div class="form-group">
+                        <form ng-submit="signup()" id="signupForm">
+                            <div class="form-group">
+                                <label for="fName">First Name:</label>
+                                <input type="text" class="form-control" id="fName" ng-model="fName">
+                            </div>
+                            <div class="form-group">
+                                <label for="lName">Last Name:</label>
+                                <input type="text" class="form-control" id="lName" ng-model="lName">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email address:</label>
+                                <input type="email" class="form-control" id="email" ng-model="email">
+                            </div>
+                          <div class="form-group">
+                            <label for="pwd">Password:</label>
+                            <input type="password" class="form-control" id="pwd" ng-model="pwd" ng-keyup="checkPwd()">
+                          </div>
+                          <p id="pwdMessage"></p>
+                          <div class="form-group">
+                            <label for="pwd">Confirm Password:</label>
+                            <input type="password" class="form-control" id="pwd2" ng-model="pwd2" ng-keyup="checkPwdMatch()">
+                          </div>
+                          <p id="pwd2Message"></p>
+                          <button type="submit" class="btn btn-default">Create Account</button>
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Discover Section -->
+    <section ng-show="loggedIn && discover">
+        <div class="container" style="padding-top:100px">
+            <div id="discover">
+                <h1>Discover</h1>
+                <div id="post-feed">
+                    <div class="user-post">
+                        <div class="post-header-left">
+                            <img src="" class="post-avatar" alt="user profile thumbnail" />
+                            <a href="" class="cause-name">Cause Name</a>
+                            <a href="" class="npo-name">NPO Name</a>
+                        </div>
+                        <div class="post-header-right">
+                        <!--should add tooltip to expain $ with js -->
+                        <span id="moneyraised" title="Amount Raised">$0.00</span>
+                        </div>
+                        <div class="post-body">
+                            <p>Lorem ipsum dolor sit amet, sit an nonumes molestiae, nec et probatus legendos explicari, dicam vidisse cu ius. 
+                            Et est suscipit reprimique, nec ex utroque praesent. Facilis patrioque prodesset his id. Quo feugait dolores consulatu cu. 
+                            Ad pri delenit fabellas.</p>
+                        </div>
+                        <div class="post-footer">
+                            <ul>
+                                <li>Like</li>
+                                <li>Comment</li>
+                                <li>Share</li>
+                                <li>Report</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <a class="btn btn-default" id="totop" href="#discover">Back To Top</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feed Section -->
+    <section id="createPost" ng-show="loggedIn && feed">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 signuplinks">
+                <div class="form-group">
+                    <form ng-submit="createPost()" id="createPostForm">
+                        <div class="form-group">
+                            <label for="post">Write a post:</label>
+                            <textarea class="form-control" id="postText" ng-model="postText"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="chooseNPO" >Tag an NPO:</label>
+                            <select id="chooseNPO" ng-model="npo" >
+                                <option value="" disabled selected>Choose an NPO...</option>
+                                <option value="Circle Of Giving">Circle of Giving</option>
+                                <option value="Planned Parenthood">Planned Parenthood</option>
+                            </select>
+                            <button type="submit" class="btn btn-default postRight">Post</button>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+<!--</section>
+<section id="posts">-->
+    <div id="post-feed">
+        <div class="user-post" ng-repeat="post in posts">
+            <div class="post-header-left">
+                <img src="" class="post-avatar" alt="user profile thumbnail" />
+                <a href="" class="cause-name">{{post.text}}</a>
+                <a href="" class="npo-name">{{post.npo}}</a>
+            </div>
+            <div class="post-header-right">
+            <!--should add tooltip to expain $ with js -->
+            <span id="moneyraised" title="Amount Raised">${{post.raised}}</span>
+            </div>
+            <div class="post-body">
+                <p>Lorem ipsum dolor sit amet, sit an nonumes molestiae, nec et probatus legendos explicari, dicam vidisse cu ius. 
+                Et est suscipit reprimique, nec ex utroque praesent. Facilis patrioque prodesset his id. Quo feugait dolores consulatu cu. 
+                Ad pri delenit fabellas.</p>
+            </div>
+            <div class="post-footer">
+                <ul>
+                    <li>Like</li>
+                    <li>Comment</li>
+                    <li>Share</li>
+                    <li>Report</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+     <!-- Login Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Login</h4>
+          </div>
+          <div class="modal-body">
+            <form ng-submit="login()" id="loginForm">
+                <div class="form-group">
+                <label for="email">Email address:</label>
+                <input type="email" class="form-control" id="email" ng-model="loginEmail">
+              </div>
+              <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" id="pwd" ng-model="loginPwd">
+              </div>
+              <!-- <div class="checkbox">
+                <label><input type="checkbox"> Remember me</label>
+              </div> -->
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-default">Submit</button>
+              </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+
+    
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Scrolling Nav JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/scrolling-nav.js"></script>
+
+</body>
+
+</html>

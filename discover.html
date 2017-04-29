@@ -24,6 +24,7 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
 
     <!-- Custom CSS -->
     <link href="css/penny.css" rel="stylesheet">
+    <link href="css/cards.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -107,31 +108,90 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
     <div class="container" style="padding-top:100px">
         <div id="discover">
             <h1>Discover</h1>
-            <div id="post-feed">
-                <div class="user-post">
-                    <div class="post-header-left">
-                        <img src="" class="post-avatar" alt="user profile thumbnail" />
-                        <a href="" class="cause-name">Cause Name</a>
-                        <a href="" class="npo-name">NPO Name</a>
+            <div id="card-feed">
+                <div class="card-post">
+                    <div class="card-img-header">
+                        <img src="" class="post-avatar-card" alt="user profile thumbnail" />
                     </div>
-                    <div class="post-header-right">
-                    <!--should add tooltip to expain $ with js -->
-                    <span id="moneyraised" title="Amount Raised">$0.00</span>
+                    <div class="card-header">
+                        <a href="" class="card-npo-name">NPO Name</a>
                     </div>
-                    <div class="post-body">
+                    <div class="card-body">
                         <p>Lorem ipsum dolor sit amet, sit an nonumes molestiae, nec et probatus legendos explicari, dicam vidisse cu ius. 
                         Et est suscipit reprimique, nec ex utroque praesent. Facilis patrioque prodesset his id. Quo feugait dolores consulatu cu. 
                         Ad pri delenit fabellas.</p>
                     </div>
-                    <div class="post-footer">
-                        <ul>
-                            <li>Like</li>
-                            <li>Comment</li>
-                            <li>Share</li>
-                            <li>Report</li>
-                        </ul>
+                    <div class="card-footer-top row">
+                        <div class="card-col">
+                            300,000 Followers
+                        </div>
+                        <div class="card-col">
+                            1000 Updates
+                        </div>
+                        <div class="card-col">
+                            <span id="moneyraised" title="Amount Raised">$0.00 Raised</span>
+                        </div>
                     </div>
-                </div>
+                    <div class="card-footer-bottom">
+                        <button type="button" class="btn-lg follow-btn">Follow</button>
+                    </div>
+                </div> <!-- end single card -->
+
+                <div class="card-post">
+                    <div class="card-img-header">
+                        <img src="" class="post-avatar-card" alt="user profile thumbnail" />
+                    </div>
+                    <div class="card-header">
+                        <a href="" class="card-npo-name">NPO Name</a>
+                    </div>
+                    <div class="card-body">
+                        <p>Lorem ipsum dolor sit amet, sit an nonumes molestiae, nec et probatus legendos explicari, dicam vidisse cu ius. 
+                        Et est suscipit reprimique, nec ex utroque praesent. Facilis patrioque prodesset his id. Quo feugait dolores consulatu cu. 
+                        Ad pri delenit fabellas.</p>
+                    </div>
+                    <div class="card-footer-top row">
+                        <div class="card-col">
+                            300,000 Followers
+                        </div>
+                        <div class="card-col">
+                            1000 Updates
+                        </div>
+                        <div class="card-col">
+                            <span id="moneyraised" title="Amount Raised">$0.00 Raised</span>
+                        </div>
+                    </div>
+                    <div class="card-footer-bottom">
+                        <button type="button" class="btn-lg follow-btn">Follow</button>
+                    </div>
+                </div> <!-- end single card -->
+                <div class="card-post">
+                    <div class="card-img-header">
+                        <img src="" class="post-avatar-card" alt="user profile thumbnail" />
+                    </div>
+                    <div class="card-header">
+                        <a href="" class="card-npo-name">NPO Name</a>
+                    </div>
+                    <div class="card-body">
+                        <p>Lorem ipsum dolor sit amet, sit an nonumes molestiae, nec et probatus legendos explicari, dicam vidisse cu ius. 
+                        Et est suscipit reprimique, nec ex utroque praesent. Facilis patrioque prodesset his id. Quo feugait dolores consulatu cu. 
+                        Ad pri delenit fabellas.</p>
+                    </div>
+                    <div class="card-footer-top row">
+                        <div class="card-col">
+                            300,000 Followers
+                        </div>
+                        <div class="card-col">
+                            1000 Updates
+                        </div>
+                        <div class="card-col">
+                            <span id="moneyraised" title="Amount Raised">$0.00 Raised</span>
+                        </div>
+                    </div>
+                    <div class="card-footer-bottom">
+                        <button type="button" class="btn-lg follow-btn">Follow</button>
+                    </div>
+                </div> <!-- end single card -->
+                <span class="stretch"></span>
                 <a class="btn btn-default" id="totop" href="#discover">Back To Top</a>
             </div>
         </div>
