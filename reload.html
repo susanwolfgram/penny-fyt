@@ -83,11 +83,43 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
             <h1>Reload Account</h1>
             <div id="reload-form" class="form-group">
                 <div class="form-group">
-                    <label for="fName">Choose Payment Method:</label>
+                    <label for="fName">Saved Cards:</label>
                     <select class="form-control" id="paymeth">
                         <!-- user's saved payments go here -->
                     </select>
                 </div>
+                OR Use a New Card:
+                <div class="form-group">
+                    <label for="fName">Card Number:</label>
+                    <input type="number" class="form-control" min="1" id="cardnum">
+                    <label for="fName">Expires:</label>
+                    <select class="form-control" name='expireMM' id='expireMM'>
+                        <option value=''>Month</option>
+                        <option value='01'>January</option>
+                        <option value='02'>February</option>
+                        <option value='03'>March</option>
+                        <option value='04'>April</option>
+                        <option value='05'>May</option>
+                        <option value='06'>June</option>
+                        <option value='07'>July</option>
+                        <option value='08'>August</option>
+                        <option value='09'>September</option>
+                        <option value='10'>October</option>
+                        <option value='11'>November</option>
+                        <option value='12'>December</option>
+                    </select> 
+                    <select class="form-control" name='expireYY' id='expireYY'>
+                        <option value=''>Year</option>
+                        <option value='10'>2010</option>
+                        <option value='11'>2011</option>
+                        <option value='12'>2012</option>
+                    </select>
+                    <label for="fName">Name on Card:</label>
+                    <input type="text" class="form-control" min="1" id="cardname">
+                    <label for="fName">CVV:</label>
+                    <input type="number" class="form-control" min="1" id="cardcode">
+                </div>
+
                 <div class="form-group">
                     <label for="fName">Amount ($1.00 minimum):</label>
                     <!-- should only be allowed to enter monetary value over $1.00 --> 
