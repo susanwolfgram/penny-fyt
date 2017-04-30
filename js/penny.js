@@ -143,11 +143,59 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 	}
 
 	$scope.addComment = function(post) {
-		firebase.database().ref().child("posts").child(post.$id).child("comments").push({
-			text: "Some comment"
+		var commentsDiv = document.getElementById("commentsFor" + post.$id); 
+		var commentsDisplayDiv = document.querySelector("#commentsFor" + post.$id + " div");
+		console.log(commentsDisplayDiv);
+		var commentsRef = firebase.database().ref().child("posts").child(post.$id).child("comments");
+		console.log("commentsArr");
+		
+		var comments = $firebaseArray(commentsRef);
+		console.log(comments);
+		console.log(comments.length);
+		comments.$loaded().then(function(comments) {
+			if (comments.length > 0) {
+				console.log(comments.length);
+				displayComments(comments, commentsDisplayDiv);
+				// for (var i = 0; i < comments.length; i++) {
+				// 	var comment = document.createElement("p");
+				// 	comment.innerHTML = comments[i].text;
+				// 	comment.border = "1px solid gray";
+				// 	commentsDiv.appendChild(comment);
+				// }
+			} 
+			var input = document.createElement("input");
+			input.type = "text";
+			input.classList.add("form-control");
+			input.placeholder = "Add a comment...";
+			input.onkeypress = function(e) {
+				if (!e) e = window.event;
+				var keyCode = e.keyCode || e.which;
+				if (keyCode == '13'){
+					console.log("enter pressed"); 
+					// Enter pressed
+					firebase.database().ref().child("posts").child(post.$id).child("comments").push({
+						text: this.value
+					}).then(function() {
+						displayComments(comments, commentsDisplayDiv);
+						document.querySelector("#commentsFor" + post.$id + " input").value = "";
+					});
+					return false;
+				}
+			}
+			commentsDiv.appendChild(input);
+			
 		});
 	}
 
+	function displayComments(comments, commentsDisplayDiv) {
+		commentsDisplayDiv.innerHTML = "";
+		for (var i = 0; i < comments.length; i++) {
+			var comment = document.createElement("p");
+			comment.innerHTML = comments[i].text;
+			comment.border = "1px solid gray";
+			commentsDisplayDiv.appendChild(comment);
+		}
+	}
 
 	$scope.fileName = false;
 	var storageRef = firebase.storage().ref();
@@ -188,3 +236,11 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		$scope.$digest();
     }
 });
+
+// app.directive('nop', function(){
+//     return function($scope, $element) {
+// 		$element.find('li.comment', click(function() {
+// 			$element.find('div.commentDisplay').innerHTML = "some more stuff";
+// 		}))
+// 	}
+// });
