@@ -145,23 +145,11 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 	$scope.addComment = function(post) {
 		var commentsDiv = document.getElementById("commentsFor" + post.$id); 
 		var commentsDisplayDiv = document.querySelector("#commentsFor" + post.$id + " div");
-		console.log(commentsDisplayDiv);
-		var commentsRef = firebase.database().ref().child("posts").child(post.$id).child("comments");
-		console.log("commentsArr");
-		
+		var commentsRef = firebase.database().ref().child("posts").child(post.$id).child("comments");	
 		var comments = $firebaseArray(commentsRef);
-		console.log(comments);
-		console.log(comments.length);
 		comments.$loaded().then(function(comments) {
 			if (comments.length > 0) {
-				console.log(comments.length);
 				displayComments(comments, commentsDisplayDiv);
-				// for (var i = 0; i < comments.length; i++) {
-				// 	var comment = document.createElement("p");
-				// 	comment.innerHTML = comments[i].text;
-				// 	comment.border = "1px solid gray";
-				// 	commentsDiv.appendChild(comment);
-				// }
 			} 
 			var input = document.createElement("input");
 			input.type = "text";
@@ -182,8 +170,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 					return false;
 				}
 			}
-			commentsDiv.appendChild(input);
-			
+			commentsDiv.appendChild(input);	
 		});
 	}
 
