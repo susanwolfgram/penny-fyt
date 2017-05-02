@@ -117,7 +117,6 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 	}
 
 	$scope.createPost = function() {
-		console.log(document.getElementById("postText").value);	
 		firebase.database().ref().child("posts").push({
 			userID: userIDNum,
 			userFName: userObj.fName,
@@ -137,6 +136,11 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		var userRef = firebase.database().ref().child("posts");
 		$scope.posts = $firebaseArray(userRef);
 	}
+
+	// $scope.loadDiscover = function() {
+	// 	var userRef = firebase.database().ref().child("npos");
+	// 	$scope.npos = $firebaseArray(userRef);
+	// }
 
 	$scope.addComment = function(post) {
 		var commentsDiv = document.getElementById("commentsFor" + post.$id); 

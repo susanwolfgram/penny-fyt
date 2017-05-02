@@ -45,8 +45,16 @@ html {
     cursor: pointer;
 }
 
-/* start Landing page styles */
+/* start about page styles */
+h1 {
+    font-size: 3em;
+}
 
+iframe {
+    width: 560px;
+    height: 314px;
+    margin: auto;
+}
 .about-section {
     height: 120%;
     padding-top: 110px;
@@ -283,7 +291,41 @@ html {
 /* end donation page styles */
 
 /* create post styles, some styles with signup section */
-
+select {
+    font-family: Roboto;
+}
 .postRight {
     float: right;
+}
+
+
+/* discover MD styles */
+.demo-card-square.mdl-card {
+  width: 320px;
+  height: 320px;
+}
+.demo-card-square > .mdl-card__title {
+  color: #fff;
+  background:
+    url('../assets/pennylogo.png') bottom right 15% no-repeat #46B6AC;
+}
+
+
+
+/* feed MD styles */
+
+.demo-card-wide.mdl-card {
+  width: 512px;
+}
+.demo-card-wide > .mdl-card__title {
+  color: "gray";
+  height: 176px;
+  /*background: url('../assets/pennylogo.png') center / cover;*/
+}
+.demo-card-wide > .mdl-card__menu {
+  color: "gray";
+}
+
+.demo-card-wide {
+    margin-top: 2em;
 }

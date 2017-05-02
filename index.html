@@ -13,6 +13,12 @@
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Material Design links -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+
     <!-- Custom CSS -->
     <link href="css/penny.css" rel="stylesheet">
 
@@ -37,7 +43,7 @@
     </script>
 
     <!-- AngularJS -->
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
 
     <!-- AngularFire -->
     <script src="https://cdn.firebase.com/libs/angularfire/2.0.2/angularfire.min.js"></script>
@@ -76,7 +82,10 @@
                         <a class="page-scroll" ng-show="loggedIn && !feed" ng-click="feed = true; about = false; discover = false; loadfeed();">Home</a>
                     </li>
                     <li>
-                        <a class="page-scroll" ng-show="!about" ng-click="about = true; showSignup = false; feed = false;">About</a>
+                        <a class="page-scroll" ng-show="!about" ng-click="about = true; showSignup = false; feed = false; discover = false;">About</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" ng-click="discover = true; about = false; feed = false;">Discover</a>
                     </li>
                      <li>
                         <a class="page-scroll" ng-show="!loggedIn && !showSignup" ng-click="showSignup = true; about = false;">Sign Up</a>
@@ -115,7 +124,7 @@
             <div class="row">
                 <div class="col-md-6 signuplinks">
                     <h1>User Sign Up</h1>
-                    <p>(If you wish to register an NPO please <a href="npo-signup.html">click here</a>.)</p>
+                    <p>(If you wish to register an NPO please <a ng-click="npoSignup = true; showSignup = false;">click here</a>.)</p>
                     <div class="form-group">
                         <form ng-submit="signup()" id="signupForm">
                             <div class="form-group">
@@ -150,37 +159,62 @@
         </div>
     </section>
 
+    <!-- NPO Sign up section -->
+    <section id="npoSignup" class="signup-section" ng-show="!loggedIn && npoSignup">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 signuplinks">
+                    <h1>NPO Sign Up</h1>
+                    <div class="form-group">
+                        <form ng-submit="signup()" id="npoSignupForm">
+                            <div class="form-group">
+                                <label for="fName">NPO Name:</label>
+                                <input type="text" class="form-control" id="fName" ng-model="npoName">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email address:</label>
+                                <input type="email" class="form-control" id="email" ng-model="npoEmail">
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd">Password:</label>
+                                <input type="password" class="form-control" id="pwd" ng-model="pwd" ng-keyup="checkPwd()">
+                            </div>
+                            <p id="pwdMessage"></p>
+                            <div class="form-group">
+                                <label for="pwd">Confirm Password:</label>
+                                <input type="password" class="form-control" id="pwd2" ng-model="pwd2" ng-keyup="checkPwdMatch()">
+                            </div>
+                            <p id="pwd2Message"></p>
+                            <p id="signUpErrorMsg"></p>
+                            <button type="submit" class="btn btn-default">Create Account</button>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
     <!-- Discover Section -->
-    <section ng-show="loggedIn && discover">
+    <section ng-show="discover">
         <div class="container" style="padding-top:100px">
             <div id="discover">
                 <h1>Discover</h1>
-                <div id="post-feed">
-                    <div class="user-post">
-                        <div class="post-header-left">
-                            <img src="" class="post-avatar" alt="user profile thumbnail" />
-                            <a href="" class="cause-name">Cause Name</a>
-                            <a href="" class="npo-name">NPO Name</a>
+                <div id="card-feed">
+                    <div class="demo-card-square mdl-card mdl-shadow--2dp">
+                        <div class="mdl-card__title mdl-card--expand">
+                            <h2 class="mdl-card__title-text">Update</h2>
                         </div>
-                        <div class="post-header-right">
-                        <!--should add tooltip to expain $ with js -->
-                        <span id="moneyraised" title="Amount Raised">$0.00</span>
+                        <div class="mdl-card__supporting-text">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Aenan convallis.
                         </div>
-                        <div class="post-body">
-                            <p>Lorem ipsum dolor sit amet, sit an nonumes molestiae, nec et probatus legendos explicari, dicam vidisse cu ius. 
-                            Et est suscipit reprimique, nec ex utroque praesent. Facilis patrioque prodesset his id. Quo feugait dolores consulatu cu. 
-                            Ad pri delenit fabellas.</p>
-                        </div>
-                        <div class="post-footer">
-                            <ul>
-                                <li>Like</li>
-                                <li>Comment</li>
-                                <li>Share</li>
-                                <li>Report</li>
-                            </ul>
+                        <div class="mdl-card__actions mdl-card--border">
+                            <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                            View Updates
+                            </a>
                         </div>
                     </div>
-                    <a class="btn btn-default" id="totop" href="#discover">Back To Top</a>
                 </div>
             </div>
         </div>
@@ -193,18 +227,35 @@
             <div class="col-md-6 signuplinks">
                 <div class="form-group">
                     <form ng-submit="createPost()" id="createPostForm">
+                        <!--<div class="form-group">-->
+                            <!--<label for="post">Write a post:</label>-->
+                            <!--<textarea class="form-control" id="postText" ng-model="postText"></textarea>-->
+                            <div class="mdl-textfield mdl-js-textfield" style="width: 100%;">
+                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="sample5" ng-model="postText"></textarea>
+                                <label class="mdl-textfield__label" for="sample5">Write a post...</label>
+                            </div>
+                        <!--</div>-->
                         <div class="form-group">
-                            <label for="post">Write a post:</label>
-                            <textarea class="form-control" id="postText" ng-model="postText"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="chooseNPO" >Tag an NPO:</label>
+                            <!--<button id="demo-menu-lower-left" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" style="margin-right: 1em;">
+                                Tag an NPO <i class="material-icons">arrow_drop_down</i> 
+                            </button>-->
+
+                            <!--<select class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+                                for="demo-menu-lower-left" ng-model="npo">
+                                <option class="mdl-menu__item" value="Circle Of Giving">Circle of Giving</option>
+                                <!--<li class="mdl-menu__item mdl-menu__item--full-bleed-divider">Another Action</li>-->
+                                <!--<li disabled class="mdl-menu__item">Disabled Action</li>-->
+                                <!--<option class="mdl-menu__item" value="Planned Parenthood">Planned Parenthood</option>
+                            </select>-->
+                            <label for="chooseNPO">Tag an NPO:</label>
                             <select id="chooseNPO" ng-model="npo" >
                                 <option value="" disabled selected>Choose an NPO...</option>
                                 <option value="Circle Of Giving">Circle of Giving</option>
                                 <option value="Planned Parenthood">Planned Parenthood</option>
                             </select>
-                            <button type="submit" class="btn btn-default postRight">Post</button>
+                            <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect postRight">
+                                Post
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -215,33 +266,27 @@
     
 <!--</section>
 <section id="posts">-->
-    <div id="post-feed">
-        <div class="user-post" ng-repeat="post in posts" nop>
-            <div class="post-header-left">
-                <img src="" class="post-avatar" alt="user profile thumbnail" />
-                <a href="" class="cause-name">{{post.text}}</a>
-                <a href="" class="npo-name">{{post.npo}}</a>
+    <div id="post-feed"> 
+        <div class="demo-card-wide mdl-card mdl-shadow--2dp" ng-repeat="post in posts" >
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">{{post.text}}</h2>
             </div>
-            <div class="post-header-right">
-            <!--should add tooltip to expain $ with js -->
-            <span id="moneyraised" title="Amount Raised">{{post.raised}}¢</span>
+            <div class="mdl-card__supporting-text">
+                {{post.npo}}
             </div>
-            <div class="post-body">
-                <p>Lorem ipsum dolor sit amet, sit an nonumes molestiae, nec et probatus legendos explicari, dicam vidisse cu ius. 
-                Et est suscipit reprimique, nec ex utroque praesent. Facilis patrioque prodesset his id. Quo feugait dolores consulatu cu. 
-                Ad pri delenit fabellas.</p>
+            <div class="mdl-card__actions mdl-card--border">
+                <a ng-click="like(post);" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                    Like
+                </a>
+                <a ng-click="addComment(post);" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                    Comment
+                </a>
             </div>
-            <div class="post-footer">
-                <ul>
-                    <li ng-click="like(post);">Like</li>
-                    <li ng-click="addComment(post);" class="comment">Comment</li>
-                    <li>Share</li>
-                    <li>Report</li>
-                </ul>
-                <div id="likesFor{{post.$id}}">{{post.likes}} Likes</div>
-                <div id="commentsFor{{post.$id}}" class="commentDisplay"><div></div></div>
+            <div class="mdl-card__menu">
+               <div id="likesFor{{post.$id}}">{{post.likes}} Likes</div>
             </div>
-        </div>
+            <div id="commentsFor{{post.$id}}" class="commentDisplay"><div></div></div>
+            </div>
     </div>
 </section>
 

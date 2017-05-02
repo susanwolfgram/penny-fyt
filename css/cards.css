@@ -1,6 +1,6 @@
-body {
+/*body {
 	background-color: #A9A9A9;
-}
+}*/
 
 .post-avatar-card {
 	border-radius: 5px 5px 0 0;
@@ -50,6 +50,7 @@ body {
 }
 
 .card-post {
+	border: 1px solid black;
 	background-color: #D3D3D3;
 	display: inline-block;
 	margin-bottom: 25px;
@@ -58,7 +59,7 @@ body {
     border-radius: 5px;
     vertical-align: top;
     *display: inline;
-    zoom: 1
+    zoom: 1;
 }
 
 .follow-btn {
@@ -82,10 +83,10 @@ body {
     text-justify: distribute-all-lines;
 }
 
-h1 {
+/*h1 {
 	text-align: left;
 	padding-left: 50px;
-}
+}*/
 
 @media(max-width:650px) {
 	.card-post {
