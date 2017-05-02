@@ -19,10 +19,6 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			  	user = firebase.auth().currentUser;
 				console.log(user);
 				console.log($scope.users);
-				// $scope.users.$add({
-				// 	fName: $scope.fName, 
-				// 	lName: $scope.lName
-				// });
 				userIDNum = userData.uid; 
 				firebase.database().ref().child("users").child(userData.uid).set({
 			      email: $scope.email,
