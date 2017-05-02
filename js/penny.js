@@ -158,6 +158,9 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 					console.log("enter pressed"); 
 					// Enter pressed
 					firebase.database().ref().child("posts").child(post.$id).child("comments").push({
+						user: userIDNum,
+						userFName: userObj.fName,
+						userLName: userObj.lName,
 						text: this.value
 					}).then(function() {
 						displayComments(comments, commentsDisplayDiv);
@@ -168,6 +171,12 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			}
 			commentsDiv.appendChild(input);	
 		});
+	}
+
+	$scope.like = function(post) {
+		post.likes++;
+		post.raised++; 
+		$scope.posts.$save(post);
 	}
 
 	function displayComments(comments, commentsDisplayDiv) {

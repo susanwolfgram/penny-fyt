@@ -224,7 +224,7 @@
             </div>
             <div class="post-header-right">
             <!--should add tooltip to expain $ with js -->
-            <span id="moneyraised" title="Amount Raised">${{post.raised}}</span>
+            <span id="moneyraised" title="Amount Raised">{{post.raised}}¢</span>
             </div>
             <div class="post-body">
                 <p>Lorem ipsum dolor sit amet, sit an nonumes molestiae, nec et probatus legendos explicari, dicam vidisse cu ius. 
@@ -233,11 +233,12 @@
             </div>
             <div class="post-footer">
                 <ul>
-                    <li>Like</li>
+                    <li ng-click="like(post);">Like</li>
                     <li ng-click="addComment(post);" class="comment">Comment</li>
                     <li>Share</li>
                     <li>Report</li>
                 </ul>
+                <div id="likesFor{{post.$id}}">{{post.likes}} Likes</div>
                 <div id="commentsFor{{post.$id}}" class="commentDisplay"><div></div></div>
             </div>
         </div>
