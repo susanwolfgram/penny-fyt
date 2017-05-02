@@ -27,6 +27,9 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			    });
 				var form = document.getElementById("signupForm");
 				form.reset();
+				userIDNum = userData.uid; 
+	     		currentUser = firebase.database().ref().child("users").child(userIDNum);
+				userObj = $firebaseObject(currentUser);
 				$scope.loggedIn = true; 
 				$scope.discover = true;
 			}).catch(function(error) {
@@ -144,12 +147,13 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 
 	$scope.addComment = function(post) {
 		var commentsDiv = document.getElementById("commentsFor" + post.$id); 
-		var commentsDisplayDiv = document.querySelector("#commentsFor" + post.$id + " div");
+		//var commentsDisplayDiv = document.querySelector("#commentsFor" + post.$id + " div");
 		var commentsRef = firebase.database().ref().child("posts").child(post.$id).child("comments");	
 		var comments = $firebaseArray(commentsRef);
 		comments.$loaded().then(function(comments) {
+			commentsDiv.innerHTML = ""; 
 			if (comments.length > 0) {
-				displayComments(comments, commentsDisplayDiv);
+				displayComments(comments, commentsDiv, post);
 			} 
 			var input = document.createElement("input");
 			input.type = "text";
@@ -167,7 +171,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 						userLName: userObj.lName,
 						text: this.value
 					}).then(function() {
-						displayComments(comments, commentsDisplayDiv);
+						displayComments(comments, commentsDiv, post);
 						document.querySelector("#commentsFor" + post.$id + " input").value = "";
 					});
 					return false;
@@ -183,14 +187,34 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		$scope.posts.$save(post);
 	}
 
-	function displayComments(comments, commentsDisplayDiv) {
-		commentsDisplayDiv.innerHTML = "";
-		for (var i = 0; i < comments.length; i++) {
-			var comment = document.createElement("p");
-			comment.innerHTML = comments[i].text;
-			comment.border = "1px solid gray";
-			commentsDisplayDiv.appendChild(comment);
+	function displayComments(comments, commentsDiv, post) {
+		var div; 
+		if (document.querySelector("#commentsFor" + post.$id + " div")) {
+			div = document.querySelector("#commentsFor" + post.$id + " div");
+			div.innerHTML = "";
+		} else {
+			div = document.createElement("div");
+			commentsDiv.appendChild(div);
 		}
+		var ul = document.createElement("ul");
+		ul.classList.add("demo-list-item");
+		ul.classList.add("mdl-list");
+		for (var i = 0; i < comments.length; i++) {
+			var li = document.createElement("li");
+			li.classList.add("mdl-list__item");
+			var span = document.createElement("span");
+			span.classList.add("mdl-list__item-primary-content");
+			span.innerHTML = comments[i].text;
+			li.appendChild(span);
+			ul.appendChild(li);
+		}
+		div.appendChild(ul);
+		// for (var i = 0; i < comments.length; i++) {
+		// 	var comment = document.createElement("p");
+		// 	comment.innerHTML = comments[i].text;
+		// 	comment.border = "1px solid gray";
+		// 	commentsDisplayDiv.appendChild(comment);
+		// }
 	}
 
 	$scope.fileName = false;
