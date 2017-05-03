@@ -10,7 +10,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 	$scope.discover = false;
 	$scope.feed = false;
 	$scope.signup = function () {
-		if ($scope.pwd.length >= 6 && $scope.pwd == $scope.pwd2) {
+		if ($scope.pwd && $scope.pwd.length >= 6 && $scope.pwd == $scope.pwd2) {
 			var userRef = firebase.database().ref().child("users");
 			// create a synchronized array
 			$scope.users = $firebaseArray(userRef);
@@ -84,7 +84,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			document.getElementById("pwdMessage").style.color = "red";
 		} else if ($scope.pwd) {
 			document.getElementById("pwdMessage").innerHTML = "";
-			document.getElementById("pwd").style.border = "solid 2px #B8DEB8";
+			document.getElementById("pwd").style.borderBottom = "solid 2px #B8DEB8";
 		} else {
 			document.getElementById("pwdMessage").innerHTML = "";
 			document.getElementById("pwd").style.border = "";
@@ -97,7 +97,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			document.getElementById("pwd2Message").style.color = "red";
 			document.getElementById("pwd2").style.border = "";
 		} else if ($scope.pwd2) {
-			document.getElementById("pwd2").style.border = "solid 2px #B8DEB8";
+			document.getElementById("pwd2").style.borderBottom = "solid 2px #B8DEB8";
 			document.getElementById("pwd2Message").innerHTML = "";
 		} else {
 			document.getElementById("pwd2").style.border = "";

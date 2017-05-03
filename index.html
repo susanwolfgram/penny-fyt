@@ -69,12 +69,12 @@
             <!-- Navigation. We hide it in small screens. -->
             <!--mdl-layout--large-screen-only-->
             <nav class="mdl-navigation">
-                <a class="mdl-navigation__link" ng-show="loggedIn && !feed" ng-click="feed = true; about = false; discover = false; loadfeed();">Home</a>
-                <a class="mdl-navigation__link" ng-show="!about" ng-click="about = true; showSignup = false; feed = false; discover = false;">About</a>
+                <a class="mdl-navigation__link" ng-show="loggedIn && !feed" ng-click="feed = true; about = false; discover = false; loadfeed(); npoSignup = false;">Home</a>
+                <a class="mdl-navigation__link" ng-show="!about" ng-click="about = true; showSignup = false; feed = false; discover = false; npoSignup = false;">About</a>
                 <a class="mdl-navigation__link" ng-show="!discover" ng-click="discover = true; about = false; feed = false; loadNpos(); npoSignup = false; showSignup = false;">Discover</a>
                 <a class="mdl-navigation__link" ng-show="!loggedIn && !showSignup" ng-click="showSignup = true; about = false; npoSignup = false; discover = false;">Sign Up</a>
                 <a class="mdl-navigation__link" id="show-dialog" ng-show="!loggedIn">Login</a>
-                <a class="mdl-navigation__link" ng-show="loggedIn" ng-click="logOut();">Log Out</a>
+                <a class="mdl-navigation__link" ng-show="loggedIn" ng-click="logOut(); npoSignup = false;">Log Out</a>
             </nav>
             </div>
         </header>
@@ -113,30 +113,30 @@
                                 <p>(If you wish to register an NPO please <a ng-click="npoSignup = true; showSignup = false;">click here</a>.)</p>
                                 <div class="form-group">
                                     <form ng-submit="signup()" id="signupForm">
-                                        <div class="form-group">
-                                            <label for="fName">First Name:</label>
-                                            <input type="text" class="form-control" id="fName" ng-model="fName">
+                                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                            <input class="mdl-textfield__input" type="text" id="fName" ng-model="fName">
+                                            <label class="mdl-textfield__label" for="fName">First Name</label>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="lName">Last Name:</label>
-                                            <input type="text" class="form-control" id="lName" ng-model="lName">
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" >
+                                            <input class="mdl-textfield__input" type="text" id="lName" ng-model="lName">
+                                            <label class="mdl-textfield__label" for="lName">Last Name</label>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="email">Email address:</label>
-                                            <input type="email" class="form-control" id="email" ng-model="email">
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                            <input class="mdl-textfield__input" type="email" id="email" ng-model="email">
+                                            <label class="mdl-textfield__label" for="email">Email</label>
                                         </div>
-                                    <div class="form-group">
-                                        <label for="pwd">Password:</label>
-                                        <input type="password" class="form-control" id="pwd" ng-model="pwd" ng-keyup="checkPwd()">
-                                    </div>
-                                    <p id="pwdMessage"></p>
-                                    <div class="form-group">
-                                        <label for="pwd">Confirm Password:</label>
-                                        <input type="password" class="form-control" id="pwd2" ng-model="pwd2" ng-keyup="checkPwdMatch()">
-                                    </div>
-                                    <p id="pwd2Message"></p>
-                                    <p id="signUpErrorMsg"></p>
-                                    <button type="submit" class="btn btn-default">Create Account</button>
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                            <input class="mdl-textfield__input" type="password" id="pwd" ng-model="pwd" ng-keyup="checkPwd()">
+                                            <label class="mdl-textfield__label" for="pwd">Password</label>
+                                        </div>
+                                        <p id="pwdMessage"></p>
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                            <input class="mdl-textfield__input" type="password" id="pwd2" ng-model="pwd2" ng-keyup="checkPwdMatch()">
+                                            <label class="mdl-textfield__label" for="pwd2">Confirm Password</label>
+                                        </div>
+                                        <p id="pwd2Message"></p>
+                                        <p id="signUpErrorMsg"></p>
+                                        <button type="submit" class="mdl-button">Create Account</button>
                                     </form>
                                 </div>
                             </div>
@@ -153,26 +153,28 @@
                                 <h1>NPO Sign Up</h1>
                                 <div class="form-group">
                                     <form ng-submit="npoAdd()" id="npoSignupForm">
-                                        <div class="form-group">
-                                            <label for="fName">NPO Name:</label>
-                                            <input type="text" class="form-control" id="fName" ng-model="npoName">
+                                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                            <input class="mdl-textfield__input" type="text" id="fName" ng-model="npoName">
+                                            <label class="mdl-textfield__label" for="fName">NPO Name</label>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="email">Email address:</label>
-                                            <input type="email" class="form-control" id="email" ng-model="npoEmail">
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                            <input class="mdl-textfield__input" type="email" id="email" ng-model="npoEmail">
+                                            <label class="mdl-textfield__label" for="email">Email</label>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="pwd">Password:</label>
-                                            <input type="password" class="form-control" id="pwd" ng-model="npoPwd">
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                            <input class="mdl-textfield__input" type="password" id="pwd" ng-model="npoPwd">
+                                            <label class="mdl-textfield__label" for="pwd">Password</label>
                                         </div>
                                         <p id="pwdMessage"></p>
-                                        <div class="form-group">
-                                            <label for="pwd">Confirm Password:</label>
-                                            <input type="password" class="form-control" id="pwd2" ng-model="npoPwd2">
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                            <input class="mdl-textfield__input" type="password" id="pwd2" ng-model="npoPwd2">
+                                            <label class="mdl-textfield__label" for="pwd2">Confirm Password</label>
                                         </div>
                                         <p id="pwd2Message"></p>
                                         <p id="signUpErrorMsg"></p>
-                                        <button type="submit" class="btn btn-default">Create Account</button>
+                                        <p id="pwd2Message"></p>
+                                        <p id="signUpErrorMsg"></p>
+                                        <button type="submit" class="mdl-button">Create Account</button>
                                     </form>
                                 </div>
                             </div>

@@ -1,6 +1,6 @@
 /*Navigation styles*/
 
-nav a {
+a {
     cursor: pointer;
 }
 
@@ -46,6 +46,11 @@ iframe {
     width: 50%;
     margin-bottom: 40px;
 }
+
+#signupForm > div, #npoSignupForm > div {
+    width: 100%;
+}
+
 /* end sign up page styles */
 
 
