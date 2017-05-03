@@ -336,3 +336,12 @@ select {
 .demo-card-wide {
     margin-top: 2em;
 }
+
+#post-feed > div {
+    width: 100%;
+}
+
+.commentInput {
+    margin: 0.5em;
+    width: 100%;
+}

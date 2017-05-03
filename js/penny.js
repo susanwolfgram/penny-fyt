@@ -180,10 +180,21 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			if (comments.length > 0) {
 				displayComments(comments, commentsDiv, post);
 			} 
+			var inputDiv = document.createElement("div");
+			inputDiv.classList.add("mdl-textfield");
+			inputDiv.classList.add("mdl-js-textfield");
+			inputDiv.classList.add("mdl-textfield--floating-label");
+			inputDiv.classList.add("commentInput");
 			var input = document.createElement("input");
 			input.type = "text";
-			input.classList.add("form-control");
-			input.placeholder = "Add a comment...";
+			input.classList.add("mdl-textfield__input");
+			input.id = "commentInput";
+			var label = document.createElement("label");
+			label.classList.add("mdl-textfield__label");
+			label.for = "commentInput";
+			label.innerHTML = "Add a comment...";
+			inputDiv.appendChild(input);
+			inputDiv.appendChild(label);
 			input.onkeypress = function(e) {
 				if (!e) e = window.event;
 				var keyCode = e.keyCode || e.which;
@@ -202,7 +213,8 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 					return false;
 				}
 			}
-			commentsDiv.appendChild(input);	
+			commentsDiv.appendChild(inputDiv);	
+			componentHandler.upgradeElements(inputDiv);
 		});
 	}
 
