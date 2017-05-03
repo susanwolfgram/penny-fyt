@@ -24,3 +24,51 @@
         <div id="commentsFor{{post.$id}}" class="commentDisplay"><div></div></div>
     </div>
 </div>
+
+
+
+<!--old navigation-->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">Penny-fyt</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a class="page-scroll" href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" ng-show="loggedIn && !feed" ng-click="feed = true; about = false; discover = false; loadfeed();">Home</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" ng-show="!about" ng-click="about = true; showSignup = false; feed = false; discover = false;">About</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" ng-click="discover = true; about = false; feed = false; loadDiscover(); npoSignup = false;">Discover</a>
+                    </li>
+                     <li>
+                        <a class="page-scroll" ng-show="!loggedIn && !showSignup" ng-click="showSignup = true; about = false; npoSignup = false;">Sign Up</a>
+                    </li> 
+                    <li>
+                        <a class="page-scroll" data-toggle="modal" data-target="#myModal" ng-show="!loggedIn" style="cursor: pointer;">Login</a>
+                    </li> 
+                    <li>
+                        <a class="page-scroll" ng-show="loggedIn" ng-click="logOut();">Log Out</a>
+                    </li> 
+                </ul>
+                <img src="assets/penny-icon.png" id="user-icon" width="30px" ng-show="loggedIn" />
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>

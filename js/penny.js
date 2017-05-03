@@ -31,6 +31,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 	     		currentUser = firebase.database().ref().child("users").child(userIDNum);
 				userObj = $firebaseObject(currentUser);
 				$scope.loggedIn = true; 
+				$scope.loadNpos();
 				$scope.discover = true;
 			}).catch(function(error) {
 				var errorMessage = error.message;
@@ -115,11 +116,13 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			console.log(userObj);
 			var form = document.getElementById("loginForm");
 			form.reset();
-			$('#myModal').modal('hide');
+			var dialog = document.querySelector('dialog');
+			dialog.close();
 			$scope.loggedIn = true; 
 			allSectionsFalse();
-			$scope.feed = true;
 			$scope.loadfeed();
+			$scope.loadNpos(); 
+			$scope.feed = true;
 		}).catch(function(error) {
 		  // Handle Errors here.
 		  var errorCode = error.code;
@@ -145,12 +148,13 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 	}
 
 	$scope.createPost = function() {
+		var npoTagged = document.getElementById("chooseNPO").value;
 		firebase.database().ref().child("posts").push({
 			userID: userIDNum,
 			userFName: userObj.fName,
 			userLName: userObj.lName,
 			text: $scope.postText,
-			npo: $scope.npo,
+			npo: npoTagged,
 			raised: 0,
 			likes: 0,
 			comments: 0,
@@ -165,9 +169,14 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		$scope.posts = $firebaseArray(userRef);
 	}
 
-	$scope.loadDiscover = function() {
+	$scope.loadNpos = function() {
 		var userRef = firebase.database().ref().child("npos");
 		$scope.npos = $firebaseArray(userRef);
+	}
+
+	$scope.choseNpo = function(npo) {
+		document.getElementById("chooseNPO").value = npo.name;
+		document.querySelector(".mdl-menu__container.is-visible").classList.remove("is-visible");
 	}
 
 	$scope.addComment = function(post) {
@@ -246,12 +255,20 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			ul.appendChild(li);
 		}
 		div.appendChild(ul);
-		// for (var i = 0; i < comments.length; i++) {
-		// 	var comment = document.createElement("p");
-		// 	comment.innerHTML = comments[i].text;
-		// 	comment.border = "1px solid gray";
-		// 	commentsDisplayDiv.appendChild(comment);
-		// }
+	}
+
+	$scope.setUpLoginDialog = function() {
+		var dialog = document.querySelector('dialog');
+		var showDialogButton = document.querySelector('#show-dialog');
+		if (! dialog.showModal) {
+			dialogPolyfill.registerDialog(dialog);
+		}
+		showDialogButton.addEventListener('click', function() {
+			dialog.showModal();
+		});
+		dialog.querySelector('.close').addEventListener('click', function() {
+			dialog.close();
+		});
 	}
 
 	$scope.fileName = false;

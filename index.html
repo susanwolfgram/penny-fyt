@@ -56,275 +56,230 @@
 
 <!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
 
-<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" ng-app="myApp" ng-controller="myCtrl">
+<body id="page-top" ng-app="myApp" ng-controller="myCtrl" ng-init="setUpLoginDialog();">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header page-scroll">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand page-scroll" href="#page-top">Penny-fyt</a>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+            <!-- Title -->
+            <span class="mdl-layout-title">Penny-fyt</span>
+            <!-- Add spacer, to align navigation to the right -->
+            <div class="mdl-layout-spacer"></div>
+            <!-- Navigation. We hide it in small screens. -->
+            <!--mdl-layout--large-screen-only-->
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" ng-show="loggedIn && !feed" ng-click="feed = true; about = false; discover = false; loadfeed();">Home</a>
+                <a class="mdl-navigation__link" ng-show="!about" ng-click="about = true; showSignup = false; feed = false; discover = false;">About</a>
+                <a class="mdl-navigation__link" ng-show="!discover" ng-click="discover = true; about = false; feed = false; loadNpos(); npoSignup = false; showSignup = false;">Discover</a>
+                <a class="mdl-navigation__link" ng-show="!loggedIn && !showSignup" ng-click="showSignup = true; about = false; npoSignup = false; discover = false;">Sign Up</a>
+                <a class="mdl-navigation__link" id="show-dialog" ng-show="!loggedIn">Login</a>
+                <a class="mdl-navigation__link" ng-show="loggedIn" ng-click="logOut();">Log Out</a>
+            </nav>
             </div>
+        </header>
+        <!--<div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">Title</span>
+            <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="">Link</a>
+            <a class="mdl-navigation__link" href="">Link</a>
+            <a class="mdl-navigation__link" href="">Link</a>
+            <a class="mdl-navigation__link" href="">Link</a>
+            </nav>
+        </div>-->
+        <main class="mdl-layout__content">
+            <div class="page-content">
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav">
-                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
-                    <li class="hidden">
-                        <a class="page-scroll" href="#page-top"></a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" ng-show="loggedIn && !feed" ng-click="feed = true; about = false; discover = false; loadfeed();">Home</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" ng-show="!about" ng-click="about = true; showSignup = false; feed = false; discover = false;">About</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" ng-click="discover = true; about = false; feed = false; loadDiscover(); npoSignup = false;">Discover</a>
-                    </li>
-                     <li>
-                        <a class="page-scroll" ng-show="!loggedIn && !showSignup" ng-click="showSignup = true; about = false; npoSignup = false;">Sign Up</a>
-                    </li> 
-                    <li>
-                        <a class="page-scroll" data-toggle="modal" data-target="#myModal" ng-show="!loggedIn" style="cursor: pointer;">Login</a>
-                    </li> 
-                    <li>
-                        <a class="page-scroll" ng-show="loggedIn" ng-click="logOut();">Log Out</a>
-                    </li> 
-                </ul>
-                <img src="assets/penny-icon.png" id="user-icon" width="30px" ng-show="loggedIn" />
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-
-    <!-- content goes here --> 
-    <!-- About Section -->
-    <section id="about" class="about-section" ng-show="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1>About Us</h1>
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/5mJX6zNIvrw" frameborder="0" allowfullscreen></iframe>
-                    <p>Penny-fyt is a social media platform that makes donating to charity easy and quick. Non-profit organizations and charities post content that users can like, comment, and share to contribute a penny (or more!) towards that charity. We hope to remove the confusion surrounding donation processes that many would-be contributors face, while also creating an online community where avid activists and casual users can come together and contribute to causes that they are passionate about.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sign up section -->
-    <section id="signup" class="signup-section" ng-show="!loggedIn && showSignup">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 signuplinks">
-                    <h1>User Sign Up</h1>
-                    <p>(If you wish to register an NPO please <a ng-click="npoSignup = true; showSignup = false;">click here</a>.)</p>
-                    <div class="form-group">
-                        <form ng-submit="signup()" id="signupForm">
-                            <div class="form-group">
-                                <label for="fName">First Name:</label>
-                                <input type="text" class="form-control" id="fName" ng-model="fName">
+                <!-- content goes here --> 
+                <!-- About Section -->
+                <section id="about" class="about-section" ng-show="about">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h1>About Us</h1>
+                                <iframe width="560" height="315" src="https://www.youtube.com/embed/5mJX6zNIvrw" frameborder="0" allowfullscreen></iframe>
+                                <p>Penny-fyt is a social media platform that makes donating to charity easy and quick. Non-profit organizations and charities post content that users can like, comment, and share to contribute a penny (or more!) towards that charity. We hope to remove the confusion surrounding donation processes that many would-be contributors face, while also creating an online community where avid activists and casual users can come together and contribute to causes that they are passionate about.</p>
                             </div>
-                            <div class="form-group">
-                                <label for="lName">Last Name:</label>
-                                <input type="text" class="form-control" id="lName" ng-model="lName">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email address:</label>
-                                <input type="email" class="form-control" id="email" ng-model="email">
-                            </div>
-                          <div class="form-group">
-                            <label for="pwd">Password:</label>
-                            <input type="password" class="form-control" id="pwd" ng-model="pwd" ng-keyup="checkPwd()">
-                          </div>
-                          <p id="pwdMessage"></p>
-                          <div class="form-group">
-                            <label for="pwd">Confirm Password:</label>
-                            <input type="password" class="form-control" id="pwd2" ng-model="pwd2" ng-keyup="checkPwdMatch()">
-                          </div>
-                          <p id="pwd2Message"></p>
-                          <p id="signUpErrorMsg"></p>
-                          <button type="submit" class="btn btn-default">Create Account</button>
-                        </form>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-    </section>
-
-    <!-- NPO Sign up section -->
-    <section id="npoSignup" class="signup-section" ng-show="!loggedIn && npoSignup">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 signuplinks">
-                    <h1>NPO Sign Up</h1>
-                    <div class="form-group">
-                        <form ng-submit="npoAdd()" id="npoSignupForm">
-                            <div class="form-group">
-                                <label for="fName">NPO Name:</label>
-                                <input type="text" class="form-control" id="fName" ng-model="npoName">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email address:</label>
-                                <input type="email" class="form-control" id="email" ng-model="npoEmail">
-                            </div>
-                            <div class="form-group">
-                                <label for="pwd">Password:</label>
-                                <input type="password" class="form-control" id="pwd" ng-model="npoPwd">
-                            </div>
-                            <p id="pwdMessage"></p>
-                            <div class="form-group">
-                                <label for="pwd">Confirm Password:</label>
-                                <input type="password" class="form-control" id="pwd2" ng-model="npoPwd2">
-                            </div>
-                            <p id="pwd2Message"></p>
-                            <p id="signUpErrorMsg"></p>
-                            <button type="submit" class="btn btn-default">Create Account</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- Discover Section -->
-    <section ng-show="discover">
-        <div class="container" style="padding-top:100px">
-            <div id="discover">
-                <h1>Discover</h1>
-                <div id="card-feed">
-                    <div class="demo-card-square mdl-card mdl-shadow--2dp" ng-repeat="npo in npos">
-                        <div class="mdl-card__title mdl-card--expand">
-                            <h2 class="mdl-card__title-text">{{npo.name}}</h2>
-                        </div>
-                        <div class="mdl-card__supporting-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Aenan convallis.
-                        </div>
-                        <div class="mdl-card__actions mdl-card--border">
-                            <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" ng-click="follow(npo);">
-                                Follow
-                            </a>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                </section>
 
-    <!-- Feed Section -->
-    <section id="createPost" ng-show="loggedIn && feed">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 signuplinks">
-                <div class="form-group">
-                    <form ng-submit="createPost()" id="createPostForm">
-                        <!--<div class="form-group">-->
-                            <!--<label for="post">Write a post:</label>-->
-                            <!--<textarea class="form-control" id="postText" ng-model="postText"></textarea>-->
-                            <div class="mdl-textfield mdl-js-textfield" style="width: 100%;">
-                                <textarea class="mdl-textfield__input" type="text" rows= "3" id="sample5" ng-model="postText"></textarea>
-                                <label class="mdl-textfield__label" for="sample5">Write a post...</label>
+                <!-- Sign up section -->
+                <section id="signup" class="signup-section" ng-show="!loggedIn && showSignup">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 signuplinks">
+                                <h1>User Sign Up</h1>
+                                <p>(If you wish to register an NPO please <a ng-click="npoSignup = true; showSignup = false;">click here</a>.)</p>
+                                <div class="form-group">
+                                    <form ng-submit="signup()" id="signupForm">
+                                        <div class="form-group">
+                                            <label for="fName">First Name:</label>
+                                            <input type="text" class="form-control" id="fName" ng-model="fName">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lName">Last Name:</label>
+                                            <input type="text" class="form-control" id="lName" ng-model="lName">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Email address:</label>
+                                            <input type="email" class="form-control" id="email" ng-model="email">
+                                        </div>
+                                    <div class="form-group">
+                                        <label for="pwd">Password:</label>
+                                        <input type="password" class="form-control" id="pwd" ng-model="pwd" ng-keyup="checkPwd()">
+                                    </div>
+                                    <p id="pwdMessage"></p>
+                                    <div class="form-group">
+                                        <label for="pwd">Confirm Password:</label>
+                                        <input type="password" class="form-control" id="pwd2" ng-model="pwd2" ng-keyup="checkPwdMatch()">
+                                    </div>
+                                    <p id="pwd2Message"></p>
+                                    <p id="signUpErrorMsg"></p>
+                                    <button type="submit" class="btn btn-default">Create Account</button>
+                                    </form>
+                                </div>
                             </div>
-                        <!--</div>-->
-                        <div class="form-group">
-                            <!--<button id="demo-menu-lower-left" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" style="margin-right: 1em;">
-                                Tag an NPO <i class="material-icons">arrow_drop_down</i> 
-                            </button>-->
+                            
+                        </div>
+                    </div>
+                </section>
 
-                            <!--<select class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
-                                for="demo-menu-lower-left" ng-model="npo">
-                                <option class="mdl-menu__item" value="Circle Of Giving">Circle of Giving</option>
-                                <!--<li class="mdl-menu__item mdl-menu__item--full-bleed-divider">Another Action</li>-->
-                                <!--<li disabled class="mdl-menu__item">Disabled Action</li>-->
-                                <!--<option class="mdl-menu__item" value="Planned Parenthood">Planned Parenthood</option>
-                            </select>-->
-                            <label for="chooseNPO">Tag an NPO:</label>
-                            <select id="chooseNPO" ng-model="npo" >
-                                <option value="" disabled selected>Choose an NPO...</option>
-                                <option value="Circle Of Giving">Circle of Giving</option>
-                                <option value="Planned Parenthood">Planned Parenthood</option>
-                            </select>
-                            <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect postRight">
-                                Post
-                            </button>
+                <!-- NPO Sign up section -->
+                <section id="npoSignup" class="signup-section" ng-show="!loggedIn && npoSignup">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 signuplinks">
+                                <h1>NPO Sign Up</h1>
+                                <div class="form-group">
+                                    <form ng-submit="npoAdd()" id="npoSignupForm">
+                                        <div class="form-group">
+                                            <label for="fName">NPO Name:</label>
+                                            <input type="text" class="form-control" id="fName" ng-model="npoName">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Email address:</label>
+                                            <input type="email" class="form-control" id="email" ng-model="npoEmail">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="pwd">Password:</label>
+                                            <input type="password" class="form-control" id="pwd" ng-model="npoPwd">
+                                        </div>
+                                        <p id="pwdMessage"></p>
+                                        <div class="form-group">
+                                            <label for="pwd">Confirm Password:</label>
+                                            <input type="password" class="form-control" id="pwd2" ng-model="npoPwd2">
+                                        </div>
+                                        <p id="pwd2Message"></p>
+                                        <p id="signUpErrorMsg"></p>
+                                        <button type="submit" class="btn btn-default">Create Account</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- Discover Section -->
+                <section ng-show="discover">
+                    <div class="container">
+                        <div id="discover">
+                            <h1>Discover</h1>
+                            <div id="card-feed">
+                                <div class="demo-card-square mdl-card mdl-shadow--2dp" ng-repeat="npo in npos">
+                                    <div class="mdl-card__title mdl-card--expand">
+                                        <h2 class="mdl-card__title-text">{{npo.name}}</h2>
+                                    </div>
+                                    <div class="mdl-card__supporting-text">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        Aenan convallis.
+                                    </div>
+                                    <div class="mdl-card__actions mdl-card--border">
+                                        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" ng-click="follow(npo);">
+                                            Follow
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Feed Section -->
+                <section id="createPost" ng-show="loggedIn && feed">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 signuplinks">
+                                <form ng-submit="createPost()" id="createPostForm">
+                                    <div class="mdl-textfield mdl-js-textfield" style="width: 100%;">
+                                        <textarea class="mdl-textfield__input" type="text" rows= "3" id="sample5" ng-model="postText"></textarea>
+                                        <label class="mdl-textfield__label" for="sample5">Write a post...</label>
+                                    </div>
+                                    <div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fullwidth">
+                                        <input class="mdl-textfield__input" type="text" id="chooseNPO" value="Tag an NPO" readonly tabIndex="-1">
+                                        <!--<label for="chooseNPO" class="mdl-textfield__label">Tag an NPO</label>-->
+                                        <ul for="chooseNPO" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                                            <li class="mdl-menu__item" ng-repeat="npo in npos" data-val="{{npo.$id}}" ng-click="choseNpo(npo);">{{npo.name}}</li>
+                                        </ul>
+                                    </div>
+                                    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect postRight">
+                                        Post
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="post-feed"> 
+                        <div class="demo-card-wide mdl-card mdl-shadow--2dp" ng-repeat="post in posts" >
+                            <div class="mdl-card__title">
+                                <h2 class="mdl-card__title-text">{{post.text}}</h2>
+                            </div>
+                            <div class="mdl-card__supporting-text">
+                                {{post.npo}}
+                            </div>
+                            <div class="mdl-card__actions mdl-card--border">
+                                <a ng-click="like(post);" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                    Like
+                                </a>
+                                <a ng-click="addComment(post);" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                    Comment
+                                </a>
+                            </div>
+                            <div class="mdl-card__menu">
+                            <div id="likesFor{{post.$id}}">{{post.likes}} Likes</div>
+                            </div>
+                            <div id="commentsFor{{post.$id}}" class="commentDisplay"></div>
+                        </div>
+                    </div>
+                </section>
+
+               <!--Login Dialog-->
+                <dialog class="mdl-dialog" id="loginDialog">
+                    <h4 class="mdl-dialog__title">Login</h4>
+                    <form ng-submit="login()" id="loginForm">
+                        <div class="mdl-dialog__content">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                <input class="mdl-textfield__input" type="email" id="loginEmail" ng-model="loginEmail">
+                                <label class="mdl-textfield__label" for="loginEmail">Email</label>
+                            </div>
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                <input class="mdl-textfield__input" type="password" id="loginPwd" ng-model="loginPwd">
+                                <label class="mdl-textfield__label" for="loginPwd">Password</label>
+                            </div>
+                        </div>
+                        <div class="mdl-dialog__actions">
+                            <button type="submit" class="mdl-button">Submit</button>
+                            <button type="button" class="mdl-button close">Cancel</button>
                         </div>
                     </form>
-                </div>
-            </div>
-            
-        </div>
-    </div>
-    
-<!--</section>
-<section id="posts">-->
-    <div id="post-feed"> 
-        <div class="demo-card-wide mdl-card mdl-shadow--2dp" ng-repeat="post in posts" >
-            <div class="mdl-card__title">
-                <h2 class="mdl-card__title-text">{{post.text}}</h2>
-            </div>
-            <div class="mdl-card__supporting-text">
-                {{post.npo}}
-            </div>
-            <div class="mdl-card__actions mdl-card--border">
-                <a ng-click="like(post);" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                    Like
-                </a>
-                <a ng-click="addComment(post);" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                    Comment
-                </a>
-            </div>
-            <div class="mdl-card__menu">
-               <div id="likesFor{{post.$id}}">{{post.likes}} Likes</div>
-            </div>
-            <div id="commentsFor{{post.$id}}" class="commentDisplay"></div>
-        </div>
-    </div>
-</section>
+                </dialog>
 
-     <!-- Login Modal -->
-    <div id="myModal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Login</h4>
-          </div>
-          <div class="modal-body">
-            <form ng-submit="login()" id="loginForm">
-                <div class="form-group">
-                <label for="email">Email address:</label>
-                <input type="email" class="form-control" id="email" ng-model="loginEmail">
-              </div>
-              <div class="form-group">
-                <label for="pwd">Password:</label>
-                <input type="password" class="form-control" id="pwd" ng-model="loginPwd">
-              </div>
-              <p id="loginErrorMsg"></p>
-              <!-- <div class="checkbox">
-                <label><input type="checkbox"> Remember me</label>
-              </div> -->
-              </div>
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-default">Submit</button>
-              </div>
-          </form>
-        </div>
-
-      </div>
-    </div>
-
-
-    
+<!--main section closing tags-->
+            </div>
+        </main>
+    </div>   
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>

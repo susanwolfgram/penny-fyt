@@ -1,48 +1,15 @@
-/*!
- * Start Bootstrap - Scrolling Nav (http://startbootstrap.com/)
- * Copyright 2013-2016 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
- */
+/*Navigation styles*/
 
-body {
-    width: 100%;
-    height: 100%;
-}
-
-html {
-    width: 100%;
-    height: 100%;
-}
-
-@media(min-width:767px) {
-    .navbar {
-        padding: 20px 0;
-        -webkit-transition: background .5s ease-in-out,padding .5s ease-in-out;
-        -moz-transition: background .5s ease-in-out,padding .5s ease-in-out;
-        transition: background .5s ease-in-out,padding .5s ease-in-out;
-    }
-
-    .top-nav-collapse {
-        padding: 0;
-    }
-
-    #user-icon {
-        float:right; 
-        margin: 10px;
-    }
-
-  
-}
-
-@media(max-width:767px) {
-    #user-icon {
-        /*visibility: hidden;*/
-        display: none;
-    }
-}
-
-.nav li {
+nav a {
     cursor: pointer;
+}
+
+nav a:hover {
+    text-decoration: none;
+}
+
+.mdl-layout__header {
+    background-color: #42709e;
 }
 
 /* start about page styles */
@@ -56,8 +23,6 @@ iframe {
     margin: auto;
 }
 .about-section {
-    height: 120%;
-    padding-top: 110px;
     text-align: center;
     background: #fff;
     margin-bottom: 40px;
@@ -76,7 +41,6 @@ iframe {
 
 /* start sign up page styles */
 #signup, #createPost, #npoSignup {
-    padding-top: 110px;
     margin-left: auto;
     margin-right: auto;
     width: 50%;
@@ -291,10 +255,9 @@ iframe {
 /* end donation page styles */
 
 /* create post styles, some styles with signup section */
-select {
-    font-family: Roboto;
-}
+
 .postRight {
+    margin-top: .5em;
     float: right;
 }
 
@@ -306,8 +269,8 @@ select {
 }
 .demo-card-square > .mdl-card__title {
   color: #fff;
-  background:
-    url('../assets/pennylogo.png') bottom right 15% no-repeat #46B6AC;
+  background: #739ecf;
+  /*url('../assets/pennylogo.png') bottom right 15% no-repeat*/
 }
 
 #card-feed {
@@ -327,6 +290,7 @@ select {
 .demo-card-wide > .mdl-card__title {
   color: "gray";
   height: 176px;
+  background: #739ecf;
   /*background: url('../assets/pennylogo.png') center / cover;*/
 }
 .demo-card-wide > .mdl-card__menu {
@@ -345,3 +309,22 @@ select {
     margin: 0.5em;
     width: 100%;
 }
+
+
+/* login dialog styles */
+#loginDialog {
+    width: 35%;
+    color: #616161;
+}
+
+#loginDialog label {
+    color: #616161;
+}
+
+/*input:focus {
+    color: gray;
+}
+
+.mdl-textfield__input.is-invalid, .mdl-textfield__input:focus {
+    border-color: gray;
+}*/
