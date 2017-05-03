@@ -85,7 +85,7 @@
                         <a class="page-scroll" ng-show="!about" ng-click="about = true; showSignup = false; feed = false; discover = false;">About</a>
                     </li>
                     <li>
-                        <a class="page-scroll" ng-click="discover = true; about = false; feed = false; loadDiscover();">Discover</a>
+                        <a class="page-scroll" ng-click="discover = true; about = false; feed = false; loadDiscover(); npoSignup = false;">Discover</a>
                     </li>
                      <li>
                         <a class="page-scroll" ng-show="!loggedIn && !showSignup" ng-click="showSignup = true; about = false; npoSignup = false;">Sign Up</a>
@@ -177,12 +177,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="pwd">Password:</label>
-                                <input type="password" class="form-control" id="pwd" ng-model="npoPwd" ng-keyup="checkPwd()">
+                                <input type="password" class="form-control" id="pwd" ng-model="npoPwd">
                             </div>
                             <p id="pwdMessage"></p>
                             <div class="form-group">
                                 <label for="pwd">Confirm Password:</label>
-                                <input type="password" class="form-control" id="pwd2" ng-model="npoPwd2" ng-keyup="checkPwdMatch()">
+                                <input type="password" class="form-control" id="pwd2" ng-model="npoPwd2">
                             </div>
                             <p id="pwd2Message"></p>
                             <p id="signUpErrorMsg"></p>
@@ -210,8 +210,8 @@
                             Aenan convallis.
                         </div>
                         <div class="mdl-card__actions mdl-card--border">
-                            <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                            View Updates
+                            <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" ng-click="follow(npo);">
+                                Follow
                             </a>
                         </div>
                     </div>

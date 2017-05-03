@@ -40,13 +40,27 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 	}
 
 	$scope.npoAdd = function() {
-		firebase.database().ref().child("npos").push({
-			name: $scope.npoName,
-			npoEmail: $scope.npoEmail
-		}).then(function() {
-			var form = document.getElementById("npoSignupForm");
-			form.reset();
-		});
+		if ($scope.npoPwd.length >= 6 && $scope.npoPwd == $scope.npoPwd2) {
+			firebase.auth().createUserWithEmailAndPassword($scope.npoEmail, $scope.npoPwd).then(function(userData) {
+				firebase.database().ref().child("npos").child(userData.uid).set({
+					npoId: userData.uid,
+					name: $scope.npoName,
+					npoEmail: $scope.npoEmail
+				});
+				var form = document.getElementById("npoSignupForm");
+				form.reset();
+			});
+		}	
+	}
+
+	$scope.follow = function(npo) {
+		if ($scope.loggedIn) {
+			firebase.database().ref().child("users").child(userIDNum).child("following").child(npo.$id).set({
+				name: npo.name
+			}).then(function() {
+				console.log("followed " + npo.name);
+			});
+		}
 	}
 
 	function allSectionsFalse() {
@@ -62,6 +76,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		errorP.innerHTML = errorMessage;
 		errorP.style.color = "red";
 	}
+
 	$scope.checkPwd = function() {
 		if ($scope.pwd && $scope.pwd.length < 6) {
 			document.getElementById("pwdMessage").innerHTML = "Password must be at least 6 characters.";
