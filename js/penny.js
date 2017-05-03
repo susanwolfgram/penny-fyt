@@ -17,8 +17,6 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			firebase.auth().createUserWithEmailAndPassword($scope.email, $scope.pwd).then(function(userData) {
 			  	console.log("User " + userData.uid + " created successfully!");
 			  	user = firebase.auth().currentUser;
-				console.log(user);
-				console.log($scope.users);
 				userIDNum = userData.uid; 
 				firebase.database().ref().child("users").child(userData.uid).set({
 			      email: $scope.email,
@@ -109,11 +107,9 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		console.log("login");
 		firebase.auth().signInWithEmailAndPassword($scope.loginEmail, $scope.loginPwd).then(function(userData) {
 			user = firebase.auth().currentUser;
-			console.log(user);
 			userIDNum = userData.uid; 
 	     	currentUser = firebase.database().ref().child("users").child(userIDNum);
 			userObj = $firebaseObject(currentUser);
-			console.log(userObj);
 			var form = document.getElementById("loginForm");
 			form.reset();
 			var dialog = document.querySelector('dialog');
@@ -186,24 +182,13 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		var comments = $firebaseArray(commentsRef);
 		comments.$loaded().then(function(comments) {
 			commentsDiv.innerHTML = ""; 
+			var div = document.createElement("div");
+			div.classList.add("commentsDisplay");
+			commentsDiv.appendChild(div);
 			if (comments.length > 0) {
-				displayComments(comments, commentsDiv, post);
+				displayComments(comments, post);
 			} 
-			var inputDiv = document.createElement("div");
-			inputDiv.classList.add("mdl-textfield");
-			inputDiv.classList.add("mdl-js-textfield");
-			inputDiv.classList.add("mdl-textfield--floating-label");
-			inputDiv.classList.add("commentInput");
-			var input = document.createElement("input");
-			input.type = "text";
-			input.classList.add("mdl-textfield__input");
-			input.id = "commentInput";
-			var label = document.createElement("label");
-			label.classList.add("mdl-textfield__label");
-			label.for = "commentInput";
-			label.innerHTML = "Add a comment...";
-			inputDiv.appendChild(input);
-			inputDiv.appendChild(label);
+			var input = createCommentInput(commentsDiv);
 			input.onkeypress = function(e) {
 				if (!e) e = window.event;
 				var keyCode = e.keyCode || e.which;
@@ -216,32 +201,38 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 						userLName: userObj.lName,
 						text: this.value
 					}).then(function() {
-						displayComments(comments, commentsDiv, post);
+						displayComments(comments, post);
 						document.querySelector("#commentsFor" + post.$id + " input").value = "";
 					});
 					return false;
 				}
 			}
-			commentsDiv.appendChild(inputDiv);	
-			componentHandler.upgradeElements(inputDiv);
 		});
 	}
-
-	$scope.like = function(post) {
-		post.likes++;
-		post.raised++; 
-		$scope.posts.$save(post);
+	
+	function createCommentInput(commentsDiv) {
+		var inputDiv = document.createElement("div");
+		inputDiv.classList.add("mdl-textfield");
+		inputDiv.classList.add("mdl-js-textfield");
+		inputDiv.classList.add("mdl-textfield--floating-label");
+		inputDiv.classList.add("commentInput");
+		var input = document.createElement("input");
+		input.type = "text";
+		input.classList.add("mdl-textfield__input");
+		input.id = "commentInput";
+		var label = document.createElement("label");
+		label.classList.add("mdl-textfield__label");
+		label.for = "commentInput";
+		label.innerHTML = "Add a comment...";
+		inputDiv.appendChild(input);
+		inputDiv.appendChild(label);
+		commentsDiv.appendChild(inputDiv);
+		componentHandler.upgradeElements(inputDiv);
+		return input;
 	}
 
-	function displayComments(comments, commentsDiv, post) {
-		var div; 
-		if (document.querySelector("#commentsFor" + post.$id + " div")) {
-			div = document.querySelector("#commentsFor" + post.$id + " div");
-			div.innerHTML = "";
-		} else {
-			div = document.createElement("div");
-			commentsDiv.appendChild(div);
-		}
+	function displayComments(comments, post) {
+		var div =  document.querySelector("#commentsFor" + post.$id + " div.commentsDisplay");
 		var ul = document.createElement("ul");
 		ul.classList.add("demo-list-item");
 		ul.classList.add("mdl-list");
@@ -254,7 +245,14 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			li.appendChild(span);
 			ul.appendChild(li);
 		}
+		div.innerHTML = "";
 		div.appendChild(ul);
+	}
+
+	$scope.like = function(post) {
+		post.likes++;
+		post.raised++; 
+		$scope.posts.$save(post);
 	}
 
 	$scope.setUpLoginDialog = function() {
