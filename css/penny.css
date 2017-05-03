@@ -75,7 +75,7 @@ iframe {
 /* end Landing page styles */
 
 /* start sign up page styles */
-#signup, #createPost {
+#signup, #createPost, #npoSignup {
     padding-top: 110px;
     margin-left: auto;
     margin-right: auto;
@@ -310,6 +310,13 @@ select {
     url('../assets/pennylogo.png') bottom right 15% no-repeat #46B6AC;
 }
 
+#card-feed {
+    display: flex;
+}
+
+#card-feed > div {
+    margin: 2em;
+}
 
 
 /* feed MD styles */

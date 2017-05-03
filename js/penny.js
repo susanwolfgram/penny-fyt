@@ -39,6 +39,16 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		}
 	}
 
+	$scope.npoAdd = function() {
+		firebase.database().ref().child("npos").push({
+			name: $scope.npoName,
+			npoEmail: $scope.npoEmail
+		}).then(function() {
+			var form = document.getElementById("npoSignupForm");
+			form.reset();
+		});
+	}
+
 	function allSectionsFalse() {
 		$scope.about = false;
 		$scope.showSignup = false;
@@ -140,10 +150,10 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		$scope.posts = $firebaseArray(userRef);
 	}
 
-	// $scope.loadDiscover = function() {
-	// 	var userRef = firebase.database().ref().child("npos");
-	// 	$scope.npos = $firebaseArray(userRef);
-	// }
+	$scope.loadDiscover = function() {
+		var userRef = firebase.database().ref().child("npos");
+		$scope.npos = $firebaseArray(userRef);
+	}
 
 	$scope.addComment = function(post) {
 		var commentsDiv = document.getElementById("commentsFor" + post.$id); 
