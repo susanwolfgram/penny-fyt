@@ -42,7 +42,7 @@ h1 {
     margin-bottom: 40px;
 }
 
-#signupForm > div, #npoSignupForm > div, #reload-form > div {
+#signupForm > div, #npoSignupForm > div {
     width: 100%;
 }
 
@@ -363,16 +363,4 @@ ol, li {
     list-style-type: none;
     padding-left: 30px;
     text-align: left;
-}
-
-#reload {
-    text-align: left;
-}
-
-#reload label {
-    font-weight: normal;
-}
-
-#reload p {
-    font-weight: bold;
 }

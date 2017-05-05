@@ -149,19 +149,21 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 
 	$scope.createPost = function() {
 		var npoTagged = document.getElementById("chooseNPO").value;
-		firebase.database().ref().child("posts").push({
-			userID: userIDNum,
-			userFName: userObj.fName,
-			userLName: userObj.lName,
-			text: $scope.postText,
-			npo: npoTagged,
-			raised: 0,
-			likes: 0,
-			comments: 0,
-			following: 0
-		});
-		var form = document.getElementById("createPostForm");
-		form.reset();
+		if (npoTagged != "Tag an NPO") {
+			firebase.database().ref().child("posts").push({
+				userID: userIDNum,
+				userFName: userObj.fName,
+				userLName: userObj.lName,
+				text: $scope.postText,
+				npo: npoTagged,
+				raised: 0,
+				likes: 0,
+				comments: 0,
+				following: 0
+			});
+			var form = document.getElementById("createPostForm");
+			form.reset();
+		}
 	}
 
 	$scope.loadfeed = function() {

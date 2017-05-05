@@ -1,0 +1,30 @@
+body {
+	background-color: #ccc;
+}
+
+h2 {
+	font-size: 2.5em;
+}
+
+#reload {
+	background-color: #fff;
+	margin-top: 30px;
+    text-align: left;
+}
+
+#reload label {
+    font-weight: normal;
+}
+
+#reload p {
+    font-weight: bold;
+}
+
+.full-input {
+    width: 100%;
+}
+
+.quarter-input {
+	float: right;
+	width: 25%;
+}
