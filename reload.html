@@ -22,8 +22,14 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Material Design links -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.green-light_green.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+
     <!-- Custom CSS -->
-    <link href="css/penny.css" rel="stylesheet">
+    <link href="css/penny2.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -39,93 +45,91 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header page-scroll">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand page-scroll" href="#page-top">Penny-fyt</a>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+            <!-- Title -->
+            <span class="mdl-layout-title">Penny-fyt</span>
+            <!-- Add spacer, to align navigation to the right -->
+            <div class="mdl-layout-spacer"></div>
+            <!-- Navigation. We hide it in small screens. -->
+            <!--mdl-layout--large-screen-only-->
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" ng-show="loggedIn && !feed" ng-click="feed = true; about = false; discover = false; loadfeed(); npoSignup = false;">Home</a>
+                <a class="mdl-navigation__link" ng-show="!about" ng-click="about = true; showSignup = false; feed = false; discover = false; npoSignup = false;">About</a>
+                <a class="mdl-navigation__link" ng-show="!discover" ng-click="discover = true; about = false; feed = false; loadNpos(); npoSignup = false; showSignup = false;">Discover</a>
+                <a class="mdl-navigation__link" ng-show="!loggedIn && !showSignup" ng-click="showSignup = true; about = false; npoSignup = false; discover = false;">Sign Up</a>
+                <a class="mdl-navigation__link" id="show-dialog" ng-show="!loggedIn">Login</a>
+                <a class="mdl-navigation__link" ng-show="loggedIn" ng-click="logOut(); npoSignup = false;">Log Out</a>
+            </nav>
             </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav">
-                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
-                    <li class="hidden">
-                        <a class="page-scroll" href="#page-top"></a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#about">About</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#signup">Sign Up</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" data-toggle="modal" data-target="#myModal" style="cursor: pointer;">Login</a>
-                    </li>
-                    <!-- <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
-                    </li> -->
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
+        </header>
 
     <!-- content goes here --> 
     <section id="reload">
-        <div class="container" style="padding-top:100px">
-            <h1>Reload Account</h1>
-            <div id="reload-form" class="form-group">
-                <div class="form-group">
-                    <label for="fName">Saved Cards:</label>
-                    <select class="form-control" id="paymeth">
-                        <!-- user's saved payments go here -->
-                    </select>
-                </div>
-                OR Use a New Card:
-                <div class="form-group">
-                    <label for="fName">Card Number:</label>
-                    <input type="number" class="form-control" min="1" id="cardnum">
-                    <label for="fName">Expires:</label>
-                    <select class="form-control" name='expireMM' id='expireMM'>
-                        <option value=''>Month</option>
-                        <option value='01'>January</option>
-                        <option value='02'>February</option>
-                        <option value='03'>March</option>
-                        <option value='04'>April</option>
-                        <option value='05'>May</option>
-                        <option value='06'>June</option>
-                        <option value='07'>July</option>
-                        <option value='08'>August</option>
-                        <option value='09'>September</option>
-                        <option value='10'>October</option>
-                        <option value='11'>November</option>
-                        <option value='12'>December</option>
-                    </select> 
-                    <select class="form-control" name='expireYY' id='expireYY'>
-                        <option value=''>Year</option>
-                        <option value='10'>2010</option>
-                        <option value='11'>2011</option>
-                        <option value='12'>2012</option>
-                    </select>
-                    <label for="fName">Name on Card:</label>
-                    <input type="text" class="form-control" min="1" id="cardname">
-                    <label for="fName">CVV:</label>
-                    <input type="number" class="form-control" min="1" id="cardcode">
-                </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 signuplinks">
+                    <h1>Reload Account</h1>
+                    <div id="reload-form" class="form-group">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <label for="paymeth">Saved Cards:</label>
+                            <select class="mdl-selectfield" id="paymeth">
+                                <option value="" disabled selected>Choose your option</option>
+                                <!-- user's saved payments go here -->
+                            </select>
+                        </div>
+                        <div>
+                            <p>OR Use a New Card:</p>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <label class="mdl-textfield__label" for="cardnum">Card Number</label>
+                            <input class="mdl-textfield__input" type="number" class="form-control" min="1" max="9999999999999999" id="cardnum">
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <label for="fName">Expires:</label>
+                            <select class="mdl-selectfield" name='expireMM' id='expireMM'>
+                                <option value=''>Month</option>
+                                <option value='01'>January</option>
+                                <option value='02'>February</option>
+                                <option value='03'>March</option>
+                                <option value='04'>April</option>
+                                <option value='05'>May</option>
+                                <option value='06'>June</option>
+                                <option value='07'>July</option>
+                                <option value='08'>August</option>
+                                <option value='09'>September</option>
+                                <option value='10'>October</option>
+                                <option value='11'>November</option>
+                                <option value='12'>December</option>
+                            </select> 
+                            <select class="mdl-selectfield" name='expireYY' id='expireYY'>
+                                <option value=''>Year</option>
+                                <option value='10'>2010</option>
+                                <option value='11'>2011</option>
+                                <option value='12'>2012</option>
+                            </select>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <label class="mdl-textfield__label" for="cardname">Name on Card</label>
+                            <input class="mdl-textfield__input" type="text" class="form-control" min="1" id="cardname">
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <label class="mdl-textfield__label" for="cardcode">CVV</label>
+                            <input class="mdl-textfield__input" type="number" class="form-control" min="1" id="cardcode">
+                        </div>
 
-                <div class="form-group">
-                    <label for="fName">Amount ($1.00 minimum):</label>
-                    <!-- should only be allowed to enter monetary value over $1.00 --> 
-                    <input type="number" class="form-control" min="1" id="amount">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <label class="mdl-textfield__label" for="amount">Amount ($1.00 minimum)</label>
+                            <!-- should only be allowed to enter monetary value over $1.00 --> 
+                            <input class="mdl-textfield__input" type="number" class="form-control" min="1" id="amount">
+                        </div>
+
+                        <div>
+                            <button type="submit" class="mdl-button">Reload!</button>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-default">Reload!</button>
             </div>
         </div>
     </section>

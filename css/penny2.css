@@ -1,0 +1,378 @@
+/*Navigation styles*/
+
+a {
+    cursor: pointer;
+}
+
+nav a:hover {
+    text-decoration: none;
+}
+
+.mdl-layout__header {
+    background-color: white;
+}
+
+/* start about page styles */
+h1 {
+    font-size: 3em;
+}
+
+.about-section {
+    text-align: center;
+    background: #fff;
+    margin-bottom: 40px;
+}
+
+#about p {
+    margin-top: 25px;
+    font-size: 1.1em;
+    text-align: left;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* end Landing page styles */
+
+/* start sign up page styles */
+#signup, #createPost, #npoSignup, #reload {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-bottom: 40px;
+}
+
+#signupForm > div, #npoSignupForm > div, #reload-form > div {
+    width: 100%;
+}
+
+/* end sign up page styles */
+
+/* content management page styles */
+
+#content-manager {
+    text-align: center;
+}
+
+#post-feed {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    width: 600px;
+}
+
+.user-post {
+    border: 1px solid grey;
+    padding: 10px;
+}
+
+.post-header-left {
+    display: inline-block;
+    margin-bottom: 5px;
+    width: 80%;
+}
+
+.post-header-right {
+    display: inline-block;
+    font-size: 20pt;
+    text-align: right;
+    width: 19%;
+}
+
+.post-avatar {
+    height: 50px;
+    width: 50px;
+}
+
+.user-name {
+    color: black;
+    font-weight: bold;
+}
+
+
+/* discover page styles */
+/* adapted from sherry's content management pg to keep post tags consistent */
+
+#discover {
+    text-align: center;
+}
+
+#post-feed {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+} 
+
+#totop {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
+.user-post {
+    border: 2px solid grey;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 30px;
+}
+
+.post-header-left {
+    display: inline-block;
+    margin-bottom: 5px;
+    width: 70%;
+}
+
+.post-header-right {
+    display: inline-block;
+    font-size: 20pt;
+    text-align: right;
+    width: 29%;
+}
+
+.post-avatar {
+    height: 75px;
+    width: 75px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.post-footer > ul{
+    list-style-type: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 0px;
+}
+
+.post-footer > ul > li{
+    display: inline;
+    text-align: center;
+    margin: 5px;
+}
+
+.post-body{
+    margin-left: 75px;
+    padding-left: 10px;
+}
+
+.cause-name {
+    color: black;
+    font-weight: bold;
+    font-size: 30px;
+} 
+
+.npo-name {
+    color: gray;
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+#moneyraised{
+    border-bottom: 1px dotted #000;
+}
+
+
+/* profile page styles */
+
+.profile {
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.profile-pic {
+    height: 200px;
+    width: 200px;
+    display: block;
+    float: left;
+    margin-right: 25px;
+}
+
+.profile-name {
+    display: inline;
+    font-size: 55px;
+    
+}
+
+.profile-funds {
+    border-bottom: 1px dotted #000;
+    display: inline-block;
+    font-size: 30px;
+    position: relative;
+    right: -10px;
+    color: gray;
+}
+
+.profile-update input {
+    height: 75px;
+    width: 80%;
+}
+
+.profile-links > ul {
+    list-style-type: none;
+}
+
+.profile-links > ul > li {
+    display: inline;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#profile-feed {
+    text-align: center;
+}
+
+#update-submit {
+    float: right;
+    margin-top: 5px;
+}
+
+/* donation page styles */
+
+#donated {
+    color: gray;
+    font-size: 24px;
+}
+
+#raised{
+    font-size: 14px;
+}
+
+/* end donation page styles */
+
+/* create post styles, some styles with signup section */
+
+.postRight {
+    margin-top: .5em;
+    float: right;
+}
+
+
+/* discover MD styles */
+.demo-card-square.mdl-card {
+  width: 320px;
+  height: 320px;
+}
+.demo-card-square > .mdl-card__title {
+  color: #fff;
+  background: #739ecf;
+  /*url('../assets/pennylogo.png') bottom right 15% no-repeat*/
+}
+
+#card-feed {
+    display: flex;
+}
+
+#card-feed > div {
+    margin: 2em;
+}
+
+
+/* feed MD styles */
+
+.demo-card-wide.mdl-card {
+  width: 512px;
+}
+.demo-card-wide > .mdl-card__title {
+  color: "gray";
+  height: 176px;
+  background: #739ecf;
+  /*background: url('../assets/pennylogo.png') center / cover;*/
+}
+.demo-card-wide > .mdl-card__menu {
+  color: "gray";
+}
+
+.demo-card-wide {
+    margin-top: 2em;
+}
+
+#post-feed > div {
+    width: 100%;
+}
+
+.commentInput {
+    margin: 0.5em;
+    width: 100%;
+}
+
+
+/* login dialog styles */
+#loginDialog {
+    width: 35%;
+    color: #616161;
+}
+
+#loginDialog label {
+    color: #616161;
+}
+
+/*input:focus {
+    color: gray;
+}
+
+.mdl-textfield__input.is-invalid, .mdl-textfield__input:focus {
+    border-color: gray;
+}*/
+
+#npo-signup, #npo-signup-banner-right a {
+    background-color: #687E5A;
+    color: white;
+}
+
+#npo-signup-banner-left, #npo-signup-banner-right {
+    display: inline-block;
+    font-weight: bold;
+    height: 50px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+#npo-signup-banner-right a, #npo-signup-banner-left p {
+    font-weight: bold;
+    line-height: 50px;
+}
+
+#npo-signup-banner-right {
+    float: right;
+}
+
+#header-title {
+    background-color: black;
+    height: 400px;
+    opacity: .5;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+#header-title-text {
+    align-self: center;
+}
+
+#title-text {
+    color: white;
+    font-size: 56pt;
+}
+
+#header-tagline {
+    color: white;
+    font-size: 18pt;
+}
+
+ol, li {
+    list-style-type: none;
+    padding-left: 30px;
+    text-align: left;
+}
+
+#reload {
+    text-align: left;
+}
+
+#reload label {
+    font-weight: normal;
+}
+
+#reload p {
+    font-weight: bold;
+}
