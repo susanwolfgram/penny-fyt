@@ -241,7 +241,7 @@
                                 <h2 class="mdl-card__title-text">{{post.text}}</h2>
                             </div>
                             <div class="mdl-card__supporting-text">
-                                {{post.npo}}
+                                <span class="postAuthor">{{post.userFName}} {{post.userLName}}</span> on behalf of <span class="postAuthor">{{post.npo}}</span>
                             </div>
                             <div class="mdl-card__actions mdl-card--border">
                                 <a ng-click="like(post);" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">

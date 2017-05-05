@@ -21,7 +21,8 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 				firebase.database().ref().child("users").child(userData.uid).set({
 			      email: $scope.email,
 				  fName: $scope.fName,
-				  lName: $scope.lName
+				  lName: $scope.lName,
+				  credit: 0
 			    });
 				var form = document.getElementById("signupForm");
 				form.reset();
@@ -242,7 +243,27 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			var span = document.createElement("span");
 			span.classList.add("mdl-list__item-primary-content");
 			span.innerHTML = comments[i].text;
+			var userSpan = document.createElement("span");
+			userSpan.style.fontWeight = "bold";
+			userSpan.innerHTML = comments[i].userFName + " " + comments[i].userLName; 
+			userSpan.style.marginRight = "1em";
+			li.appendChild(userSpan);
 			li.appendChild(span);
+			if (comments[i].user == userIDNum) {
+				var icon = document.createElement("i");
+				icon.classList.add("material-icons");
+				icon.classList.add("mdl-list__item-icon");
+				icon.innerHTML = "delete";
+				icon.id = comments[i].$id;
+				icon.title = "Delete comment";
+				icon.onclick = function() {
+					console.log("icon clicked");
+					firebase.database().ref().child("posts").child(post.$id).child("comments").child(this.id).remove();
+					var listItem = this.parentNode;
+					listItem.parentNode.removeChild(listItem);
+				}
+				li.appendChild(icon);
+			}
 			ul.appendChild(li);
 		}
 		div.innerHTML = "";
