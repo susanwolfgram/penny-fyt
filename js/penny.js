@@ -202,7 +202,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			input.onkeypress = function(e) {
 				if (!e) e = window.event;
 				var keyCode = e.keyCode || e.which;
-				if (keyCode == '13'){
+				if (keyCode == '13' && this.value){
 					console.log("enter pressed"); 
 					firebase.database().ref().child("posts").child(post.$id).child("comments").push({
 						user: userIDNum,
@@ -210,6 +210,10 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 						userLName: userObj.lName,
 						text: this.value
 					}).then(function() {
+						var newCred = userObj.credits - 2;
+						firebase.database().ref().child("users").child(userIDNum).child("credits").set(newCred);
+						post.raised += 2;
+						$scope.posts.$save(post);
 						displayComments(comments, post);
 						document.querySelector("#commentsFor" + post.$id + " input").value = "";
 					});
@@ -280,6 +284,8 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 	$scope.like = function(post) {
 		post.likes++;
 		post.raised++; 
+		var newCred = userObj.credits--;
+		firebase.database().ref().child("users").child(userIDNum).child("credits").set(newCred);
 		$scope.posts.$save(post);
 	}
 

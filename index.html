@@ -252,9 +252,11 @@
                                 </a>
                             </div>
                             <div class="mdl-card__menu">
-                            <div id="likesFor{{post.$id}}">{{post.likes}} Likes</div>
+                            <div id="likesFor{{post.$id}}">{{post.likes}} Likes <br /> {{post.raised}} <img src="assets/cent-icon.png" style="width: 1em;"/> Raised</div>
                             </div>
+                            
                             <div id="commentsFor{{post.$id}}" class="commentDisplay"></div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -263,7 +265,7 @@
                 <section id="reload" ng-show="loggedIn">
                     <button ng-click="reloadCredits();" type="submit" class="mdl-button">Reload Credits</button>
                 </section>
-                
+
                <!--Login Dialog-->
                 <dialog class="mdl-dialog" id="loginDialog">
                     <h4 class="mdl-dialog__title">Login</h4>
