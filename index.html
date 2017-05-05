@@ -241,7 +241,7 @@
                                 <h2 class="mdl-card__title-text">{{post.text}}</h2>
                             </div>
                             <div class="mdl-card__supporting-text">
-                                <span class="postAuthor">{{post.userFName}} {{post.userLName}}</span> on behalf of <span class="postAuthor">{{post.npo}}</span>
+                                <span class="postAuthor">{{post.userFName}} {{post.userLName}}</span> in support of <span class="postAuthor">{{post.npo}}</span>
                             </div>
                             <div class="mdl-card__actions mdl-card--border">
                                 <a ng-click="like(post);" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
@@ -259,6 +259,10 @@
                     </div>
                 </section>
 
+                <!--Reload Credits-->
+                <section id="reload" ng-show="loggedIn">
+                    <button ng-click="reloadCredits();" type="submit" class="mdl-button">Reload Credits</button>
+                </section>
                <!--Login Dialog-->
                 <dialog class="mdl-dialog" id="loginDialog">
                     <h4 class="mdl-dialog__title">Login</h4>

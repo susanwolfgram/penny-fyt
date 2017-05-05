@@ -9,6 +9,9 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 	$scope.showSignup = false;
 	$scope.discover = false;
 	$scope.feed = false;
+	var userRef = firebase.database().ref().child("users");
+	// create a synchronized array
+	$scope.users = $firebaseArray(userRef);
 	$scope.signup = function () {
 		if ($scope.pwd && $scope.pwd.length >= 6 && $scope.pwd == $scope.pwd2) {
 			var userRef = firebase.database().ref().child("users");
@@ -22,7 +25,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			      email: $scope.email,
 				  fName: $scope.fName,
 				  lName: $scope.lName,
-				  credit: 0
+				  credits: 0
 			    });
 				var form = document.getElementById("signupForm");
 				form.reset();
@@ -288,6 +291,11 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		dialog.querySelector('.close').addEventListener('click', function() {
 			dialog.close();
 		});
+	}
+
+	$scope.reloadCredits = function() {
+		var newCred = userObj.credits + 100;
+		firebase.database().ref().child("users").child(userIDNum).child("credits").set(newCred);
 	}
 
 	$scope.fileName = false;
