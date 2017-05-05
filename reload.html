@@ -30,6 +30,7 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
 
     <!-- Custom CSS -->
     <link href="css/penny2.css" rel="stylesheet">
+    <link href="css/reload.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -70,7 +71,7 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
         <div class="container">
             <div class="row">
                 <div class="col-md-6 signuplinks">
-                    <h1>Reload Account</h1>
+                    <h2>Reload Account</h2>
                     <div id="reload-form" class="form-group">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                             <label for="paymeth">Saved Cards:</label>
@@ -82,7 +83,7 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
                         <div>
                             <p>OR Use a New Card:</p>
                         </div>
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-input">
                             <label class="mdl-textfield__label" for="cardnum">Card Number</label>
                             <input class="mdl-textfield__input" type="number" class="form-control" min="1" max="9999999999999999" id="cardnum">
                         </div>
@@ -110,16 +111,17 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
                                 <option value='12'>2012</option>
                             </select>
                         </div>
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                            <label class="mdl-textfield__label" for="cardname">Name on Card</label>
-                            <input class="mdl-textfield__input" type="text" class="form-control" min="1" id="cardname">
-                        </div>
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label quarter-input">
                             <label class="mdl-textfield__label" for="cardcode">CVV</label>
                             <input class="mdl-textfield__input" type="number" class="form-control" min="1" id="cardcode">
                         </div>
 
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-input">
+                            <label class="mdl-textfield__label" for="cardname">Name on Card</label>
+                            <input class="mdl-textfield__input" type="text" class="form-control" min="1" id="cardname">
+                        </div>
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-input">
                             <label class="mdl-textfield__label" for="amount">Amount ($1.00 minimum)</label>
                             <!-- should only be allowed to enter monetary value over $1.00 --> 
                             <input class="mdl-textfield__input" type="number" class="form-control" min="1" id="amount">
