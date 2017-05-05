@@ -137,7 +137,6 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		  var loginError = document.getElementById("loginErrorMsg");
 		  loginError.innerHTML = errorMessage;
 		  loginError.style.color = "red";
-		  // ...
 		});
 	}
 
@@ -189,7 +188,6 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 
 	$scope.addComment = function(post) {
 		var commentsDiv = document.getElementById("commentsFor" + post.$id); 
-		//var commentsDisplayDiv = document.querySelector("#commentsFor" + post.$id + " div");
 		var commentsRef = firebase.database().ref().child("posts").child(post.$id).child("comments");	
 		var comments = $firebaseArray(commentsRef);
 		comments.$loaded().then(function(comments) {
@@ -206,7 +204,6 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 				var keyCode = e.keyCode || e.which;
 				if (keyCode == '13'){
 					console.log("enter pressed"); 
-					// Enter pressed
 					firebase.database().ref().child("posts").child(post.$id).child("comments").push({
 						user: userIDNum,
 						userFName: userObj.fName,
@@ -268,7 +265,6 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 				icon.id = comments[i].$id;
 				icon.title = "Delete comment";
 				icon.onclick = function() {
-					console.log("icon clicked");
 					firebase.database().ref().child("posts").child(post.$id).child("comments").child(this.id).remove();
 					var listItem = this.parentNode;
 					listItem.parentNode.removeChild(listItem);
