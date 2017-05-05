@@ -63,13 +63,13 @@
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
             <!-- Title -->
-            <span class="mdl-layout-title">Penny-fyt</span>
+            <span class="mdl-layout-title" ng-click="feed = true; about = false; discover = false; loadfeed(); npoSignup = false;" style="cursor: pointer;">Penny-fyt</span>
             <!-- Add spacer, to align navigation to the right -->
             <div class="mdl-layout-spacer"></div>
             <!-- Navigation. We hide it in small screens. -->
             <!--mdl-layout--large-screen-only-->
             <nav class="mdl-navigation">
-                <a class="mdl-navigation__link" ng-show="loggedIn && !feed" ng-click="feed = true; about = false; discover = false; loadfeed(); npoSignup = false;">Home</a>
+                <!--<a class="mdl-navigation__link" ng-show="loggedIn && !feed" ng-click="feed = true; about = false; discover = false; loadfeed(); npoSignup = false;">Home</a>-->
                 <a class="mdl-navigation__link" ng-show="!about" ng-click="about = true; showSignup = false; feed = false; discover = false; npoSignup = false;">About</a>
                 <a class="mdl-navigation__link" ng-show="!discover" ng-click="discover = true; about = false; feed = false; loadNpos(); npoSignup = false; showSignup = false;">Discover</a>
                 <a class="mdl-navigation__link" ng-show="!loggedIn && !showSignup" ng-click="showSignup = true; about = false; npoSignup = false; discover = false;">Sign Up</a>
