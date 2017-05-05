@@ -63,6 +63,12 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			}).then(function() {
 				console.log("followed " + npo.name);
 			});
+			firebase.database().ref().child("npos").child(npo.$id).child("followers").child(userIDNum).set({
+				fName: userObj.fName,
+				lName: userObj.lName
+			}).then(function() {
+				console.log(userObj.fName + " added to followers");
+			});
 		}
 	}
 
