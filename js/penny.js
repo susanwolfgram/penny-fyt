@@ -77,7 +77,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		$scope.showSignup = false;
 		$scope.discover = false;
 		$scope.feed = false;
-		$scope.$digest(); 
+		//$scope.$digest(); 
 	}
 
 	function displayErrorMessage(errorType, errorMessage) {
@@ -164,6 +164,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 				raised: 0,
 				likes: 0,
 				comments: 0,
+				commentCount: 0,
 				following: 0
 			});
 			var form = document.getElementById("createPostForm");
@@ -212,6 +213,8 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 					}).then(function() {
 						var newCred = userObj.credits - 2;
 						firebase.database().ref().child("users").child(userIDNum).child("credits").set(newCred);
+						var newCommentCount = (post.commentCount ? post.commentCount : 0) + 1; 
+						firebase.database().ref().child("posts").child(post.$id).child("commentCount").set(newCommentCount);
 						post.raised += 2;
 						$scope.posts.$save(post);
 						displayComments(comments, post);
@@ -346,6 +349,16 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		$scope.fileName = true; 
 		$scope.$digest();
     }
+
+	$scope.feedButton = function () {
+		//feed = true; about = false; discover = false; loadfeed(); npoSignup = false;
+		if ($scope.loggedIn && !$scope.feed) {
+			allSectionsFalse();
+			$scope.feed = true;
+			$scope.loadfeed(); 
+			//$scope.$digest();
+		}
+	}
 });
 
 // app.directive('nop', function(){

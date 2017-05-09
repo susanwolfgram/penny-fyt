@@ -63,7 +63,7 @@
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
             <!-- Title -->
-            <span class="mdl-layout-title" ng-click="feed = true; about = false; discover = false; loadfeed(); npoSignup = false;" style="cursor: pointer;"><img src="assets/pennylogo-no-bg.png" style="width: 2em;"/>enny-fyt</span>
+            <span class="mdl-layout-title" ng-click="feedButton();" style="cursor: pointer;"><img src="assets/pennylogo-no-bg.png" style="width: 2em;"/>enny-fyt</span>
             <!-- Add spacer, to align navigation to the right -->
             <div class="mdl-layout-spacer"></div>
             <!-- Navigation. We hide it in small screens. -->
@@ -252,7 +252,11 @@
                                 </a>
                             </div>
                             <div class="mdl-card__menu">
-                            <div id="likesFor{{post.$id}}">{{post.likes}} Likes <br /> {{post.raised}} <img src="assets/cent-icon.png" style="width: 1em;"/> Raised</div>
+                                <div id="likesFor{{post.$id}}">
+                                    <span title="Likes">{{post.likes}} <img src="assets/like-icon.png" style="width: 1em;"/></span> 
+                                    <span title="Comments" ng-click="addComment(post);" style="cursor: pointer;">{{post.commentCount}} <img src="assets/comment-icon.png" style="width: 1em;"/></span> 
+                                    <span title="Amount Raised">{{post.raised}}  <img src="assets/cent-icon.png" style="width: 1em;"/></span>
+                                </div>
                             </div>
                             
                             <div id="commentsFor{{post.$id}}" class="commentDisplay"></div>
