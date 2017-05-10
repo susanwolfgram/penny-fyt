@@ -225,7 +225,6 @@
                                     </div>
                                     <div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fullwidth">
                                         <input class="mdl-textfield__input" type="text" id="chooseNPO" value="Tag an NPO" readonly tabIndex="-1">
-                                        <!--<label for="chooseNPO" class="mdl-textfield__label">Tag an NPO</label>-->
                                         <ul for="chooseNPO" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
                                             <li class="mdl-menu__item" ng-repeat="npo in npos" data-val="{{npo.$id}}" ng-click="choseNpo(npo);">{{npo.name}}</li>
                                         </ul>
@@ -284,8 +283,8 @@
                             </div>
                             <div class="mdl-card__menu">
                                 <div id="likesFor{{post.$id}}">
-                                    <span title="Likes">{{post.likes}} <img src="assets/like-icon.png" style="width: 1em;"/></span> 
-                                    <span title="Comments" ng-click="addComment(post);" style="cursor: pointer;">{{post.commentCount}} <img src="assets/comment-icon.png" style="width: 1em;"/></span> 
+                                    <span title="Likes">{{post.likes}} <img src="assets/like-icon.png" style="width: 1em;"/>&nbsp;</span> 
+                                    <span title="Comments" ng-click="addComment(post);" style="cursor: pointer;">{{post.commentCount}} <img src="assets/comment-icon.png" style="width: 1em;"/>&nbsp;</span> 
                                     <span title="Amount Raised">{{post.raised}}  <img src="assets/cent-icon.png" style="width: 1em;"/></span>
                                 </div>
                             </div>
