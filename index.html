@@ -22,6 +22,9 @@
     <!-- Custom CSS -->
     <link href="css/penny.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -227,9 +230,37 @@
                                             <li class="mdl-menu__item" ng-repeat="npo in npos" data-val="{{npo.$id}}" ng-click="choseNpo(npo);">{{npo.name}}</li>
                                         </ul>
                                     </div>
+                                    
                                     <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect postRight">
                                         Post
                                     </button>
+                                    <i class="material-icons postRight" style="margin-right: 1em; cursor: pointer;" ng-click="addPhoto();">add_a_photo</i>
+                                    <div id="photoDiv" class="none">
+                                        
+                                        <div class="file_input_div">
+                                            
+                                            <div class="file_input">
+                                                <label class="image_input_button mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--colored">
+                                                    <i class="material-icons">file_upload</i>
+                                                    <input id="file_input_file" onchange="angular.element(this).scope().previewFile()" class="none" type="file" />
+                                                </label>
+                                                <div class="item">
+                                                    <span class="notify-badge" ng-show="fileName" ng-click="deleteImage();"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                                                    <img src="assets/placeholder-image.png" id="preview" height="100px" width="100px" alt="Image preview..." style="margin-left: 1em;">
+                                                </div>
+                                            </div>
+                                            
+                                            <!--<div id="file_input_text_div" class="mdl-textfield mdl-js-textfield textfield-demo">
+                                                <input class="file_input_text mdl-textfield__input" type="text" disabled readonly id="file_input_text" style="color: black;"/>
+                                                
+                                                <label class="mdl-textfield__label" for="file_input_text"></label>
+                                                ng-show="fileName"
+                                            </div>-->
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                    
                                 </form>
                             </div>
                         </div>
@@ -237,7 +268,7 @@
                     
                     <div id="post-feed"> 
                         <div class="demo-card-wide mdl-card mdl-shadow--2dp" ng-repeat="post in posts" >
-                            <div class="mdl-card__title">
+                            <div class="mdl-card__title" style="height: {{post.height}};"> 
                                 <h2 class="mdl-card__title-text">{{post.text}}</h2>
                             </div>
                             <div class="mdl-card__supporting-text">
@@ -266,9 +297,9 @@
                 </section>
 
                 <!--Reload Credits-->
-                <section id="reload" ng-show="loggedIn">
+                <!--<section id="reload" ng-show="loggedIn">
                     <button ng-click="reloadCredits();" type="submit" class="mdl-button">Reload Credits</button>
-                </section>
+                </section>-->
 
                <!--Login Dialog-->
                 <dialog class="mdl-dialog" id="loginDialog">
@@ -284,6 +315,7 @@
                                 <label class="mdl-textfield__label" for="loginPwd">Password</label>
                             </div>
                         </div>
+                        <div id="loginErrorMsg"></div>
                         <div class="mdl-dialog__actions">
                             <button type="submit" class="mdl-button">Submit</button>
                             <button type="button" class="mdl-button close">Cancel</button>

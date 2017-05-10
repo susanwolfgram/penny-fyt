@@ -154,6 +154,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 
 	$scope.createPost = function() {
 		var npoTagged = document.getElementById("chooseNPO").value;
+		var postHeight = "176px"; 
 		if (npoTagged != "Tag an NPO") {
 			firebase.database().ref().child("posts").push({
 				userID: userIDNum,
@@ -165,13 +166,49 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 				likes: 0,
 				comments: 0,
 				commentCount: 0,
-				following: 0
+				following: 0,
+				height: postHeight
 			});
 			var form = document.getElementById("createPostForm");
 			form.reset();
 		}
 	}
 
+	$scope.addPhoto = function() {
+		var photoDiv = document.getElementById("photoDiv");
+		photoDiv.classList.remove("none");
+		var fileInput = document.getElementById('file_input_file');
+		// fileInput.addEventListener('change', changeInputText);
+		// fileInput.addEventListener('change', changeState);
+	}
+
+	// function changeInputText() {
+	// 	var fileInput = document.getElementById('file_input_file');
+	// 	var fileInputText = document.getElementById('file_input_text');
+	// 	var str = fileInput.value;
+	// 	var i;
+	// 	if (str.lastIndexOf('\\')) {
+	// 		i = str.lastIndexOf('\\') + 1;
+	// 	} else if (str.lastIndexOf('/')) {
+	// 		i = str.lastIndexOf('/') + 1;
+	// 	}
+	// 	fileInputText.value = str.slice(i, str.length);
+	// }
+
+	// function changeState() {
+	// 	var fileInputTextDiv = document.getElementById('file_input_text_div');
+	// 	var fileInputText = document.getElementById('file_input_text');
+	// 	if (fileInputText.value.length != 0) {
+	// 		if (!fileInputTextDiv.classList.contains("is-focused")) {
+	// 			fileInputTextDiv.classList.add('is-focused');
+	// 		}
+	// 	} else {
+	// 		if (fileInputTextDiv.classList.contains("is-focused")) {
+	// 			fileInputTextDiv.classList.remove('is-focused');
+	// 		}
+	// 	}
+	// }
+	
 	$scope.loadfeed = function() {
 		var userRef = firebase.database().ref().child("posts");
 		$scope.posts = $firebaseArray(userRef);
@@ -317,38 +354,49 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
     var imgUrl; 
     
     $scope.previewFile = function(){
-    var file = document.querySelector('input[type=file]').files[0];
-    var metadata = {
-    	contentType: 'image/jpeg'
-    };
+    	var file = document.querySelector('input[type=file]').files[0];
+		var metadata = {
+			contentType: 'image/jpeg'
+		};
 
-    var uploadTask = storageRef.child('images/' + file.name).put(file, metadata);
-    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-    function(snapshot) {
-        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
-        switch (snapshot.state) {
-            case firebase.storage.TaskState.PAUSED: 
-                console.log('Upload is paused');
-                break;
-            case firebase.storage.TaskState.RUNNING:
-                console.log('Upload is running');
-                break;
-        }
-        }, function(error) {
-            console.log('error while uploading')
-        }, function() {
-            var starsRef = storageRef.child('images/'+ file.name);
-            starsRef.getDownloadURL().then(function(url) {
-                document.querySelector('#preview').src=url;
-                imgUrl = url; 
-            }).catch(function(error) {
-                console.log('error while downloading file');
-            });
-        });
-		$scope.fileName = true; 
-		$scope.$digest();
+    	var uploadTask = storageRef.child('images/' + file.name).put(file, metadata);
+		uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+			function(snapshot) {
+				var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+				console.log('Upload is ' + progress + '% done');
+				switch (snapshot.state) {
+					case firebase.storage.TaskState.PAUSED: 
+						console.log('Upload is paused');
+						break;
+					case firebase.storage.TaskState.RUNNING:
+						console.log('Upload is running');
+						break;
+				}
+				}, function(error) {
+					console.log('error while uploading')
+				}, function() {
+					var starsRef = storageRef.child('images/'+ file.name);
+					starsRef.getDownloadURL().then(function(url) {
+						document.querySelector('#preview').src = url;
+						imgUrl = url; 
+						$scope.fileName = true; 
+						$scope.$digest();
+					}).catch(function(error) {
+						console.log('error while downloading file');
+						console.log(error);
+					});
+				});
+			
     }
+
+	$scope.deleteImage = function() {
+		var fileInput = document.getElementById('file_input_file');
+		//var fileInputText = document.getElementById('file_input_text');
+		fileInput.value = "";
+		$scope.fileName = false;
+		document.querySelector('#preview').src = "assets/placeholder-image.png";
+		//$scope.$digest();
+	}
 
 	$scope.feedButton = function () {
 		//feed = true; about = false; discover = false; loadfeed(); npoSignup = false;
