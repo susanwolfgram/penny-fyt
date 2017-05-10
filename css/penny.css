@@ -1,6 +1,6 @@
 /*Navigation styles*/
 
-a {
+a, i {
     cursor: pointer;
 }
 
@@ -294,18 +294,25 @@ iframe {
 }
 .demo-card-wide > .mdl-card__title {
   color: "gray";
-  /*176*/
   height: 176px;
-  background: #739ecf;
+  background: #E3F2FD;
+  /*#BBDEFB;*/
+  
+  /*#739ecf*/
   /*background: url('../assets/pennylogo.png') center / cover;*/
   background-size: contain; 
   background-repeat: no-repeat; 
   background-position: center;
 }
 
-.mdl-card__title-text {
-    background: #739ecf;
+#createPost .mdl-card__title-text, .postStatistics {
+    background: #E3F2FD;
 }
+
+.postStatistics {
+    padding: 0.5em;
+}
+
 .demo-card-wide > .mdl-card__menu {
   color: "gray";
 }
@@ -393,3 +400,46 @@ body {
     border-color: gray;
 }*/
 
+
+/* reload styles */
+
+#reload {
+	background-color: #fff;
+	margin-top: 30px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    padding: 8px;
+    margin-bottom: 0px;
+}
+
+#reload div {
+	padding-left: 5px;
+    padding-right: 5px;
+}
+
+#reload label {
+    font-weight: normal;
+}
+
+#reload button {
+	float: right;
+}
+
+#reload p {
+    font-weight: bold;
+}
+
+.full-input {
+    width: 100%;
+}
+
+.quarter-input {
+	  width: 25%;
+}
+
+#reloadH2 {
+    font-size: 24pt;
+    line-height: 20pt;
+}

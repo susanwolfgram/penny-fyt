@@ -9,6 +9,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 	$scope.showSignup = false;
 	$scope.discover = false;
 	$scope.feed = false;
+	$scope.reload = false;
 	var userRef = firebase.database().ref().child("users");
 	// create a synchronized array
 	$scope.users = $firebaseArray(userRef);
@@ -33,6 +34,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 				$scope.userId = userIdNum;
 	     		currentUser = firebase.database().ref().child("users").child(userIdNum);
 				userObj = $firebaseObject(currentUser);
+				$scope.user = userObj;
 				$scope.loggedIn = true; 
 				$scope.loadNpos();
 				$scope.discover = true;
@@ -78,6 +80,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		$scope.showSignup = false;
 		$scope.discover = false;
 		$scope.feed = false;
+		$scope.reload = false;
 		//$scope.$digest(); 
 	}
 
@@ -121,6 +124,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			userIdNum = userData.uid; 
 	     	currentUser = firebase.database().ref().child("users").child(userIdNum);
 			userObj = $firebaseObject(currentUser);
+			$scope.user = userObj;
 			var form = document.getElementById("loginForm");
 			form.reset();
 			var dialog = document.querySelector('dialog');
@@ -191,36 +195,9 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		} else {
 			photoDiv.classList.add("none");
 		}
-		// fileInput.addEventListener('change', changeInputText);
-		// fileInput.addEventListener('change', changeState);
 	}
 
-	// function changeInputText() {
-	// 	var fileInput = document.getElementById('file_input_file');
-	// 	var fileInputText = document.getElementById('file_input_text');
-	// 	var str = fileInput.value;
-	// 	var i;
-	// 	if (str.lastIndexOf('\\')) {
-	// 		i = str.lastIndexOf('\\') + 1;
-	// 	} else if (str.lastIndexOf('/')) {
-	// 		i = str.lastIndexOf('/') + 1;
-	// 	}
-	// 	fileInputText.value = str.slice(i, str.length);
-	// }
 
-	// function changeState() {
-	// 	var fileInputTextDiv = document.getElementById('file_input_text_div');
-	// 	var fileInputText = document.getElementById('file_input_text');
-	// 	if (fileInputText.value.length != 0) {
-	// 		if (!fileInputTextDiv.classList.contains("is-focused")) {
-	// 			fileInputTextDiv.classList.add('is-focused');
-	// 		}
-	// 	} else {
-	// 		if (fileInputTextDiv.classList.contains("is-focused")) {
-	// 			fileInputTextDiv.classList.remove('is-focused');
-	// 		}
-	// 	}
-	// }
 	
 	$scope.loadfeed = function() {
 		var userRef = firebase.database().ref().child("posts");
@@ -237,43 +214,65 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		document.querySelector(".mdl-menu__container.is-visible").classList.remove("is-visible");
 	}
 
+	$scope.loadReloadSelects = function() {
+		var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+		$scope.months = monthNames;
+		$scope.years = [ "2017", "2018", "2019", "2020", "2021"];
+	}
+
+	$scope.choseMonth = function(month) {
+		document.getElementById("expireM").value = month; 
+		document.querySelector(".mdl-menu__container.is-visible").classList.remove("is-visible");
+	}
+
+	$scope.choseYear = function(year) {
+		document.getElementById("expireY").value = year; 
+		document.querySelector(".mdl-menu__container.is-visible").classList.remove("is-visible");
+	}
+
 	$scope.addComment = function(post) {
 		var commentsDiv = document.getElementById("commentsFor" + post.$id); 
-		var commentsRef = firebase.database().ref().child("posts").child(post.$id).child("comments");	
-		var comments = $firebaseArray(commentsRef);
-		comments.$loaded().then(function(comments) {
-			commentsDiv.innerHTML = ""; 
-			var div = document.createElement("div");
-			div.classList.add("commentsDisplay");
-			commentsDiv.appendChild(div);
-			if (comments.length > 0) {
-				displayComments(comments, post);
-			} 
-			var input = createCommentInput(commentsDiv);
-			input.onkeypress = function(e) {
-				if (!e) e = window.event;
-				var keyCode = e.keyCode || e.which;
-				if (keyCode == '13' && this.value){
-					console.log("enter pressed"); 
-					firebase.database().ref().child("posts").child(post.$id).child("comments").push({
-						user: userIdNum,
-						userFName: userObj.fName,
-						userLName: userObj.lName,
-						text: this.value
-					}).then(function() {
-						var newCred = userObj.credits - 2;
-						firebase.database().ref().child("users").child(userIdNum).child("credits").set(newCred);
-						var newCommentCount = (post.commentCount ? post.commentCount : 0) + 1; 
-						firebase.database().ref().child("posts").child(post.$id).child("commentCount").set(newCommentCount);
-						post.raised += 2;
-						$scope.posts.$save(post);
-						displayComments(comments, post);
-						document.querySelector("#commentsFor" + post.$id + " input").value = "";
-					});
-					return false;
+		if (commentsDiv.innerHTML) {
+			commentsDiv.innerHTML = "";
+		} else {
+			var commentsRef = firebase.database().ref().child("posts").child(post.$id).child("comments");	
+			var comments = $firebaseArray(commentsRef);
+			comments.$loaded().then(function(comments) {
+				commentsDiv.innerHTML = ""; 
+				var div = document.createElement("div");
+				div.classList.add("commentsDisplay");
+				commentsDiv.appendChild(div);
+				if (comments.length > 0) {
+					displayComments(comments, post);
+				} 
+				var input = createCommentInput(commentsDiv);
+				input.onkeypress = function(e) {
+					if (!e) e = window.event;
+					var keyCode = e.keyCode || e.which;
+					if (keyCode == '13' && this.value){
+						if (checkUserCredits("comment")) {
+							console.log("enter pressed"); 
+							firebase.database().ref().child("posts").child(post.$id).child("comments").push({
+								user: userIdNum,
+								userFName: userObj.fName,
+								userLName: userObj.lName,
+								text: this.value
+							}).then(function() {
+								var newCred = userObj.credits - 2;
+								firebase.database().ref().child("users").child(userIdNum).child("credits").set(newCred);
+								var newCommentCount = (post.commentCount ? post.commentCount : 0) + 1; 
+								firebase.database().ref().child("posts").child(post.$id).child("commentCount").set(newCommentCount);
+								post.raised += 2;
+								$scope.posts.$save(post);
+								displayComments(comments, post);
+								document.querySelector("#commentsFor" + post.$id + " input").value = "";
+							});
+							return false;
+						}
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 	
 	function createCommentInput(commentsDiv) {
@@ -323,6 +322,8 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 				icon.title = "Delete comment";
 				icon.onclick = function() {
 					firebase.database().ref().child("posts").child(post.$id).child("comments").child(this.id).remove();
+					var newCount = post.commentCount - 1;
+					firebase.database().ref().child("posts").child(post.$id).child("commentCount").set(newCount);
 					var listItem = this.parentNode;
 					listItem.parentNode.removeChild(listItem);
 				}
@@ -334,12 +335,20 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		div.appendChild(ul);
 	}
 
+	$scope.deletePost = function(post) {
+		if (confirm("Delete this post?")) {
+			firebase.database().ref().child("posts").child(post.$id).remove();
+		}
+	}
+
 	$scope.like = function(post) {
-		post.likes++;
-		post.raised++; 
-		var newCred = userObj.credits--;
-		firebase.database().ref().child("users").child(userIdNum).child("credits").set(newCred);
-		$scope.posts.$save(post);
+		if (checkUserCredits("like")) {
+			post.likes++;
+			post.raised++; 
+			var newCred = userObj.credits - 1;
+			firebase.database().ref().child("users").child(userIdNum).child("credits").set(newCred);
+			$scope.posts.$save(post);
+		}
 	}
 
 	$scope.setUpLoginDialog = function() {
@@ -357,8 +366,13 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 	}
 
 	$scope.reloadCredits = function() {
-		var newCred = userObj.credits + 100;
+		var amount = document.getElementById("amount").value;
+		var centAmount = amount * 100;
+		var newCred = userObj.credits + centAmount;
 		firebase.database().ref().child("users").child(userIdNum).child("credits").set(newCred);
+		var form = document.getElementById("reloadForm");
+		form.reset();
+		alert("Successfully added $" + amount + " to your account!");
 	}
 
 	$scope.fileName = false;
@@ -421,6 +435,16 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			//$scope.$digest();
 		}
 	}
+
+	function checkUserCredits(type) {
+		var amount = type == "like" ? 1 : 2; 
+		if (userObj.credits < amount) {
+			alert("Insufficient funds, please reload your account. This can be done through your user profile page.");
+			return false;
+		} else {
+			return true;
+		}
+	}
 });
 
 // app.directive('nop', function(){
@@ -430,3 +454,26 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 // 		}))
 // 	}
 // });
+
+// function alert2(message, title, buttonText) {
+
+//     buttonText = (buttonText == undefined) ? "Ok" : buttonText;
+//     title = (title == undefined) ? "The page says:" : title;
+
+//     var div = $('<div>');
+//     div.html(message);
+//     div.attr('title', title);
+//     div.dialog({
+//         autoOpen: true,
+//         modal: true,
+//         draggable: false,
+//         resizable: false,
+//         buttons: [{
+//             text: buttonText,
+//             click: function () {
+//                 $(this).dialog("close");
+//                 div.remove();
+//             }
+//         }]
+//     });
+// }

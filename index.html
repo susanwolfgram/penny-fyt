@@ -62,7 +62,7 @@
 <body id="page-top" ng-app="myApp" ng-controller="myCtrl" ng-init="setUpLoginDialog();">
 
     <!-- Navigation -->
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" ng-cloak>
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
             <!-- Title -->
@@ -73,11 +73,12 @@
             <!--mdl-layout--large-screen-only-->
             <nav class="mdl-navigation">
                 <!--<a class="mdl-navigation__link" ng-show="loggedIn && !feed" ng-click="feed = true; about = false; discover = false; loadfeed(); npoSignup = false;">Home</a>-->
-                <a class="mdl-navigation__link" ng-show="!about" ng-click="about = true; showSignup = false; feed = false; discover = false; npoSignup = false;">About</a>
-                <a class="mdl-navigation__link" ng-show="!discover" ng-click="discover = true; about = false; feed = false; loadNpos(); npoSignup = false; showSignup = false;">Discover</a>
+                <a class="mdl-navigation__link" ng-show="!about" ng-click="about = true; showSignup = false; feed = false; discover = false; npoSignup = false; reload = false;">About</a>
+                <a class="mdl-navigation__link" ng-show="!discover" ng-click="discover = true; about = false; feed = false; loadNpos(); npoSignup = false; showSignup = false; reload = false;">Discover</a>
                 <a class="mdl-navigation__link" ng-show="!loggedIn && !showSignup" ng-click="showSignup = true; about = false; npoSignup = false; discover = false;">Sign Up</a>
                 <a class="mdl-navigation__link" id="show-dialog" ng-show="!loggedIn">Login</a>
                 <a class="mdl-navigation__link" ng-show="loggedIn" ng-click="logOut(); npoSignup = false;">Log Out</a>
+                <a class="mdl-navigation__link" ng-show="loggedIn && !reload" ng-click="reload = true; loadReloadSelects(); about = false; showSignup = false; feed = false; discover = false; npoSignup = false;;">{{user.credits}}&nbsp;¢</a>
             </nav>
             </div>
         </header>
@@ -235,9 +236,7 @@
                                     </button>
                                     <i class="material-icons postRight" style="margin-right: 1em; cursor: pointer;" ng-click="addPhoto();">add_a_photo</i>
                                     <div id="photoDiv" class="none">
-                                        
                                         <div class="file_input_div">
-                                            
                                             <div class="file_input">
                                                 <label class="image_input_button mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--colored">
                                                     <i class="material-icons">file_upload</i>
@@ -248,18 +247,8 @@
                                                     <img src="assets/placeholder-image.png" id="preview" height="100px" width="100px" alt="Image preview..." style="margin-left: 1em;">
                                                 </div>
                                             </div>
-                                            
-                                            <!--<div id="file_input_text_div" class="mdl-textfield mdl-js-textfield textfield-demo">
-                                                <input class="file_input_text mdl-textfield__input" type="text" disabled readonly id="file_input_text" style="color: black;"/>
-                                                
-                                                <label class="mdl-textfield__label" for="file_input_text"></label>
-                                                ng-show="fileName"
-                                            </div>-->
-                                            
                                         </div>
-                                        
                                     </div>
-                                    
                                 </form>
                             </div>
                         </div>
@@ -280,11 +269,11 @@
                                 <a ng-click="addComment(post);" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                                     Comment
                                 </a>
-                                <i class="material-icons" style="float:right; margin-top: .2em;" ng-show="post.userId == userId">delete</i>
+                                <i class="material-icons" style="float:right; margin-top: .2em;" ng-show="post.userId == userId" ng-click="deletePost(post);" title="Delete post">delete</i>
                             </div>
                             <div class="mdl-card__menu">
-                                <div id="likesFor{{post.$id}}">
-                                    <span title="Likes">{{post.likes}} <img src="assets/like-icon.png" style="width: 1em;"/>&nbsp;</span> 
+                                <div id="likesFor{{post.$id}}" class="postStatistics">
+                                    <span title="Likes">&nbsp;{{post.likes}} <img src="assets/like-icon.png" style="width: 1em;"/>&nbsp;</span> 
                                     <span title="Comments" ng-click="addComment(post);" style="cursor: pointer;">{{post.commentCount}} <img src="assets/comment-icon.png" style="width: 1em;"/>&nbsp;</span> 
                                     <span title="Amount Raised">{{post.raised}}  <img src="assets/cent-icon.png" style="width: 1em;"/></span>
                                 </div>
@@ -298,9 +287,60 @@
                 </section>
 
                 <!--Reload Credits-->
-                <!--<section id="reload" ng-show="loggedIn">
-                    <button ng-click="reloadCredits();" type="submit" class="mdl-button">Reload Credits</button>
-                </section>-->
+                <section id="reload" ng-show="loggedIn && reload">
+                    <div>
+                        <form id="reloadForm">
+                            <div id="reload-form" class="form-group">
+                                <h2 id="reloadH2">Reload Account</h2>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <label for="paymeth">Saved Cards:</label>
+                                    <select class="mdl-selectfield" id="paymeth">
+                                        <option value="" disabled selected>Choose your option</option>
+                                        <!-- user's saved payments go here -->
+                                    </select>
+                                </div>
+                                <div>
+                                    <p>OR Use a New Card:</p>
+                                </div>
+                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-input">
+                                    <label class="mdl-textfield__label" for="cardname">Name on Card</label>
+                                    <input class="mdl-textfield__input" type="text" class="form-control" min="1" id="cardname">
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-input">
+                                    <label class="mdl-textfield__label" for="cardnum">Card Number</label>
+                                    <input class="mdl-textfield__input" type="number" class="form-control" min="1" max="9999999999999999" id="cardnum">
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fullwidth">
+                                    <input class="mdl-textfield__input" type="text" id="expireM" value="Expiration Month" readonly tabIndex="-1">
+                                    <ul for="expireM" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                                        <li class="mdl-menu__item" ng-repeat="month in months" data-val="{{month}}" ng-click="choseMonth(month);">{{month}}</li>
+                                    </ul>
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fullwidth quarter-input" style="float:right;">
+                                    <input class="mdl-textfield__input" type="text" id="expireY" value="Year" readonly tabIndex="-1">
+                                    <ul for="expireY" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                                        <li class="mdl-menu__item" ng-repeat="year in years" data-val="{{year}}" ng-click="choseYear(year);">{{year}}</li>
+                                    </ul>
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label quarter-input">
+                                    <label class="mdl-textfield__label" for="cardcode">CVV</label>
+                                    <input class="mdl-textfield__input" type="number" class="form-control" min="1" id="cardcode">
+                                </div>
+
+                               
+
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-input">
+                                    <label class="mdl-textfield__label" for="amount">Amount ($1.00 minimum)</label>
+                                    <!-- should only be allowed to enter monetary value over $1.00 --> 
+                                    <input class="mdl-textfield__input" type="number" class="form-control" min="1" step=".01" id="amount">
+                                </div>
+                                <div>
+                                    <button type="submit" class="mdl-button" ng-click="reloadCredits();">Reload</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
 
                <!--Login Dialog-->
                 <dialog class="mdl-dialog" id="loginDialog">
