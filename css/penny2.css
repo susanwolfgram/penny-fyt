@@ -9,7 +9,7 @@ nav a:hover {
 }
 
 .mdl-layout__header {
-    background-color: white;
+    background-color: #42709e;
 }
 
 /* start about page styles */
@@ -18,7 +18,6 @@ h1 {
 }
 
 .about-section {
-    text-align: center;
     background: #fff;
     margin-bottom: 40px;
 }
@@ -35,7 +34,7 @@ h1 {
 /* end Landing page styles */
 
 /* start sign up page styles */
-#signup, #createPost, #npoSignup, #reload {
+#signup, #createPost, #npoSignup {
     margin-left: auto;
     margin-right: auto;
     width: 50%;
@@ -88,7 +87,6 @@ h1 {
     color: black;
     font-weight: bold;
 }
-
 
 /* discover page styles */
 /* adapted from sherry's content management pg to keep post tags consistent */
@@ -170,34 +168,22 @@ h1 {
     border-bottom: 1px dotted #000;
 }
 
-
 /* profile page styles */
 
-.profile {
-    padding: 5px;
-    border-radius: 5px;
-}
-
 .profile-pic {
-    height: 200px;
-    width: 200px;
-    display: block;
-    float: left;
-    margin-right: 25px;
+    height: 170px;
+    width: 170px;
+    margin: 10px;
+    border-radius: 50%;
 }
 
 .profile-name {
-    display: inline;
-    font-size: 55px;
-    
+    font-size: 23px;
+    font-weight: bold;
 }
 
 .profile-funds {
-    border-bottom: 1px dotted #000;
-    display: inline-block;
-    font-size: 30px;
-    position: relative;
-    right: -10px;
+    font-size: 23px;
     color: gray;
 }
 
@@ -246,7 +232,6 @@ h1 {
     float: right;
 }
 
-
 /* discover MD styles */
 .demo-card-square.mdl-card {
   width: 320px;
@@ -265,7 +250,6 @@ h1 {
 #card-feed > div {
     margin: 2em;
 }
-
 
 /* feed MD styles */
 
@@ -315,8 +299,8 @@ h1 {
 }*/
 
 #npo-signup, #npo-signup-banner-right a {
-    background-color: #687E5A;
-    color: white;
+    background-color: #fff;
+    color: #000;
 }
 
 #npo-signup-banner-left, #npo-signup-banner-right {
@@ -363,4 +347,9 @@ ol, li {
     list-style-type: none;
     padding-left: 30px;
     text-align: left;
+}
+
+h2 {
+    font-size: 24pt;
+    line-height: 20pt;
 }
