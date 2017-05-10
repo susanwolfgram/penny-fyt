@@ -3,7 +3,7 @@ var app = angular.module("myApp", ["firebase"]);
 app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $firebaseAuth, $interval) {
 	var user;
 	var userObj;
-	var userIDNum;
+	var userIdNum;
 	$scope.loggedIn = false; 
 	$scope.about = true;
 	$scope.showSignup = false;
@@ -20,7 +20,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			firebase.auth().createUserWithEmailAndPassword($scope.email, $scope.pwd).then(function(userData) {
 			  	console.log("User " + userData.uid + " created successfully!");
 			  	user = firebase.auth().currentUser;
-				userIDNum = userData.uid; 
+				userIdNum = userData.uid; 
 				firebase.database().ref().child("users").child(userData.uid).set({
 			      email: $scope.email,
 				  fName: $scope.fName,
@@ -29,8 +29,9 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			    });
 				var form = document.getElementById("signupForm");
 				form.reset();
-				userIDNum = userData.uid; 
-	     		currentUser = firebase.database().ref().child("users").child(userIDNum);
+				userIdNum = userData.uid; 
+				$scope.userId = userIdNum;
+	     		currentUser = firebase.database().ref().child("users").child(userIdNum);
 				userObj = $firebaseObject(currentUser);
 				$scope.loggedIn = true; 
 				$scope.loadNpos();
@@ -58,12 +59,12 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 
 	$scope.follow = function(npo) {
 		if ($scope.loggedIn) {
-			firebase.database().ref().child("users").child(userIDNum).child("following").child(npo.$id).set({
+			firebase.database().ref().child("users").child(userIdNum).child("following").child(npo.$id).set({
 				name: npo.name
 			}).then(function() {
 				console.log("followed " + npo.name);
 			});
-			firebase.database().ref().child("npos").child(npo.$id).child("followers").child(userIDNum).set({
+			firebase.database().ref().child("npos").child(npo.$id).child("followers").child(userIdNum).set({
 				fName: userObj.fName,
 				lName: userObj.lName
 			}).then(function() {
@@ -117,14 +118,15 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		console.log("login");
 		firebase.auth().signInWithEmailAndPassword($scope.loginEmail, $scope.loginPwd).then(function(userData) {
 			user = firebase.auth().currentUser;
-			userIDNum = userData.uid; 
-	     	currentUser = firebase.database().ref().child("users").child(userIDNum);
+			userIdNum = userData.uid; 
+	     	currentUser = firebase.database().ref().child("users").child(userIdNum);
 			userObj = $firebaseObject(currentUser);
 			var form = document.getElementById("loginForm");
 			form.reset();
 			var dialog = document.querySelector('dialog');
 			dialog.close();
 			$scope.loggedIn = true; 
+			$scope.userId = userIdNum;
 			allSectionsFalse();
 			$scope.loadfeed();
 			$scope.loadNpos(); 
@@ -154,10 +156,12 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 
 	$scope.createPost = function() {
 		var npoTagged = document.getElementById("chooseNPO").value;
-		var postHeight = "176px"; 
+		var bgImgCss = imgUrl ? "background-image: url('" + imgUrl + "')" : ""; 
+		//imgUrl = imgUrl ? imgUrl : 0; 
+		var postHeight = imgUrl ? "412px" : "176px"; 
 		if (npoTagged != "Tag an NPO") {
 			firebase.database().ref().child("posts").push({
-				userID: userIDNum,
+				userId: userIdNum,
 				userFName: userObj.fName,
 				userLName: userObj.lName,
 				text: $scope.postText,
@@ -167,17 +171,26 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 				comments: 0,
 				commentCount: 0,
 				following: 0,
-				height: postHeight
+				height: postHeight,
+				bg: bgImgCss
 			});
 			var form = document.getElementById("createPostForm");
 			form.reset();
+			document.getElementById("createPostTextarea").placeholder = "Write a post...";
+			$scope.deleteImage();
+			if (!document.getElementById("photoDiv").classList.contains("none")) {
+				photoDiv.classList.add("none");
+			}
 		}
 	}
 
 	$scope.addPhoto = function() {
 		var photoDiv = document.getElementById("photoDiv");
-		photoDiv.classList.remove("none");
-		var fileInput = document.getElementById('file_input_file');
+		if (photoDiv.classList.contains("none")) {
+			photoDiv.classList.remove("none");
+		} else {
+			photoDiv.classList.add("none");
+		}
 		// fileInput.addEventListener('change', changeInputText);
 		// fileInput.addEventListener('change', changeState);
 	}
@@ -243,13 +256,13 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 				if (keyCode == '13' && this.value){
 					console.log("enter pressed"); 
 					firebase.database().ref().child("posts").child(post.$id).child("comments").push({
-						user: userIDNum,
+						user: userIdNum,
 						userFName: userObj.fName,
 						userLName: userObj.lName,
 						text: this.value
 					}).then(function() {
 						var newCred = userObj.credits - 2;
-						firebase.database().ref().child("users").child(userIDNum).child("credits").set(newCred);
+						firebase.database().ref().child("users").child(userIdNum).child("credits").set(newCred);
 						var newCommentCount = (post.commentCount ? post.commentCount : 0) + 1; 
 						firebase.database().ref().child("posts").child(post.$id).child("commentCount").set(newCommentCount);
 						post.raised += 2;
@@ -301,7 +314,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			userSpan.style.marginRight = "1em";
 			li.appendChild(userSpan);
 			li.appendChild(span);
-			if (comments[i].user == userIDNum) {
+			if (comments[i].user == userIdNum) {
 				var icon = document.createElement("i");
 				icon.classList.add("material-icons");
 				icon.classList.add("mdl-list__item-icon");
@@ -325,7 +338,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		post.likes++;
 		post.raised++; 
 		var newCred = userObj.credits--;
-		firebase.database().ref().child("users").child(userIDNum).child("credits").set(newCred);
+		firebase.database().ref().child("users").child(userIdNum).child("credits").set(newCred);
 		$scope.posts.$save(post);
 	}
 
@@ -345,7 +358,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 
 	$scope.reloadCredits = function() {
 		var newCred = userObj.credits + 100;
-		firebase.database().ref().child("users").child(userIDNum).child("credits").set(newCred);
+		firebase.database().ref().child("users").child(userIdNum).child("credits").set(newCred);
 	}
 
 	$scope.fileName = false;
@@ -395,6 +408,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		fileInput.value = "";
 		$scope.fileName = false;
 		document.querySelector('#preview').src = "assets/placeholder-image.png";
+		imgUrl = "";
 		//$scope.$digest();
 	}
 

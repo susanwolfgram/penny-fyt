@@ -298,6 +298,13 @@ iframe {
   height: 176px;
   background: #739ecf;
   /*background: url('../assets/pennylogo.png') center / cover;*/
+  background-size: contain; 
+  background-repeat: no-repeat; 
+  background-position: center;
+}
+
+.mdl-card__title-text {
+    background: #739ecf;
 }
 .demo-card-wide > .mdl-card__menu {
   color: "gray";
