@@ -56,84 +56,36 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
             <!-- Navigation. We hide it in small screens. -->
             <!--mdl-layout--large-screen-only-->
             <nav class="mdl-navigation">
-            <!--
                 <a class="mdl-navigation__link" ng-show="loggedIn && !feed" ng-click="feed = true; about = false; discover = false; loadfeed(); npoSignup = false;">Home</a>
-                -->
                 <a class="mdl-navigation__link" ng-show="!about" ng-click="about = true; showSignup = false; feed = false; discover = false; npoSignup = false;">About</a>
                 <a class="mdl-navigation__link" ng-show="!discover" ng-click="discover = true; about = false; feed = false; loadNpos(); npoSignup = false; showSignup = false;">Discover</a>
                 <a class="mdl-navigation__link" ng-show="!loggedIn && !showSignup" ng-click="showSignup = true; about = false; npoSignup = false; discover = false;">Sign Up</a>
                 <a class="mdl-navigation__link" id="show-dialog" ng-show="!loggedIn">Login</a>
-                <!--<a class="mdl-navigation__link" ng-show="loggedIn" ng-click="logOut(); npoSignup = false;">Log Out</a>-->
+                <a class="mdl-navigation__link" ng-show="loggedIn" ng-click="logOut(); npoSignup = false;">Log Out</a>
+
+                <button id="demo-menu-lower-right"
+                        class="mdl-button mdl-js-button mdl-button--icon">
+                  <i class="material-icons">more_vert</i>
+                </button>
+
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+                    for="demo-menu-lower-right">
+                    <li disabled class="mdl-menu__item profile-pic-section"><img src="" class="profile-pic" alt="profile image" /></li>
+                    <li class="mdl-menu__item">
+                        <div class="file_input_div">
+                            <div class="file_input">
+                              <label class="image_input_button mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--colored">
+                                <i class="material-icons">file_upload</i>
+                                <input id="file_input_file" class="none" type="file" />
+                              </label>
+                            </div>
+                          </div>
+                    </li>
+                    <li class="mdl-menu__item">Reload Account</li>
+                </ul>
             </nav>
             </div>
         </header>
-
-    <!-- content goes here --> 
-    <section id="reload">
-        <div>
-            <h2>Reload Account</h2>
-            <div id="reload-form" class="form-group">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <label for="paymeth">Saved Cards:</label>
-                    <select class="mdl-selectfield" id="paymeth">
-                        <option value="" disabled selected>Choose your option</option>
-                        <!-- user's saved payments go here -->
-                    </select>
-                </div>
-                <div>
-                    <p>OR Use a New Card:</p>
-                </div>
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-input">
-                    <label class="mdl-textfield__label" for="cardnum">Card Number</label>
-                    <input class="mdl-textfield__input" type="number" class="form-control" min="1" max="9999999999999999" id="cardnum">
-                </div>
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <label for="fName">Expires:</label>
-                    <select class="mdl-selectfield" name='expireMM' id='expireMM'>
-                        <option value=''>Month</option>
-                        <option value='01'>January</option>
-                        <option value='02'>February</option>
-                        <option value='03'>March</option>
-                        <option value='04'>April</option>
-                        <option value='05'>May</option>
-                        <option value='06'>June</option>
-                        <option value='07'>July</option>
-                        <option value='08'>August</option>
-                        <option value='09'>September</option>
-                        <option value='10'>October</option>
-                        <option value='11'>November</option>
-                        <option value='12'>December</option>
-                    </select> 
-                    <select class="mdl-selectfield" name='expireYY' id='expireYY'>
-                        <option value=''>Year</option>
-                        <option value='10'>2010</option>
-                        <option value='11'>2011</option>
-                        <option value='12'>2012</option>
-                    </select>
-                </div>
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label quarter-input">
-                    <label class="mdl-textfield__label" for="cardcode">CVV</label>
-                    <input class="mdl-textfield__input" type="number" class="form-control" min="1" id="cardcode">
-                </div>
-
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-input">
-                    <label class="mdl-textfield__label" for="cardname">Name on Card</label>
-                    <input class="mdl-textfield__input" type="text" class="form-control" min="1" id="cardname">
-                </div>
-
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-input">
-                    <label class="mdl-textfield__label" for="amount">Amount ($1.00 minimum)</label>
-                    <!-- should only be allowed to enter monetary value over $1.00 --> 
-                    <input class="mdl-textfield__input" type="number" class="form-control" min="1" id="amount">
-                </div>
-
-                <div>
-                    <button type="submit" class="mdl-button">Reload!</button>
-                </div>
-            </div>
-        </div>
-    </section>
-    
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
