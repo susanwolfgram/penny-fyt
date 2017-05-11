@@ -184,7 +184,8 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 				commentCount: 0,
 				following: 0,
 				height: postHeight,
-				bg: bgImgCss
+				bg: bgImgCss,
+				time: firebase.database.ServerValue.TIMESTAMP
 			});
 			var form = document.getElementById("createPostForm");
 			form.reset();
