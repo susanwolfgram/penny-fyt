@@ -51,7 +51,9 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 				firebase.database().ref().child("npos").child(userData.uid).set({
 					npoId: userData.uid,
 					name: $scope.npoName,
-					npoEmail: $scope.npoEmail
+					npoEmail: $scope.npoEmail,
+					balance: 0,
+					raised: 0
 				});
 				var form = document.getElementById("npoSignupForm");
 				form.reset();
@@ -170,6 +172,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 				userLName: userObj.lName,
 				text: $scope.postText,
 				npo: npoTagged,
+				npoId: chosenNpoId,
 				raised: 0,
 				likes: 0,
 				comments: 0,
@@ -209,8 +212,10 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		$scope.npos = $firebaseArray(userRef);
 	}
 
+	var chosenNpoId; 
 	$scope.choseNpo = function(npo) {
 		document.getElementById("chooseNPO").value = npo.name;
+		chosenNpoId = npo.$id; 
 		document.querySelector(".mdl-menu__container.is-visible").classList.remove("is-visible");
 	}
 
@@ -264,6 +269,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 								firebase.database().ref().child("posts").child(post.$id).child("commentCount").set(newCommentCount);
 								post.raised += 2;
 								$scope.posts.$save(post);
+								incrementNpoCredit(post.npoId, 2);
 								displayComments(comments, post);
 								document.querySelector("#commentsFor" + post.$id + " input").value = "";
 							});
@@ -294,6 +300,16 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		commentsDiv.appendChild(inputDiv);
 		componentHandler.upgradeElements(inputDiv);
 		return input;
+	}
+
+	function incrementNpoCredit(npoId, amount) {
+		var npo = $firebaseObject(firebase.database().ref().child("npos").child(npoId));
+		npo.$loaded().then(function() { 
+			var newRaised = npo.raised ? npo.raised + amount : amount; 
+			var newBalance = npo.balance ? npo.balance + amount : amount; 
+			firebase.database().ref().child("npos").child(npoId).child("raised").set(newRaised);
+			firebase.database().ref().child("npos").child(npoId).child("balance").set(newBalance);
+		});
 	}
 
 	function displayComments(comments, post) {
@@ -348,6 +364,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			var newCred = userObj.credits - 1;
 			firebase.database().ref().child("users").child(userIdNum).child("credits").set(newCred);
 			$scope.posts.$save(post);
+			incrementNpoCredit(post.npoId, 1);
 		}
 	}
 
