@@ -31,7 +31,19 @@
 }
 
 .full-input {
+	position: relative;
     width: 100%;
+}
+
+.input-amount {
+	margin-left: 13px;
+}
+
+.full-input span {
+	color: #ccc; 
+	position: absolute; 
+	left: 0px; 
+	top: 35%;
 }
 
 .quarter-input {

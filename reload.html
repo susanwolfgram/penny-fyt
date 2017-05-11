@@ -106,9 +106,11 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
                     </select> 
                     <select class="mdl-selectfield" name='expireYY' id='expireYY'>
                         <option value=''>Year</option>
-                        <option value='10'>2010</option>
-                        <option value='11'>2011</option>
-                        <option value='12'>2012</option>
+                        <option value='10'>2017</option>
+                        <option value='11'>2018</option>
+                        <option value='12'>2019</option>
+                        <option value='12'>2020</option>
+                        <option value='12'>2021</option>
                     </select>
                 </div>
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label quarter-input">
@@ -118,13 +120,14 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
 
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-input">
                     <label class="mdl-textfield__label" for="cardname">Name on Card</label>
-                    <input class="mdl-textfield__input" type="text" class="form-control" min="1" id="cardname">
+                    <input class="mdl-textfield__input" type="text" class="form-control" id="cardname">
                 </div>
 
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-input">
-                    <label class="mdl-textfield__label" for="amount">Amount ($1.00 minimum)</label>
+                    <label class="mdl-textfield__label input-amount" for="amount">Amount ($1.00 minimum)</label>
                     <!-- should only be allowed to enter monetary value over $1.00 --> 
-                    <input class="mdl-textfield__input" type="number" class="form-control" min="1" id="amount">
+                    <input class="mdl-textfield__input input-amount" step=".01" type="number" class="form-control" min="1" id="amount">
+                    <span>$</span>
                 </div>
 
                 <div>
