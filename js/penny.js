@@ -10,6 +10,11 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 	$scope.discover = false;
 	$scope.feed = false;
 	$scope.reload = false;
+	$scope.stepOne = true;
+	$scope.stepTwo = false;
+	$scope.stepThree = false;
+	$scope.stepFour = false;
+	$scope.stepFive = false;
 	var userRef = firebase.database().ref().child("users");
 	// create a synchronized array
 	$scope.users = $firebaseArray(userRef);
@@ -444,7 +449,6 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 	}
 
 	$scope.feedButton = function () {
-		//feed = true; about = false; discover = false; loadfeed(); npoSignup = false;
 		if ($scope.loggedIn && !$scope.feed) {
 			allSectionsFalse();
 			$scope.feed = true;

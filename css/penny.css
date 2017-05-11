@@ -17,12 +17,104 @@ h1 {
     font-size: 3em;
 }
 
-iframe {
+/*iframe {
     width: 560px;
     height: 314px;
     margin: auto;
+}*/
+
+#about {
+    background: #E3F2FD;
+    margin-bottom: 40px;
 }
-.about-section {
+
+#about p {
+    margin-top: 25px;
+    font-size: 12pt;
+    line-height: 24pt;
+    text-align: left;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#header-title {
+    background-image: url("../assets/stock-image1.jpeg");
+    background-size: cover;
+    background-position: 0px -300px;
+    height: 500px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+#filter {
+    background-color: black;
+    position: absolute;
+    opacity: .5;
+    height: 500px;
+    width: 100%;
+    z-index: 1;
+}
+
+#header-title-text {
+    align-self: center;
+    position: relative;
+    z-index: 2;
+}
+
+#title-text {
+    color: white;
+    font-size: 56pt;
+}
+
+#header-tagline {
+    color: white;
+    font-size: 18pt;
+}
+
+ol, li {
+    border-radius: 5px;
+    font-size: 14pt;
+    list-style-type: none;
+    line-height: 24pt;
+    padding-left: 30px;
+    text-align: left;
+}
+
+li:hover {
+    cursor: pointer;
+}
+
+h2 {
+    font-size: 24pt;
+    line-height: 20pt;
+}
+
+.tutorial img {
+    max-width: 100%;
+}
+
+.selected {
+    background-color: #42709e;
+    color: #fff;
+}
+
+#about-section {
+    border-radius: 5px;
+    margin-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    width: 80%;
+}
+
+#how-to {
+    margin-bottom: 70px;
+}
+
+/*.about-section {
     text-align: center;
     background: #fff;
     margin-bottom: 40px;
@@ -35,9 +127,9 @@ iframe {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
-}
+}*/
 
-/* end Landing page styles */
+/* end about page styles */
 
 /* start sign up page styles */
 #signup, #createPost, #npoSignup {
