@@ -17,16 +17,17 @@ h1 {
     font-size: 3em;
 }
 
-.about-section {
-    background: #fff;
+#about {
+    background: #E3F2FD;
     margin-bottom: 40px;
 }
 
 #about p {
     margin-top: 25px;
-    font-size: 1.1em;
+    font-size: 12pt;
+    line-height: 24pt;
     text-align: left;
-    width: 80%;
+    width: 85%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -298,39 +299,29 @@ h1 {
     border-color: gray;
 }*/
 
-#npo-signup, #npo-signup-banner-right a {
-    background-color: #fff;
-    color: #000;
-}
-
-#npo-signup-banner-left, #npo-signup-banner-right {
-    display: inline-block;
-    font-weight: bold;
-    height: 50px;
-    padding-left: 25px;
-    padding-right: 25px;
-}
-
-#npo-signup-banner-right a, #npo-signup-banner-left p {
-    font-weight: bold;
-    line-height: 50px;
-}
-
-#npo-signup-banner-right {
-    float: right;
-}
-
 #header-title {
-    background-color: black;
-    height: 400px;
-    opacity: .5;
+    background-image: url("../assets/stock-image1.jpeg");
+    background-size: cover;
+    background-position: 0px -300px;
+    height: 500px;
     text-align: center;
     display: flex;
     justify-content: center;
 }
 
+#filter {
+    background-color: black;
+    position: absolute;
+    opacity: .5;
+    height: 500px;
+    width: 100%;
+    z-index: 1;
+}
+
 #header-title-text {
     align-self: center;
+    position: relative;
+    z-index: 2;
 }
 
 #title-text {
@@ -344,12 +335,42 @@ h1 {
 }
 
 ol, li {
+    border-radius: 5px;
+    font-size: 14pt;
     list-style-type: none;
+    line-height: 24pt;
     padding-left: 30px;
     text-align: left;
+}
+
+li:hover {
+    cursor: pointer;
 }
 
 h2 {
     font-size: 24pt;
     line-height: 20pt;
+}
+
+.tutorial img {
+    max-width: 100%;
+}
+
+.selected {
+    background-color: #42709e;
+    color: #fff;
+}
+
+#about-section {
+    border-radius: 5px;
+    margin-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    width: 80%;
+}
+
+#how-to {
+    margin-bottom: 70px;
 }

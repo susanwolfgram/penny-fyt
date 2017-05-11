@@ -61,7 +61,6 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
                 <a class="mdl-navigation__link" ng-show="!discover" ng-click="discover = true; about = false; feed = false; loadNpos(); npoSignup = false; showSignup = false;">Discover</a>
                 <a class="mdl-navigation__link" ng-show="!loggedIn && !showSignup" ng-click="showSignup = true; about = false; npoSignup = false; discover = false;">Sign Up</a>
                 <a class="mdl-navigation__link" id="show-dialog" ng-show="!loggedIn">Login</a>
-                <a class="mdl-navigation__link" ng-show="loggedIn" ng-click="logOut(); npoSignup = false;">Log Out</a>
 
                 <button id="demo-menu-lower-right"
                         class="mdl-button mdl-js-button mdl-button--icon">
@@ -70,22 +69,24 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
 
                 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
                     for="demo-menu-lower-right">
-                    <li disabled class="mdl-menu__item profile-pic-section"><img src="" class="profile-pic" alt="profile image" /></li>
-                    <li class="mdl-menu__item">
-                        <div class="file_input_div">
-                            <div class="file_input">
-                              <label class="image_input_button mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--colored">
-                                <i class="material-icons">file_upload</i>
-                                <input id="file_input_file" class="none" type="file" />
-                              </label>
-                            </div>
-                          </div>
-                    </li>
+                    <li disabled class="mdl-menu__item profile-pic-section"><img src="assets/1.png" class="profile-pic" alt="profile image" /></li>
                     <li class="mdl-menu__item">Reload Account</li>
+                    <li class="mdl-menu__item" ng-click="logOut(); npoSignup = false;">Log Out</li>
                 </ul>
             </nav>
             </div>
         </header>
+
+        <!--
+        <div class="file_input_div">
+            <div class="file_input">
+                <label class="image_input_button mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--colored">
+                <i class="material-icons">file_upload</i>
+                <input id="file_input_file" class="none" type="file" />
+                </label>
+            </div>
+        </div>
+        -->
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
