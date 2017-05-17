@@ -2,7 +2,7 @@
 	background-color: #ccc;
 }*/
 
-#reload, #profile {
+#reload {
 	background-color: #fff;
 	margin-top: 30px;
     text-align: left;
@@ -52,11 +52,6 @@
 }
 
 /* profile css */
-.profile-pic-section {
-	height: 200px;
-	text-align: center;
-}
-
 .file_input_div {
   margin: auto;
   width: 200px;
@@ -75,4 +70,37 @@
 
 .none {
   display: none !important;
+}
+
+#profile {
+	padding: 35px;
+	text-align: center;
+}
+
+.profile-half {
+	display: inline-block;
+	font-weight: bold;
+	padding: 15px;
+	width: 40%;
+}
+
+.profile-name-section {
+	padding: 10px;
+}
+
+.profile-number {
+	display: block;
+	font-size: 20pt;
+	text-align: center;
+}
+
+.mdl-button--mini-fab, .follow-button {
+	background-color: white;
+	color: black;
+}
+
+.profile-pic-sm {
+	height: 30px;
+	width: 30px;
+	border-radius: 50%;
 }

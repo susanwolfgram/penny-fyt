@@ -62,20 +62,83 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
                 <a class="mdl-navigation__link" ng-show="!loggedIn && !showSignup" ng-click="showSignup = true; about = false; npoSignup = false; discover = false;">Sign Up</a>
                 <a class="mdl-navigation__link" id="show-dialog" ng-show="!loggedIn">Login</a>
 
+                <span>
+                <img src="assets/penny-icon.png" class="profile-pic-sm" /> John Doe
                 <button id="demo-menu-lower-right"
                         class="mdl-button mdl-js-button mdl-button--icon">
+                        
                   <i class="material-icons">more_vert</i>
                 </button>
+                </span>
 
                 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
                     for="demo-menu-lower-right">
-                    <li disabled class="mdl-menu__item profile-pic-section"><img src="assets/1.png" class="profile-pic" alt="profile image" /></li>
+                    <li class="mdl-menu__item">View Profile</li>
                     <li class="mdl-menu__item">Reload Account</li>
                     <li class="mdl-menu__item" ng-click="logOut(); npoSignup = false;">Log Out</li>
                 </ul>
             </nav>
             </div>
         </header>
+
+        <section id="profile">
+            <div>
+                <img src="assets/penny-icon.png" class="profile-pic" alt="profile thumbanil" />
+
+                <div>
+                    <button class="mdl-button mdl-js-button follow-button">
+                        Change profile image
+                    </button>
+                </div>
+
+                <div id="profile-pic-upload">
+                    <div>
+                        <label class="image_input_button mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--colored">
+                            <i class="material-icons">file_upload</i>
+                            <input id="file_input_file" onchange="angular.element(this).scope().previewFile()" class="none" type="file" />
+                        </label>
+                        <div class="item">
+                            <span class="notify-badge" ng-show="fileName" ng-click="deleteImage();"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                            <img src="assets/placeholder-image.png" id="preview" height="100px" width="100px" alt="Image preview..." style="margin-left: 1em;">
+                        </div>
+                    </div>
+                    <div>
+                    <button class="mdl-button mdl-js-button follow-button" style="margin: 4px;">
+                        Save
+                    </button>
+                    </div>
+                </div>
+
+                <div class="profile-name-section">
+                    <span class="profile-name">John Doe&nbsp;</span>
+                    <!-- if it's their own profile -->
+                    <span class="profile-funds">0&nbsp;¢&nbsp;</span>
+                    <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab">
+                        <i class="material-icons">add</i>
+                    </button>
+
+                    <!-- if it's someone else's profile
+                    <button class="mdl-button mdl-js-button follow-button">
+                        Follow
+                    </button> -->
+                </div>
+                <div class="profile-half">
+                    <span class="profile-number">0</span>
+                    following
+                </div>
+                <div class="profile-half">
+                    <span class="profile-number">0</span>
+                    followers
+                </div>
+            </div>
+        </section>
+
+        <section id="profile-posts">
+            <div class="container">
+                <div class="row">
+                </div>
+            </div>
+        </section>
 
         <!--
         <div class="file_input_div">
