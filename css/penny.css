@@ -39,7 +39,7 @@ h1 {
 }
 
 #header-title {
-    background-image: url("../assets/stock-image1.jpeg");
+    background-image: url("../assets/jar-of-pennies.jpg");
     background-size: cover;
     background-position: 0px -300px;
     height: 500px;
@@ -114,20 +114,16 @@ h2 {
     margin-bottom: 70px;
 }
 
-/*.about-section {
+#aboutButton {
+    background: #E3F2FD;
     text-align: center;
-    background: #fff;
-    margin-bottom: 40px;
+    padding: 5em;
 }
 
-#about p {
-    margin-top: 25px;
-    font-size: 1.1em;
-    text-align: left;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-}*/
+#aboutButton button {
+    background: white;
+    margin-bottom: 2em;
+}
 
 /* end about page styles */
 
@@ -141,6 +137,10 @@ h2 {
 
 #signupForm > div, #npoSignupForm > div {
     width: 100%;
+}
+
+#signupForm button {
+    background: #E3F2FD;
 }
 
 /* end sign up page styles */
@@ -359,7 +359,7 @@ h2 {
 }
 
 
-/* discover MD styles */
+/* Discover MD styles */
 .demo-card-square.mdl-card {
   width: 320px;
   height: 320px;
@@ -428,13 +428,17 @@ h2 {
 
 
 /* login dialog styles */
-#loginDialog {
+#dialogBox, #dialogBox2 {
     width: 35%;
     color: #616161;
 }
 
-#loginDialog label {
+#dialogBox label {
     color: #616161;
+}
+
+#genderDiv label {
+    margin-right: 1em;
 }
 
 /*file input*/
