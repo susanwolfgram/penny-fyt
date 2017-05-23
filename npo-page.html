@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Penny-fyt</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Material Design links -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+
+    <!-- Custom CSS -->
+    <link href="css/penny2.css" rel="stylesheet">
+    <link href="css/reload.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDWON7t6-oxvb_U3Z8mZAqYZYT5YmNQlZA",
+        authDomain: "penny-fyt.firebaseapp.com",
+        databaseURL: "https://penny-fyt.firebaseio.com",
+        projectId: "penny-fyt",
+        storageBucket: "penny-fyt.appspot.com",
+        messagingSenderId: "472416068627"
+      };
+      firebase.initializeApp(config);
+    </script>
+
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/2.0.2/angularfire.min.js"></script>
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+    <!-- scripts -->
+    <script type="text/javascript" src="js/penny.js"></script>
+
+</head>
+
+<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+
+<body id="page-top" ng-app="myApp" ng-controller="myCtrl" ng-init="setUpDialogs();">
+    <!-- Navigation -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" ng-cloak>
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+            <!-- Title -->
+            <span class="mdl-layout-title" ng-click="feedButton();" style="cursor: pointer;"><img src="assets/pennylogo-no-bg.png" style="width: 2em;"/>enny-fyt</span>
+            <!-- Add spacer, to align navigation to the right -->
+            <div class="mdl-layout-spacer"></div>
+            <!-- Navigation. We hide it in small screens. -->
+            <!--mdl-layout--large-screen-only-->
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" ng-show="loggedIn" ng-click="feed = true; about = false; discover = false; loadfeed(); npoSignup = false;">Home</a>
+                <a class="mdl-navigation__link" ng-click="about = true; showSignup = false; feed = false; discover = false; npoSignup = false; reload = false;">About</a>
+                <a class="mdl-navigation__link" ng-click="discover = true; about = false; feed = false; loadNpos(); npoSignup = false; showSignup = false; reload = false;">Discover</a>
+                <a class="mdl-navigation__link" ng-show="!loggedIn" ng-click="showSignup = true; about = false; npoSignup = false; discover = false;">Sign Up</a>
+                <a class="mdl-navigation__link" id="show-dialog" ng-show="!loggedIn">Login</a>
+                <a class="mdl-navigation__link" ng-show="loggedIn" ng-click="logOut(); npoSignup = false;">Log Out</a>
+                <a class="mdl-navigation__link" ng-show="loggedIn" ng-click="reload = true; loadReloadSelects(); about = false; showSignup = false; feed = false; discover = false; npoSignup = false;;">{{user.credits}}&nbsp;<img src="assets/cent-icon.png" style="width: 1em;"/></a>
+            </nav>
+            </div>
+        </header>
+        <!--<div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">Title</span>
+            <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="">Link</a>
+            <a class="mdl-navigation__link" href="">Link</a>
+            <a class="mdl-navigation__link" href="">Link</a>
+            <a class="mdl-navigation__link" href="">Link</a>
+            </nav>
+        </div>-->
+        <main class="mdl-layout__content">
+            <div class="page-content">
+
+                <!-- content goes here --> 
+
+                <!-- About Section -->
+                <section ng-show="about">
+                    <section id="header-title">
+                        <div id="filter">
+                        </div>
+                        <div id="header-title-text">
+                            <h1 id="title-text"><strong>NPO Name 
+                            <button class="mdl-button mdl-js-button follow-button">
+                        	Follow
+                    		</button>
+                    		</h1>
+                            <p id="header-tagline">NPO tagline or one-liner that appears on the discover </p>
+                        </div>
+                    </section>
+
+                    <!-- About Section -->
+                    <section id="npo-about">
+                        <div class="container">
+                            <div class="row">
+                                <div class="npo-about-section">
+                                    <img src="assets/penny-icon.png" class="npo-profile-img" /><p>NPO paragraph bio.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="npo-followers">
+                        <div class="profile-half">
+                            <span class="profile-number">0</span>
+                            following
+                        </div>
+                        <div class="profile-half">
+                            <span class="profile-number">0</span>
+                            followers
+                        </div>
+                    </section>
+
+                    <!-- appears when either following or follower is clicked -->
+                    <section id="follower-list">
+                        <div class="container">
+                            <div style="height: 200px; overflow: auto;">
+                            <ul>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                                <li>User</li>
+                            </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                <!-- same post css as the feed -->
+                <section id="profile-posts">
+                    <div class="container">
+                        <div class="row">
+                        </div>
+                    </div>
+                </section>
+
+<!--main section closing tags-->
+            </div>
+        </main>
+    </div>   
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Scrolling Nav JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/scrolling-nav.js"></script>
+
+</body>
+
+</html>
