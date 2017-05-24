@@ -14,6 +14,8 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 	$scope.demographics = false;
 	$scope.demographicsNA = false;
 	$scope.demoReq = false;
+	$scope.userProfile = false;
+	$scope.profileImageUpload = false;
 
 	$scope.stepOne = true;
 	$scope.stepTwo = false;
@@ -97,6 +99,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		$scope.discover = false;
 		$scope.feed = false;
 		$scope.reload = false;
+		$scope.userProfile = false;
 		//$scope.$digest(); 
 	}
 
@@ -212,13 +215,6 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			$scope.loadfeed();
 		}
 	}
-
-	// $scope.scrollToTop = function() {
-	// 	setTimeout(function() {
-	// 		$('html,body').scrollTop(0);
-	// 	}, 2000);
-		
-	// }
 
 	$scope.addPhoto = function() {
 		var photoDiv = document.getElementById("photoDiv");
