@@ -20,14 +20,13 @@
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
 
     <!-- Custom CSS -->
-    <link href="css/penny2.css" rel="stylesheet">
+    <link href="css/penny.css" rel="stylesheet">
+    <link href="css/reload.css" rel="stylesheet">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
     <script>
       // Initialize Firebase
@@ -47,34 +46,36 @@
 
     <!-- AngularFire -->
     <script src="https://cdn.firebase.com/libs/angularfire/2.0.2/angularfire.min.js"></script>
+
     <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
     <!-- scripts -->
-    <script type="text/javascript" src="js/penny-sg.js"></script>
+    <script type="text/javascript" src="js/penny.js"></script>
 
 </head>
 
 <!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
 
-<body id="page-top" ng-app="myApp" ng-controller="myCtrl" ng-init="setUpLoginDialog();">
-
+<body id="page-top" ng-app="myApp" ng-controller="myCtrl" ng-init="setUpDialogs();">
     <!-- Navigation -->
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" ng-cloak>
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
             <!-- Title -->
-            <span class="mdl-layout-title">Penny-fyt</span>
+            <span class="mdl-layout-title" ng-click="feedButton();" style="cursor: pointer;"><img src="assets/pennylogo-no-bg.png" style="width: 2em;"/>enny-fyt</span>
             <!-- Add spacer, to align navigation to the right -->
             <div class="mdl-layout-spacer"></div>
             <!-- Navigation. We hide it in small screens. -->
             <!--mdl-layout--large-screen-only-->
             <nav class="mdl-navigation">
-                <a class="mdl-navigation__link" ng-show="loggedIn && !feed" ng-click="feed = true; about = false; discover = false; loadfeed(); npoSignup = false;">Home</a>
-                <a class="mdl-navigation__link" ng-show="!about" ng-click="about = true; showSignup = false; feed = false; discover = false; npoSignup = false;">About</a>
-                <a class="mdl-navigation__link" ng-show="!discover" ng-click="discover = true; about = false; feed = false; loadNpos(); npoSignup = false; showSignup = false;">Discover</a>
-                <a class="mdl-navigation__link" ng-show="!loggedIn && !showSignup" ng-click="showSignup = true; about = false; npoSignup = false; discover = false;">Sign Up</a>
+                <a class="mdl-navigation__link" ng-show="loggedIn" ng-click="feed = true; about = false; discover = false; loadfeed(); npoSignup = false;">Home</a>
+                <a class="mdl-navigation__link" ng-click="about = true; showSignup = false; feed = false; discover = false; npoSignup = false; reload = false;">About</a>
+                <a class="mdl-navigation__link" ng-click="discover = true; about = false; feed = false; loadNpos(); npoSignup = false; showSignup = false; reload = false;">Discover</a>
+                <a class="mdl-navigation__link" ng-show="!loggedIn" ng-click="showSignup = true; about = false; npoSignup = false; discover = false;">Sign Up</a>
                 <a class="mdl-navigation__link" id="show-dialog" ng-show="!loggedIn">Login</a>
                 <a class="mdl-navigation__link" ng-show="loggedIn" ng-click="logOut(); npoSignup = false;">Log Out</a>
+                <a class="mdl-navigation__link" ng-show="loggedIn" ng-click="reload = true; loadReloadSelects(); about = false; showSignup = false; feed = false; discover = false; npoSignup = false;;">{{user.credits}}&nbsp;<img src="assets/cent-icon.png" style="width: 1em;"/></a>
             </nav>
             </div>
         </header>
@@ -89,54 +90,73 @@
         </div>-->
         <main class="mdl-layout__content">
             <div class="page-content">
+                <section id="search">
+                    <div class="container">
+                        <div class="sw">
+                            <form>
+                                <input type="search" class="search" placeholder="Search..." />
+                                <button class="go"><img src="assets/search.svg" alt="search icon" style="margin-left: auto; margin-right: auto;" /></span></button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
 
                 <!-- content goes here --> 
-                <section id="header-title">
-                    <div id="filter">
-                    </div>
-                    <div id="header-title-text">
-                        <h1 id="title-text"><strong>Penny-f</strong>or <strong>y</strong>our <strong>t</strong>houghts</h1>
-                        <p id="header-tagline">We make donating to charities quick, effortless, and uncomplicated.</p>
-                    </div>
-                </section>
 
                 <!-- About Section -->
-                <section id="about" ng-show="about">
-                    <div class="container">
-                        <div class="row">
-                            <div id="about-section">
-                                <h2 style="text-align: center;">About us.</h2>
-                                <p>Penny For Your Thoughts (or Penny-fyt) is a social media platform that makes donating to charity easy and quick. Non-profit organizations and charities post content that users can like, comment, and share to contribute a penny (or more!) towards that charity. We hope to remove the confusion surrounding donation processes that many would-be contributors face, while also creating an online community where avid activists and casual users can come together and contribute to causes that they are passionate about.</p>
-                            </div>
+                <!--<section ng-show="about">
+                    <section id="header-title">
+                        <div id="filter">
                         </div>
-                    </div>
-                </section>
+                        <div id="header-title-text">
+                            <h1 id="title-text"><strong>Penny-f</strong>or <strong>y</strong>our <strong>t</strong>houghts</h1>
+                            <p id="header-tagline">We make donating to charities quick, effortless, and uncomplicated.</p>
+                        </div>
+                    </section>
 
-                <section id="how-to">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h2>How to Penny-fyt.</h2>
+                    <!-- About Section -->
+                    <!--<section id="about">
+                        <div class="container">
+                            <div class="row">
+                                <div id="about-section">
+                                    <h2 style="text-align: center;">About us.</h2>
+                                    
+                                    <p><img src="assets/logo-light-blue.png" style="float: left; height: 11em; margin-right: 2em;"/>Penny For Your Thoughts (or Penny-fyt) is a social media platform that makes donating to charity easy and quick. Non-profit organizations and charities post content that users can like, comment, and share to contribute a penny (or more!) towards that charity. We hope to remove the confusion surrounding donation processes that many would-be contributors face, while also creating an online community where avid activists and casual users can come together and contribute to causes that they are passionate about.</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <ol>
-                                    <li ng-click="stepOne = true; stepTwo = false; stepThree = false; stepFour = false; stepFive = false" ng-class="{true : 'selected', false: ''}[stepOne]">Create a profile.</li>
-                                    <li ng-click="stepOne = false; stepTwo = true; stepThree = false; stepFour = false; stepFive = false" ng-class="{true : 'selected', false: ''}[stepTwo]">Load your wallet.</li>
-                                    <li ng-click="stepOne = false; stepTwo = false; stepThree = true; stepFour = false; stepFive = false" ng-class="{true : 'selected', false: ''}[stepThree]">Discover organizations.</li>
-                                    <li ng-click="stepOne = false; stepTwo = false; stepThree = false; stepFour = true; stepFive = false" ng-class="{true : 'selected', false: ''}[stepFour]">Like and comment.</li>
-                                    <li ng-click="stepOne = false; stepTwo = false; stepThree = false; stepFour = false; stepFive = true" ng-class="{true : 'selected', false: ''}[stepFive]">Post and tag content.</li>
-                                </ol>
+                    </section>
+                    -->
+
+                    <section id="how-to">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h2>How to Penny-fyt.</h2>
+                                </div>
                             </div>
-                            <div class="col-md-8 tutorial">
-                                <img ng-show="stepOne" src="assets/1.png" alt="Sign up for an account" />
-                                <img ng-show="stepTwo" src="assets/2.png" alt="Add money onto your account" />
-                                <img ng-show="stepThree" src="assets/3.png" alt="Find and follow new organizations" />
-                                <img ng-show="stepFour" src="assets/4.png" alt="Like and comment on posts to donate" />
-                                <img ng-show="stepFive" src="assets/5.png" alt="Create your own content to support an organization" />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <ol>
+                                        <li ng-click="stepOne = true; stepTwo = false; stepThree = false; stepFour = false; stepFive = false" ng-class="{true : 'selected', false: ''}[stepOne]">Create a profile.</li>
+                                        <li ng-click="stepOne = false; stepTwo = true; stepThree = false; stepFour = false; stepFive = false" ng-class="{true : 'selected', false: ''}[stepTwo]">Load your wallet.</li>
+                                        <li ng-click="stepOne = false; stepTwo = false; stepThree = true; stepFour = false; stepFive = false" ng-class="{true : 'selected', false: ''}[stepThree]">Discover organizations.</li>
+                                        <li ng-click="stepOne = false; stepTwo = false; stepThree = false; stepFour = true; stepFive = false" ng-class="{true : 'selected', false: ''}[stepFour]">Like and comment.</li>
+                                        <li ng-click="stepOne = false; stepTwo = false; stepThree = false; stepFour = false; stepFive = true" ng-class="{true : 'selected', false: ''}[stepFive]">Post and tag content.</li>
+                                    </ol>
+                                </div>
+                                <div class="col-md-8 tutorial">
+                                    <img ng-show="stepOne" src="assets/1.png" alt="Sign up for an account" />
+                                    <img ng-show="stepTwo" src="assets/2.png" alt="Add money onto your account" />
+                                    <img ng-show="stepThree" src="assets/3.png" alt="Find and follow new organizations" />
+                                    <img ng-show="stepFour" src="assets/4.png" alt="Like and comment on posts to donate" />
+                                    <img ng-show="stepFive" src="assets/5.png" alt="Create your own content to support an organization" />
+                                </div>
                             </div>
                         </div>
+                    </section>
+                    <div id="aboutButton" ng-show="!loggedIn">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ng-click="showSignup = true; about = false; npoSignup = false; discover = false;">Create Account</button>
                     </div>
                 </section>
 
@@ -144,7 +164,7 @@
                 <section id="signup" class="signup-section" ng-show="!loggedIn && showSignup">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-12 signuplinks">
+                            <div class="col-md-6 signuplinks">
                                 <h1>User Sign Up</h1>
                                 <p>(If you wish to register an NPO please <a ng-click="npoSignup = true; showSignup = false;">click here</a>.)</p>
                                 <div class="form-group">
@@ -172,7 +192,26 @@
                                         </div>
                                         <p id="pwd2Message"></p>
                                         <p id="signUpErrorMsg"></p>
-                                        <button type="submit" class="mdl-button">Create Account</button>
+                                        <!--<button id="demographicsButton" class="mdl-button" style="margin-top: 2em;">Demographics <i class="material-icons">add</i></button>-->
+                                        <h4 id="demographicsButton" style="cursor: pointer;">
+                                            Demographics
+                                            <!--<button id="demographicsButton">
+                                                <i class="material-icons">add</i>
+                                            </button>-->
+                                            <i class="material-icons" style="vertical-align: text-bottom;">add_box</i>
+                                            <span ng-show="!demographics && !demographicsNA" style="color: red;">*</span>
+                                        </h4>
+                                        <span ng-show="!demographics && !demographicsNA && demoReq">*</span>
+                                        <br />
+                                        <div ng-show="demographics">
+                                            Date of Birth: {{dob | date : 'MMMM dd, yyyy'}} 
+                                            <br />
+                                            Gender: {{gender}}
+                                        </div>
+                                        <div ng-show="demographicsNA">
+                                            No demographic data.
+                                        </div>
+                                        <button type="submit" class="mdl-button" style="margin-top: 2.5em;" ng-disabled="!demographics && !demographicsNA">Create Account</button>
                                     </form>
                                 </div>
                             </div>
@@ -251,31 +290,49 @@
                             <div class="col-md-6 signuplinks">
                                 <form ng-submit="createPost()" id="createPostForm">
                                     <div class="mdl-textfield mdl-js-textfield" style="width: 100%;">
-                                        <textarea class="mdl-textfield__input" type="text" rows= "3" id="sample5" ng-model="postText"></textarea>
+                                        <textarea id="createPostTextarea" class="mdl-textfield__input" type="text" rows= "3" id="sample5" ng-model="postText"></textarea>
                                         <label class="mdl-textfield__label" for="sample5">Write a post...</label>
                                     </div>
                                     <div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fullwidth">
                                         <input class="mdl-textfield__input" type="text" id="chooseNPO" value="Tag an NPO" readonly tabIndex="-1">
-                                        <!--<label for="chooseNPO" class="mdl-textfield__label">Tag an NPO</label>-->
                                         <ul for="chooseNPO" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
                                             <li class="mdl-menu__item" ng-repeat="npo in npos" data-val="{{npo.$id}}" ng-click="choseNpo(npo);">{{npo.name}}</li>
                                         </ul>
                                     </div>
+                                    
                                     <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect postRight">
                                         Post
                                     </button>
+                                    <i class="material-icons postRight" style="margin-right: 1em; cursor: pointer;" ng-click="addPhoto();">add_a_photo</i>
+                                    <div id="photoDiv" class="none">
+                                        <div class="file_input_div">
+                                            <div class="file_input">
+                                                <label class="image_input_button mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--colored">
+                                                    <i class="material-icons">file_upload</i>
+                                                    <input id="file_input_file" onchange="angular.element(this).scope().previewFile()" class="none" type="file" />
+                                                </label>
+                                                <div class="item">
+                                                    <span class="notify-badge" ng-show="fileName" ng-click="deleteImage();"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                                                    <img src="assets/placeholder-image.png" id="preview" height="100px" width="100px" alt="Image preview..." style="margin-left: 1em;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                     
                     <div id="post-feed"> 
-                        <div class="demo-card-wide mdl-card mdl-shadow--2dp" ng-repeat="post in posts" >
-                            <div class="mdl-card__title">
+                        <div class="demo-card-wide mdl-card mdl-shadow--2dp" ng-repeat="post in posts | orderBy: '-time'" >
+                            <div class="mdl-card__title" style="height: {{post.height}}; {{post.bg}};"> 
                                 <h2 class="mdl-card__title-text">{{post.text}}</h2>
                             </div>
-                            <div class="mdl-card__supporting-text">
-                                {{post.npo}}
+                            <div class="mdl-card__supporting-text" ng-show="!{{post.byNpo}}">
+                                <span class="postAuthor">{{post.userFName}} {{post.userLName}}</span> in support of <span class="postAuthor">{{post.npo}}</span>
+                            </div>
+                            <div class="mdl-card__supporting-text" ng-show="{{post.byNpo}}">
+                                <span class="postAuthor">{{post.userFName}}</span>
                             </div>
                             <div class="mdl-card__actions mdl-card--border">
                                 <a ng-click="like(post);" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
@@ -284,17 +341,81 @@
                                 <a ng-click="addComment(post);" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
                                     Comment
                                 </a>
+                                <i class="material-icons" style="float:right; margin-top: .2em;" ng-show="post.userId == userId" ng-click="deletePost(post);" title="Delete post">delete</i>
                             </div>
                             <div class="mdl-card__menu">
-                            <div id="likesFor{{post.$id}}">{{post.likes}} Likes</div>
+                                <div id="likesFor{{post.$id}}" class="postStatistics">
+                                    <span title="Likes">&nbsp;{{post.likes}} <img src="assets/like-icon.png" style="width: 1em;"/>&nbsp;</span> 
+                                    <span title="Comments" ng-click="addComment(post);" style="cursor: pointer;">{{post.commentCount}} <img src="assets/comment-icon.png" style="width: 1em;"/>&nbsp;</span> 
+                                    <span title="Amount Raised">{{post.raised}}  <img src="assets/cent-icon.png" style="width: 1em;"/></span>
+                                </div>
                             </div>
+                            
                             <div id="commentsFor{{post.$id}}" class="commentDisplay"></div>
+                            </div>
                         </div>
+                        
+                    </div>
+                </section>
+
+                <!--Reload Credits-->
+                <section id="reload" ng-show="loggedIn && reload">
+                    <div>
+                        <form id="reloadForm">
+                            <div id="reload-form" class="form-group">
+                                <h2 id="reloadH2">Reload Account</h2>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <label for="paymeth">Saved Cards:</label>
+                                    <select class="mdl-selectfield" id="paymeth">
+                                        <option value="" disabled selected>Choose your option</option>
+                                        <!-- user's saved payments go here -->
+                                    </select>
+                                </div>
+                                <div>
+                                    <p>OR Use a New Card:</p>
+                                </div>
+                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-input">
+                                    <label class="mdl-textfield__label" for="cardname">Name on Card</label>
+                                    <input class="mdl-textfield__input" type="text" class="form-control" min="1" id="cardname">
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-input">
+                                    <label class="mdl-textfield__label" for="cardnum">Card Number</label>
+                                    <input class="mdl-textfield__input" type="number" class="form-control" min="1" max="9999999999999999" id="cardnum">
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fullwidth">
+                                    <input class="mdl-textfield__input" type="text" id="expireM" value="Expiration Month" readonly tabIndex="-1">
+                                    <ul for="expireM" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                                        <li class="mdl-menu__item" ng-repeat="month in months" data-val="{{month}}" ng-click="choseMonth(month);">{{month}}</li>
+                                    </ul>
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fullwidth quarter-input" style="float:right;">
+                                    <input class="mdl-textfield__input" type="text" id="expireY" value="Year" readonly tabIndex="-1">
+                                    <ul for="expireY" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                                        <li class="mdl-menu__item" ng-repeat="year in years" data-val="{{year}}" ng-click="choseYear(year);">{{year}}</li>
+                                    </ul>
+                                </div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label quarter-input">
+                                    <label class="mdl-textfield__label" for="cardcode">CVV</label>
+                                    <input class="mdl-textfield__input" type="number" class="form-control" min="1" id="cardcode">
+                                </div>
+
+                               
+
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-input">
+                                    <label class="mdl-textfield__label" for="amount">Amount ($1.00 minimum)</label>
+                                    <!-- should only be allowed to enter monetary value over $1.00 --> 
+                                    <input class="mdl-textfield__input" type="number" class="form-control" min="1" step=".01" id="amount">
+                                </div>
+                                <div>
+                                    <button type="submit" class="mdl-button" ng-click="reloadCredits();">Reload</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </section>
 
                <!--Login Dialog-->
-                <dialog class="mdl-dialog" id="loginDialog">
+                <dialog class="mdl-dialog" id="dialogBox">
                     <h4 class="mdl-dialog__title">Login</h4>
                     <form ng-submit="login()" id="loginForm">
                         <div class="mdl-dialog__content">
@@ -307,6 +428,7 @@
                                 <label class="mdl-textfield__label" for="loginPwd">Password</label>
                             </div>
                         </div>
+                        <div id="loginErrorMsg"></div>
                         <div class="mdl-dialog__actions">
                             <button type="submit" class="mdl-button">Submit</button>
                             <button type="button" class="mdl-button close">Cancel</button>
@@ -314,6 +436,38 @@
                     </form>
                 </dialog>
 
+                <!-- Demographic Dialog -->
+                <dialog class="mdl-dialog" id="dialogBox2">
+                    <div id="demographics">
+                        <h2>Demographic Information</h2>
+                        <h4>Date of Birth</h4>
+                        <!--<p>Penny-fyt anonymizes all demographics data collected but please leave blank if you wish not to answer.</p>-->
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <!--<label class="mdl-textfield__label" for="dob">DOB</label>-->
+                            <input class="mdl-textfield__input" type="date" class="form-control" id="dob" ng-model="dob">
+                        </div>
+                        <br />
+                        <div id="genderDiv" style="margin-top: 2em;">
+                            <h4>Gender</h4>
+                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+                                <input type="radio" id="option-1" class="mdl-radio__button" name="gender" value="Female" ng-model="gender">
+                                <span class="mdl-radio__label">Female</span>
+                            </label>
+                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+                                <input type="radio" id="option-2" class="mdl-radio__button" name="gender" value="Male" ng-model="gender">
+                                <span class="mdl-radio__label">Male</span>
+                            </label>
+                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
+                                <input type="radio" id="option-3" class="mdl-radio__button" name="gender" value="Other" ng-model="gender">
+                                <span class="mdl-radio__label">Other</span>
+                            </label>
+                        </div>
+                        <div class="mdl-dialog__actions">
+                            <button id="demoNextButton" type="submit" class="mdl-button" ng-click="demographics = true; demographicsNA = false;">Next</button>
+                            <button type="button" class="mdl-button close" ng-click="demographicsNA = true; demographics = false;">Skip</button>
+                        </div>
+                    </div>
+                </dialog>
 <!--main section closing tags-->
             </div>
         </main>
