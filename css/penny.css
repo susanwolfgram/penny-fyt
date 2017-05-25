@@ -563,14 +563,15 @@ body {
     float: right;
 }
 
+#pieCharts{
+    display: none;
+}
+
 #sexGraph, #ageGraph{
     width: 42.5%;
     height: 80%;
     display: inline-block;
     margin-top: 5%;
     margin-left: 5%;
-}
-
-#commentsGraph{
-    display:none; 
+    
 }
