@@ -4,12 +4,19 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 	var user;
 	var userObj;
 	var userIdNum;
+	var npoObj;
 	$scope.loggedIn = false; 
 	$scope.about = true;
 	$scope.showSignup = false;
 	$scope.discover = false;
 	$scope.feed = false;
 	$scope.reload = false;
+	$scope.demographics = false;
+	$scope.demographicsNA = false;
+	$scope.demoReq = false;
+	$scope.userProfile = false;
+	$scope.profileImageUpload = false;
+
 	$scope.stepOne = true;
 	$scope.stepTwo = false;
 	$scope.stepThree = false;
@@ -31,8 +38,12 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			      email: $scope.email,
 				  fName: $scope.fName,
 				  lName: $scope.lName,
+				  following: 0,
 				  credits: 0
 			    });
+				firebase.database().ref().child("users").child(userIdNum).child("following").child(userIdNum).set({
+					name: "self"
+				});
 				var form = document.getElementById("signupForm");
 				form.reset();
 				userIdNum = userData.uid; 
@@ -88,6 +99,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		$scope.discover = false;
 		$scope.feed = false;
 		$scope.reload = false;
+		$scope.userProfile = false;
 		//$scope.$digest(); 
 	}
 
@@ -131,6 +143,8 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			userIdNum = userData.uid; 
 	     	currentUser = firebase.database().ref().child("users").child(userIdNum);
 			userObj = $firebaseObject(currentUser);
+			var curNpo = firebase.database().ref().child("npos").child(userIdNum);
+			npoObj = $firebaseObject(curNpo);
 			$scope.user = userObj;
 			var form = document.getElementById("loginForm");
 			form.reset();
@@ -170,11 +184,15 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		var bgImgCss = imgUrl ? "background-image: url('" + imgUrl + "')" : ""; 
 		//imgUrl = imgUrl ? imgUrl : 0; 
 		var postHeight = imgUrl ? "412px" : "176px"; 
+		console.log(userObj);
+		var fName = userObj.fName ? userObj.fName : npoObj.name;
+		var lName = userObj.lName ? userObj.lName : npoObj.name;
+		var byNpoBool = userObj.fName ? 0 : 1; 
 		if (npoTagged != "Tag an NPO") {
 			firebase.database().ref().child("posts").push({
 				userId: userIdNum,
-				userFName: userObj.fName,
-				userLName: userObj.lName,
+				userFName: fName,
+				userLName: lName,
 				text: $scope.postText,
 				npo: npoTagged,
 				npoId: chosenNpoId,
@@ -182,9 +200,9 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 				likes: 0,
 				comments: 0,
 				commentCount: 0,
-				following: 0,
 				height: postHeight,
 				bg: bgImgCss,
+				byNpo: byNpoBool,
 				time: firebase.database.ServerValue.TIMESTAMP
 			});
 			var form = document.getElementById("createPostForm");
@@ -194,6 +212,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			if (!document.getElementById("photoDiv").classList.contains("none")) {
 				photoDiv.classList.add("none");
 			}
+			$scope.loadfeed();
 		}
 	}
 
@@ -205,12 +224,28 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			photoDiv.classList.add("none");
 		}
 	}
-
-
 	
 	$scope.loadfeed = function() {
 		var userRef = firebase.database().ref().child("posts");
-		$scope.posts = $firebaseArray(userRef);
+		var allPosts = $firebaseArray(userRef);
+		var userFollowing = firebase.database().ref().child("users").child(userIdNum).child("following");
+		var followingArr = $firebaseArray(userFollowing);
+		
+		$scope.posts = [];
+		allPosts.$loaded().then(function(){ 
+				followingArr.$loaded().then(function() {
+				var followingIdArr = [];
+				for (var i = 0; i < followingArr.length; i++) {
+					followingIdArr.push(followingArr[i].$id);
+				}
+				console.log(followingIdArr);
+				for (var i = 0; i < allPosts.length; i++) {
+					if (followingIdArr.indexOf(allPosts[i].userId) > -1) {
+						$scope.posts.push(allPosts[i]);
+					}
+				}
+			});
+		});
 	}
 
 	$scope.loadNpos = function() {
@@ -267,14 +302,15 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 								user: userIdNum,
 								userFName: userObj.fName,
 								userLName: userObj.lName,
-								text: this.value
+								text: this.value,
+								time: firebase.database.ServerValue.TIMESTAMP
 							}).then(function() {
 								var newCred = userObj.credits - 2;
 								firebase.database().ref().child("users").child(userIdNum).child("credits").set(newCred);
 								var newCommentCount = (post.commentCount ? post.commentCount : 0) + 1; 
 								firebase.database().ref().child("posts").child(post.$id).child("commentCount").set(newCommentCount);
-								post.raised += 2;
-								$scope.posts.$save(post);
+								var newRaised = post.raised + 2;
+								firebase.database().ref().child("posts").child(post.$id).child("raised").set(newRaised);
 								incrementNpoCredit(post.npoId, 2);
 								displayComments(comments, post);
 								document.querySelector("#commentsFor" + post.$id + " input").value = "";
@@ -374,7 +410,7 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		}
 	}
 
-	$scope.setUpLoginDialog = function() {
+	$scope.setUpDialogs = function() {
 		var dialog = document.querySelector('dialog');
 		var showDialogButton = document.querySelector('#show-dialog');
 		if (! dialog.showModal) {
@@ -385,6 +421,21 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		});
 		dialog.querySelector('.close').addEventListener('click', function() {
 			dialog.close();
+		});
+
+		var dialog2 = document.querySelector('#dialogBox2');
+		var showDialogButton2 = document.querySelector('#demographicsButton');
+		if (! dialog2.showModal) {
+			dialogPolyfill.registerDialog(dialog2);
+		}
+		showDialogButton2.addEventListener('click', function() {
+			dialog2.showModal();
+		});
+		dialog2.querySelector('.close').addEventListener('click', function() {
+			dialog2.close();
+		});
+		dialog2.querySelector('#demoNextButton').addEventListener('click', function() {
+			dialog2.close();
 		});
 	}
 

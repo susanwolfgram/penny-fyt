@@ -17,7 +17,7 @@ h1 {
     font-size: 3em;
 }
 
-#about {
+#about, #profile {
     background: #E3F2FD;
     margin-bottom: 40px;
 }
@@ -87,6 +87,51 @@ h1 {
 .user-name {
     color: black;
     font-weight: bold;
+}
+
+body {
+  display: flex;
+}
+
+.file_input_div {
+  /*margin: auto;*/
+  width: 250px;
+  height: 40px;
+}
+
+.file_input {
+  float: left;
+}
+.mdl-button--fab.mdl-button--colored, .mdl-button--fab.mdl-button--colored:hover {
+    background-color: black;
+    color: white;
+}
+#file_input_text_div {
+  width: 200px;
+  margin-top: -8px;
+  margin-left: 5px;
+}
+
+.none {
+  display: none !important;
+}
+
+
+.item {
+    position:relative;
+    padding-top:20px;
+    display:inline-block;
+}
+.notify-badge{
+    position: absolute;
+    right:-18px;
+    top:7px;
+    /*background:gray;*/
+    text-align: center;
+    /*border-radius: 30px 30px 30px 30px;
+    color:white;*/
+    padding:5px 10px;
+    font-size:20px;
 }
 
 /* discover page styles */
@@ -172,20 +217,19 @@ h1 {
 /* profile page styles */
 
 .profile-pic {
-    height: 170px;
-    width: 170px;
-    margin: 10px;
+    height: 200px;
+    width: 200px;
+    margin: 15px;
     border-radius: 50%;
 }
 
-.profile-name {
-    font-size: 23px;
-    font-weight: bold;
+.profile-name, .profile-funds {
+    font-size: 28pt;
+    vertical-align: middle;
 }
 
 .profile-funds {
-    font-size: 23px;
-    color: gray;
+    color: #888;
 }
 
 .profile-update input {
