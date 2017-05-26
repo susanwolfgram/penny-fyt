@@ -140,6 +140,35 @@ function toDataFrame(data, table){
             dt.addRow([data[o].time, 1]);
         }
     }else if(table == 'followersAge'){
+        cols = {ageRange: "string", count: "number"};
+        for(var key in cols){
+            var value = cols[key];
+            dt.addColumn(value, key);
+        }
+        var counts = [0, 0, 0, 0, 0, 0];
+        for(o in data){
+            age = calcAge(data[o].dob);
+            if(age < 25){
+                counts[0]++;
+            }else if(age < 35){
+                counts[1]++;
+            }else if(age < 45){
+                counts[2]++;
+            }else if(age < 55){
+                counts[3]++;
+            }else if(age < 65){
+                counts[4]++;
+            }else{
+                counts[5]++;
+            }
+        }
+        dt.addRow(['13-24', counts[0]]);
+        dt.addRow(['25-34', counts[1]]);
+        dt.addRow(['35-44', counts[2]]);
+        dt.addRow(['45-54', counts[3]]);
+        dt.addRow(['55-64', counts[4]]);
+        dt.addRow(['65+', counts[5]]);
+
 
     }
 	console.log(dt.toJSON());
@@ -150,6 +179,18 @@ function loadDashboard(){
     setTimeout(function(){drawCharts();}, 1000);
 }
 
+
+function calcAge(dob){
+    var today = new Date();
+    var birthDate = new Date(dob);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
+    {
+        age--;
+    }
+    return age;
+}
 
 //not running after load?
 function popPostsTable(data){
@@ -263,33 +304,13 @@ function drawAgeCharts(){
 function drawSexCharts(data){
     var pieChart = new google.visualization.PieChart(document.getElementById('sexGraph'));
     pieChart.draw(data);
-    // var pieView = new google.visualization.DataView(data);
-    // pieView.setColumns([0]);
-    // var pieData = new google.visualization.data.group(
-    //     pieView.toDataTable(),
-    //     [0],
-    //     google.visualization.data.sum,
-    //     'number'
-    // );
-    // console.log(pieData.toJSON());
-    // pieChart.draw(pieData);
-
-    // var cols = ['Sex', 'Count']
-    // var counts = {M:0, F:0, U:0}
-    // var pieData = data.toJSON();
-    // console.log(pieData);
-    // // for (o in pieData){
-    // //     console.log(o);
-    // // }
-
-
-
 }
 
 
 
 function drawAgeCharts(data){
-
+    var pieChart = new google.visualization.PieChart(document.getElementById('ageGraph'));
+    pieChart.draw(data);
 }
 
 
@@ -298,13 +319,15 @@ function drawAgeCharts(data){
 function drawCharts(){
     // postsDT = getPostData();
     // commentsData = getComments();
-    followersData = getFollowersSex();
+    followersSexData = getFollowersSex();
 	// popPostsTable(postsDT);
     // drawMonthBarChart(postsDT);
     // drawLineChart(commentsData);
     // drawSexCharts();
     // drawAgeCharts();
-    drawSexCharts(followersData);
+    followersAgeData = getFollowersAge();
+    drawSexCharts(followersSexData);
+    drawAgeCharts(followersAgeData);
 }
 
 window.onload = function(){
