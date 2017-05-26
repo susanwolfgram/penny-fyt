@@ -14,24 +14,46 @@ function getPostData(){
 	return postDT;
 }
 
-function getFollowers(){
+function getFollowersSex(){
 	var followers = [];
 	var followersDT;
 	var userRef = firebase.database().ref("users");
 	userRef.orderByChild('lName').on('value', function(snap){
 		snap.forEach(function(item){
 			f = item.val().following;
-			if (f){
-				if ("JStw39eY06ghvTwWRTOwsSe4OUB3" in f){
+            s = item.val().gender;
+			if (f && s){
+				if ("BFCzgPkBI4RtSGxoLlXqaGRevuF3" in f){
 					followers.push(item.val());
 				}
 			}
 		});
 		console.log(followers);
-		followersDT = toDataFrame(followers, "followers")
+		followersDT = toDataFrame(followers, "followersSex")
 	});
 	return followersDT;
 }
+
+function getFollowersAge(){
+	var followers = [];
+	var followersDT;
+	var userRef = firebase.database().ref("users");
+	userRef.orderByChild('lName').on('value', function(snap){
+		snap.forEach(function(item){
+			f = item.val().following;
+            dob = item.val().dob;
+			if (f && dob){
+				if ("BFCzgPkBI4RtSGxoLlXqaGRevuF3" in f){
+					followers.push(item.val());
+				}
+			}
+		});
+		console.log(followers);
+		followersDT = toDataFrame(followers, "followersAge")
+	});
+	return followersDT;
+}
+
 
 function getComments(){
     var comments = [];
@@ -52,6 +74,23 @@ function getComments(){
     return commentsDT;
 }
 
+// function getUserDemos(){
+//     var users = [];
+//     var usersDT;
+//     var usersRef = firebase.database().ref('users');
+//     usersRef.on('value', function(snap){
+//         snap.forEach(function(item){
+//             s = item.val().gender;
+//             dob = item.val().dob;
+//             if(s && dob){
+//                 users.push(item.val());
+//             }
+//         });
+//         console.log(users);
+//         usersDT = toDataFrame(users, "demos");
+//     });
+//     return usersDT;
+// }
 
 function toDataFrame(data, table){
 	dt = new google.visualization.DataTable();
@@ -67,16 +106,28 @@ function toDataFrame(data, table){
 		for (o in data){
 			dt.addRow([data[o].likes, data[o].raised, data[o].time, data[o].commentCount, data[o].userId, data[o].text]);
 		}
-	}else if(table == "followers"){
-		cols = {gender: "string", dob: "datetime"};
+	}else if(table == "followersSex"){
+		cols = {gender: "string", count: "number"};
 		for (var key in cols){
 			var value = cols[key];
 			//console.log(key + " " + value);
 			dt.addColumn(value, key);
 		}
 		//another to read data and also place in table
+        mCount = 0;
+        fCount = 0;
+        uCount = 0;
 		for (o in data){
-			dt.addRow([data[o].gender, data[o].dob]);
+			if(data[o].gender == 'Male'){
+                mCount++;
+            }else if(data[o].gender =='Female'){
+                fCount++;
+            }else{
+                uCount++;
+            }
+        dt.addRow(['Male', mCount]);
+        dt.addRow(['Female', fCount]);
+        dt.addRow(['Unknown', uCount]);
 		}
 	}else if(table == "comments"){
         cols = {time:"number", amt:"number"};
@@ -88,7 +139,9 @@ function toDataFrame(data, table){
         for (o in data){
             dt.addRow([data[o].time, 1]);
         }
-	}
+    }else if(table == 'followersAge'){
+
+    }
 	console.log(dt.toJSON());
 	return dt;
 }
@@ -143,7 +196,10 @@ function drawMonthBarChart(data){
 }
 
 function getMonth(data, rowNum){
-    return (new Date(data.getValue(rowNum,2)).getMonth() + 1).toString();
+    var mo = new Date(data.getValue(rowNum,2)).getMonth();
+    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return months[mo];
+
 }
 
 
@@ -174,15 +230,81 @@ function getTime(data, rowNum){
 }
 
 
+function drawSexCharts(){
+    var d = google.visualization.arrayToDataTable([
+        ['Sex', 'Comments'],
+        ['Male', 20],
+        ['Female', 51],
+        ['Unknown', 29],
+    ]);
+    console.log(d);
+    var chart = new google.visualization.PieChart(document.getElementById('sexGraph'));
+    chart.draw(d);
+
+}
+
+function drawAgeCharts(){
+    var d = google.visualization.arrayToDataTable([
+        ['Age', 'Comments'],
+        ['13-24', 51],
+        ['25-34', 9],
+        ['35-44', 9],
+        ['45-54', 90],
+        ['55-64', 84],
+        ['65+', 9],
+
+    ]);
+    console.log(d);
+    var chart = new google.visualization.PieChart(document.getElementById('ageGraph'));
+    chart.draw(d);
+
+}
+
+function drawSexCharts(data){
+    var pieChart = new google.visualization.PieChart(document.getElementById('sexGraph'));
+    pieChart.draw(data);
+    // var pieView = new google.visualization.DataView(data);
+    // pieView.setColumns([0]);
+    // var pieData = new google.visualization.data.group(
+    //     pieView.toDataTable(),
+    //     [0],
+    //     google.visualization.data.sum,
+    //     'number'
+    // );
+    // console.log(pieData.toJSON());
+    // pieChart.draw(pieData);
+
+    // var cols = ['Sex', 'Count']
+    // var counts = {M:0, F:0, U:0}
+    // var pieData = data.toJSON();
+    // console.log(pieData);
+    // // for (o in pieData){
+    // //     console.log(o);
+    // // }
+
+
+
+}
+
+
+
+function drawAgeCharts(data){
+
+}
+
 
 
 
 function drawCharts(){
-    postsDT = getPostData();
-    commentsData = getComments()
-	popPostsTable(postsDT);
-    drawMonthBarChart(postsDT);
-    drawLineChart(commentsData);
+    // postsDT = getPostData();
+    // commentsData = getComments();
+    followersData = getFollowersSex();
+	// popPostsTable(postsDT);
+    // drawMonthBarChart(postsDT);
+    // drawLineChart(commentsData);
+    // drawSexCharts();
+    // drawAgeCharts();
+    drawSexCharts(followersData);
 }
 
 window.onload = function(){

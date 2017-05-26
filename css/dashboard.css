@@ -1,0 +1,37 @@
+#postlist, #monthBarGraph, #commentsGraph, #pieCharts, #sexGraph, #ageGraph{
+    border: 2px solid black;
+    border-radius: 5px;
+    box-shadow: 2px 2px gray;
+}
+
+#postlist{
+    width: 20%;
+    height: 600px;
+    margin-top: 100px;
+    float: left;
+}
+
+#monthBarGraph{
+    margin-top: 100px;
+    width: 70%;
+    height: 150px;
+    float: right;
+}
+
+#pieCharts, #commentsGraph{
+    margin-top: 50px;
+    width: 70%;
+    height: 400px;
+    float: right;
+}
+
+
+
+#sexGraph, #ageGraph{
+    width: 42.5%;
+    height: 80%;
+    display: inline-block;
+    margin-top: 5%;
+    margin-left: 5%;
+    
+}
