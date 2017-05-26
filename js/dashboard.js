@@ -317,14 +317,14 @@ function drawAgeCharts(data){
 
 
 function drawCharts(){
-    // postsDT = getPostData();
-    // commentsData = getComments();
+    postsDT = getPostData();
+    commentsData = getComments();
     followersSexData = getFollowersSex();
-	// popPostsTable(postsDT);
-    // drawMonthBarChart(postsDT);
-    // drawLineChart(commentsData);
-    // drawSexCharts();
-    // drawAgeCharts();
+	popPostsTable(postsDT);
+    drawMonthBarChart(postsDT);
+    drawLineChart(commentsData);
+    drawSexCharts();
+    drawAgeCharts();
     followersAgeData = getFollowersAge();
     drawSexCharts(followersSexData);
     drawAgeCharts(followersAgeData);
