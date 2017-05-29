@@ -1,4 +1,6 @@
 //functions to get different data
+
+//Gets data about NPOs posts from Firebase and returns it it as a DataTable
 function getPostData(){
 	var posts = [];
 	var postDT;
@@ -14,6 +16,7 @@ function getPostData(){
 	return postDT;
 }
 
+//Gets data about NPOs followers' sex from Firebase and returns it it as a DataTable
 function getFollowersSex(){
 	var followers = [];
 	var followersDT;
@@ -34,6 +37,7 @@ function getFollowersSex(){
 	return followersDT;
 }
 
+//Gets data about NPOs followers age from Firebase and returns it it as a DataTable
 function getFollowersAge(){
 	var followers = [];
 	var followersDT;
@@ -54,7 +58,7 @@ function getFollowersAge(){
 	return followersDT;
 }
 
-
+//Gets data about comments from Firebase and returns it it as a DataTable
 function getComments(){
     var comments = [];
     var commentsDT;
@@ -74,24 +78,9 @@ function getComments(){
     return commentsDT;
 }
 
-// function getUserDemos(){
-//     var users = [];
-//     var usersDT;
-//     var usersRef = firebase.database().ref('users');
-//     usersRef.on('value', function(snap){
-//         snap.forEach(function(item){
-//             s = item.val().gender;
-//             dob = item.val().dob;
-//             if(s && dob){
-//                 users.push(item.val());
-//             }
-//         });
-//         console.log(users);
-//         usersDT = toDataFrame(users, "demos");
-//     });
-//     return usersDT;
-// }
-
+//Helper function to change firebase data to google datatable
+//Requires data and type of table to return as parameters
+//Returns google DataTable
 function toDataFrame(data, table){
 	dt = new google.visualization.DataTable();
 	if (table == "posts"){
@@ -168,8 +157,6 @@ function toDataFrame(data, table){
         dt.addRow(['45-54', counts[3]]);
         dt.addRow(['55-64', counts[4]]);
         dt.addRow(['65+', counts[5]]);
-
-
     }
 	console.log(dt.toJSON());
 	return dt;
@@ -179,7 +166,7 @@ function loadDashboard(){
     setTimeout(function(){drawCharts();}, 1000);
 }
 
-
+//Calculates age from given date of birth
 function calcAge(dob){
     var today = new Date();
     var birthDate = new Date(dob);
@@ -193,6 +180,8 @@ function calcAge(dob){
 }
 
 //not running after load?
+//Populates the table of NPO posts
+//Requres data to populate with as parameter
 function popPostsTable(data){
 	var table = new google.visualization.Table(document.getElementById('postlist'));
 	var tblView = new google.visualization.DataView(data);
@@ -207,9 +196,30 @@ function popPostsTable(data){
         showRowNumber: true
     };
 	table.draw(tblView, options);
-	
 }
 
+function drawMonthBarCharts(){
+    var barChart = new google.visualization.ColumnChart(document.getElementById('monthBarGraph'));
+    var d = google.visualization.arrayToDataTable([
+        ['Month', 'Raised'],
+        ['January', 20],
+        ['Febuary', 51],
+        ['March', 29],
+        ['April', 10],
+        ['May', 39],
+        ['June', 82],
+        ['July', 87],
+        ['August', 36],
+        ['September', 84],
+        ['October', 88],
+        ['November', 51],
+        ['December', 42]
+    ]);
+    barChart.draw(d);
+}
+
+//Draws the month bar chart
+//Requires month data as parameter
 function drawMonthBarChart(data){
     var barChart = new google.visualization.ColumnChart(document.getElementById('monthBarGraph'));
     var barView = new google.visualization.DataView(data);
@@ -236,11 +246,42 @@ function drawMonthBarChart(data){
     barChart.draw(barData, options);
 }
 
+//Helper function to get name of month from datetime number
 function getMonth(data, rowNum){
     var mo = new Date(data.getValue(rowNum,2)).getMonth();
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     return months[mo];
 
+}
+
+
+function drawLineCharts(){
+    var lineChart = new google.visualization.LineChart(document.getElementById('commentsGraph'));
+    var d = google.visualization.arrayToDataTable([
+        ['Hours', 'Comments'],
+        ['12AM - 2AM', 20],
+        ['2AM - 4AM', 51],
+        ['4AM - 6AM', 29],
+        ['6AM - 8AM', 10],
+        ['8AM - 10AM', 39],
+        ['10AM - 12PM', 82],
+        ['12PM - 2PM', 87],
+        ['2PM - 4PM', 36],
+        ['4PM - 6PM', 84],
+        ['6PM - 8PM', 88],
+        ['8PM - 10PM', 51],
+        ['10PM - 12AM', 42]
+    ]);
+    var options = {
+        title: 'Comments in each hour of the day',
+        hAxis: {
+           title: 'Hour of the day'
+        },
+        vAxis: {
+            title: 'Number of Comments',
+        }
+    };
+    lineChart.draw(d, options);
 }
 
 
@@ -271,20 +312,23 @@ function getTime(data, rowNum){
 }
 
 
-function drawSexCharts(){
+function drawSexChart(){
     var d = google.visualization.arrayToDataTable([
         ['Sex', 'Comments'],
         ['Male', 20],
         ['Female', 51],
         ['Unknown', 29],
     ]);
+     var options = {
+        title: 'Sex distribution of followers',
+    };
     console.log(d);
     var chart = new google.visualization.PieChart(document.getElementById('sexGraph'));
-    chart.draw(d);
+    chart.draw(d, options);
 
 }
 
-function drawAgeCharts(){
+function drawAgeChart(){
     var d = google.visualization.arrayToDataTable([
         ['Age', 'Comments'],
         ['13-24', 51],
@@ -295,9 +339,11 @@ function drawAgeCharts(){
         ['65+', 9],
 
     ]);
-    console.log(d);
+    var options = {
+        title: 'Age distribution of followers',
+    };
     var chart = new google.visualization.PieChart(document.getElementById('ageGraph'));
-    chart.draw(d);
+    chart.draw(d, options);
 
 }
 
@@ -314,24 +360,21 @@ function drawAgeCharts(data){
 }
 
 
-
-
 function drawCharts(){
     postsDT = getPostData();
     commentsData = getComments();
     followersSexData = getFollowersSex();
 	popPostsTable(postsDT);
-    drawMonthBarChart(postsDT);
-    drawLineChart(commentsData);
+    drawMonthBarCharts();
+    drawLineCharts();
     drawSexCharts();
     drawAgeCharts();
     followersAgeData = getFollowersAge();
-    drawSexCharts(followersSexData);
-    drawAgeCharts(followersAgeData);
+    drawSexChart();
+    drawAgeChart();
 }
 
 window.onload = function(){
     google.charts.load('current', {packages: ['table', 'corechart'] });
     google.charts.setOnLoadCallback(getComments);
 }
-//google.charts.setOnLoadCallback(popPostsTable);
