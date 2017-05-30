@@ -215,7 +215,16 @@ function drawMonthBarCharts(){
         ['November', 51],
         ['December', 42]
     ]);
-    barChart.draw(d);
+     var options = {
+        title: "$ Raised by Month of Post Date",
+        width: '100%',
+        height: '100%',
+        legend: { position: "none" },
+        vAxis:{
+            title: '$ Raised'
+        }
+      };
+    barChart.draw(d, options);
 }
 
 //Draws the month bar chart
@@ -372,6 +381,8 @@ function drawCharts(){
     followersAgeData = getFollowersAge();
     drawSexChart();
     drawAgeChart();
+    document.getElementById('pieCharts').style.display = 'none';
+    document.getElementById('gButton').disabled = '';
 }
 
 window.onload = function(){
@@ -380,11 +391,16 @@ window.onload = function(){
 }
 
 
-// $( '#gButton' ).click(function(){
-//     $( '#pieCharts' ).toggle();
-//     console.log("click");
-// });
-
-// function toggleChart(){
-
-// }
+function toggle(){
+   var dis = document.getElementById('pieCharts').style.display;
+   if(dis == 'none'){
+        document.getElementById('pieCharts').style.display = 'block';
+        document.getElementById('commentsGraph').style.display = 'none';
+        document.getElementById('gButton').innerText = 'Show Pie Charts'
+   }else{
+        document.getElementById('pieCharts').style.display = 'none';
+        document.getElementById('commentsGraph').style.display = 'block';
+        document.getElementById('gButton').innerText = 'Show Comments Chart'
+   }
+   
+}

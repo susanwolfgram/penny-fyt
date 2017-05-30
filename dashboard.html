@@ -119,14 +119,16 @@ Images (e.g. big and small logos) are in the assets folder, let me know if you n
             <div id='postlist'></div>
         </div>
         <div id='monthBarGraph'></div>
-        <div id="commentsGraph"></div>
-        <div id='pieCharts'>
-            
-            <div id="sexGraph"></div>
-            <div id="ageGraph"></div>
-        </div>
-            <button id='gButton' class='btn btn-primary' >Change Charts</button>
+        <div id='bottomCharts'>
+            <button id='gButton' class='btn btn-primary' disabled='true' onclick="toggle()">Show Pie Charts</button>
 
+            <div id="commentsGraph"></div>
+
+            <div id='pieCharts'>
+                <div id="sexGraph"></div>
+                <div id="ageGraph"></div>
+            </div>
+        </div>
     </div>
     
 
