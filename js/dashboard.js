@@ -5,7 +5,7 @@ function getPostData(){
 	var posts = [];
 	var postDT;
 	var postsRef = firebase.database().ref("posts");
-	postsRef.orderByChild('npoId').equalTo("JStw39eY06ghvTwWRTOwsSe4OUB3").on('value', function(snap){
+	postsRef.orderByChild('npoId').equalTo("3P5X0rWHQvPKmRrFyGkzn4gZ7XA3").on('value', function(snap){
 		snap.forEach(function(item) {
 			var itemVal = item.val();
 			posts.push(itemVal);
@@ -26,7 +26,7 @@ function getFollowersSex(){
 			f = item.val().following;
             s = item.val().gender;
 			if (f && s){
-				if ("BFCzgPkBI4RtSGxoLlXqaGRevuF3" in f){
+				if ("3P5X0rWHQvPKmRrFyGkzn4gZ7XA3" in f){
 					followers.push(item.val());
 				}
 			}
@@ -47,7 +47,7 @@ function getFollowersAge(){
 			f = item.val().following;
             dob = item.val().dob;
 			if (f && dob){
-				if ("BFCzgPkBI4RtSGxoLlXqaGRevuF3" in f){
+				if ("3P5X0rWHQvPKmRrFyGkzn4gZ7XA3" in f){
 					followers.push(item.val());
 				}
 			}
@@ -63,7 +63,7 @@ function getComments(){
     var comments = [];
     var commentsDT;
     var commentsRef = firebase.database().ref('posts');
-    commentsRef.orderByChild('npoId').equalTo("JStw39eY06ghvTwWRTOwsSe4OUB3").on('value', function(snap){
+    commentsRef.orderByChild('npoId').equalTo("3P5X0rWHQvPKmRrFyGkzn4gZ7XA3").on('value', function(snap){
         snap.forEach(function(item){
             c = item.val().comments;
             if(c){
@@ -88,18 +88,16 @@ function toDataFrame(data, table){
 		cols = { likes: "number", raised:"number", time:"number", commentCount:"number", userId:"string", text:"string"};
 		for (var key in cols){
 			var value = cols[key];
-			//console.log(key + " " + value);
 			dt.addColumn(value, key);
 		}
 		//another to read data and also place in table
 		for (o in data){
-			dt.addRow([data[o].likes, data[o].raised, data[o].time, data[o].commentCount, data[o].userId, data[o].text]);
+			dt.addRow([data[o].likes, (data[o].raised/100), data[o].time, data[o].commentCount, data[o].userId, data[o].text]);
 		}
 	}else if(table == "followersSex"){
 		cols = {gender: "string", count: "number"};
 		for (var key in cols){
 			var value = cols[key];
-			//console.log(key + " " + value);
 			dt.addColumn(value, key);
 		}
 		//another to read data and also place in table
@@ -122,7 +120,6 @@ function toDataFrame(data, table){
         cols = {time:"number", amt:"number"};
         for (var key in cols){
             var value = cols[key];
-			//console.log(key + " " + value);
 			dt.addColumn(value, key);
         }
         for (o in data){
@@ -186,14 +183,10 @@ function popPostsTable(data){
 	var table = new google.visualization.Table(document.getElementById('postlist'));
 	var tblView = new google.visualization.DataView(data);
 	tblView.setColumns([5, 1]);
-    var tblClasses = {
-        tableRow: 'dashRow',
-        selectedTableRow: 'dashRowSelect'
-    };
     var options = {
         width:'100%', 
-        cssClassNames: tblClasses,
-        showRowNumber: true
+        showRowNumber: true,
+
     };
 	table.draw(tblView, options);
 }
@@ -202,26 +195,46 @@ function drawMonthBarCharts(){
     var barChart = new google.visualization.ColumnChart(document.getElementById('monthBarGraph'));
     var d = google.visualization.arrayToDataTable([
         ['Month', 'Raised'],
-        ['January', 20],
-        ['Febuary', 51],
-        ['March', 29],
-        ['April', 10],
-        ['May', 39],
-        ['June', 82],
-        ['July', 87],
-        ['August', 36],
-        ['September', 84],
-        ['October', 88],
-        ['November', 51],
-        ['December', 42]
+        ['Jan', 20.02],
+        ['Feb', 51.91],
+        ['Mar', 29.45],
+        ['Apr', 10.61],
+        ['May', 39.01],
+        ['Jun', 82.82],
+        ['Jul', 87.25],
+        ['Aug', 36.11],
+        ['Sep', 84.56],
+        ['Oct', 88.24],
+        ['Nov', 51.25],
+        ['Dec', 42.67]
     ]);
      var options = {
         title: "$ Raised by Month of Post Date",
         width: '100%',
         height: '100%',
-        legend: { position: "none" },
+        legend: {
+             position: "none" 
+        },
+        bar: {
+            groupWidth: "90%"
+        },
         vAxis:{
-            title: '$ Raised'
+            title: '$ Raised',
+            format: 'currency'
+        },
+        hAxis:{
+            textStyle:{
+                bold: true,
+            },
+            title: 'Month',
+        },
+        titleTextStyle:{
+            fontSize: 16,
+        },
+         tooltip:{
+            textStyle:{
+                fontSize:14,
+            }
         }
       };
     barChart.draw(d, options);
@@ -243,13 +256,29 @@ function drawMonthBarChart(data){
         title: "$ Raised by Month of Post Date",
         width: '100%',
         height: '100%',
-        bar: {groupWidth: "50%"},
-        legend: { position: "none" },
-        hAxis:{
-            title: 'Month'
+        legend: {
+             position: "none" 
+        },
+        bar: {
+            groupWidth: "90%"
         },
         vAxis:{
-            title: '$ Raised'
+            title: '$ Raised',
+            format: 'currency'
+        },
+        hAxis:{
+            textStyle:{
+                bold: true,
+            },
+            title: 'Month',
+        },
+        titleTextStyle:{
+            fontSize: 16,
+        },
+         tooltip:{
+            textStyle:{
+                fontSize:14,
+            }
         }
       };
     barChart.draw(barData, options);
@@ -282,12 +311,26 @@ function drawLineCharts(){
         ['10PM - 12AM', 42]
     ]);
     var options = {
-        title: 'Comments in each hour of the day',
+        title: 'Comments in Each Hour of the Day',
         hAxis: {
            title: 'Hour of the day'
         },
         vAxis: {
             title: 'Number of Comments',
+        },
+        titleTextStyle:{
+            fontSize: 16,
+        },
+         tooltip:{
+            textStyle:{
+                fontSize:14,
+            }
+        },
+         legend:{
+            position:'none',
+        },
+        chartArea:{
+            width:'90%',
         }
     };
     lineChart.draw(d, options);
@@ -305,12 +348,23 @@ function drawLineChart(data){
     );
     // console.log(lineData.toJSON());
     var options = {
-        title: 'Comments in each hour of the day',
+        title: 'Comments in Each Hour of the Day',
         hAxis: {
            title: 'Hour of the day'
         },
         vAxis: {
             title: 'Number of Comments',
+        },
+        titleTextStyle:{
+            fontSize: 16,
+        },
+         tooltip:{
+            textStyle:{
+                fontSize:14,
+            }
+        },
+        legend:{
+            position:'none',
         }
     };
     lineChart.draw(lineData, options);
@@ -328,10 +382,34 @@ function drawSexChart(){
         ['Female', 51],
         ['Unknown', 29],
     ]);
-     var options = {
+    var options = {
         title: 'Sex distribution of followers',
+        titleTextStyle:{
+            fontSize: 16,
+        },
+        chartArea: {
+            width: '100%',
+            height: '80%',
+        },
+        pieSliceTextStyle:{
+            fontSize: 18,
+        },
+        legend:{
+            textStyle:{
+                fontSize: 14,
+            },
+            alignment: 'end',
+        },
+        slices:{
+            1: {color:'magenta'},
+            2: {color:'green'},
+        },
+        tooltip:{
+            textStyle:{
+                fontSize:14,
+            }
+        }
     };
-    // console.log(d);
     var chart = new google.visualization.PieChart(document.getElementById('sexGraph'));
     chart.draw(d, options);
 
@@ -346,10 +424,31 @@ function drawAgeChart(){
         ['45-54', 90],
         ['55-64', 84],
         ['65+', 9],
-
+        ['Unknown', 10],
     ]);
     var options = {
         title: 'Age distribution of followers',
+           titleTextStyle:{
+            fontSize: 16,
+        },
+        chartArea:{
+            width: '100%',
+            height: '80%',
+        },
+        pieSliceTextStyle:{
+            fontSize: 18,
+        },
+        legend:{
+            textStyle:{
+                fontSize: 14,
+            },
+            alignment: 'end',
+        },
+        tooltip:{
+            textStyle:{
+                fontSize:14,
+            }
+        }
     };
     var chart = new google.visualization.PieChart(document.getElementById('ageGraph'));
     chart.draw(d, options);
@@ -358,27 +457,88 @@ function drawAgeChart(){
 
 function drawSexCharts(data){
     var pieChart = new google.visualization.PieChart(document.getElementById('sexGraph'));
-    pieChart.draw(data);
+     var options = {
+        title: 'Sex distribution of followers',
+        titleTextStyle:{
+            fontSize: 16,
+        },
+        chartArea: {
+            width: '100%',
+            height: '80%',
+        },
+        pieSliceTextStyle:{
+            fontSize: 18,
+        },
+        legend:{
+            textStyle:{
+                fontSize: 14,
+            },
+            alignment: 'end',
+        },
+        slices:{
+            1: {color:'magenta'},
+            2: {color:'green'},
+        },
+        tooltip:{
+            textStyle:{
+                fontSize:14,
+            }
+        }
+    };
+    pieChart.draw(data, options);
 }
 
 
 
 function drawAgeCharts(data){
+      var options = {
+        title: 'Age distribution of followers',
+           titleTextStyle:{
+            fontSize: 16,
+        },
+        chartArea:{
+            width: '100%',
+            height: '80%',
+        },
+        pieSliceTextStyle:{
+            fontSize: 18,
+        },
+        legend:{
+            textStyle:{
+                fontSize: 14,
+            },
+            alignment: 'end',
+        },
+        tooltip:{
+            textStyle:{
+                fontSize:14,
+            }
+        }
+    };
     var pieChart = new google.visualization.PieChart(document.getElementById('ageGraph'));
-    pieChart.draw(data);
+    pieChart.draw(data, options);
 }
 
 
 function drawCharts(){
+    document.getElementById('pieCharts').style.display = 'block';
+    document.getElementById('commentsGraph').style.display = 'block';
     postsDT = getPostData();
     commentsData = getComments();
     followersSexData = getFollowersSex();
 	popPostsTable(postsDT);
+
+    //Real Methods to draw graphs
+    // drawMonthBarChart(postsDT);
+    // drawLineChart(commentsData);
+    // followersAgeData = getFollowersAge();
+    // drawSexCharts(followersSexData);
+    // drawAgeCharts(followersAgeData);
+
+    //demo ones
+
     drawMonthBarCharts();
     drawLineCharts();
-    drawSexCharts();
-    drawAgeCharts();
-    followersAgeData = getFollowersAge();
     drawSexChart();
     drawAgeChart();
     document.getElementById('pieCharts').style.display = 'none';
@@ -387,7 +547,28 @@ function drawCharts(){
 
 window.onload = function(){
     google.charts.load('current', {packages: ['table', 'corechart'] });
-    google.charts.setOnLoadCallback(getComments);
+     document.getElementById('pieCharts').style.display = 'block';
+    document.getElementById('commentsGraph').style.display = 'block';
+    postsDT = getPostData();
+    commentsData = getComments();
+    followersSexData = getFollowersSex();
+	popPostsTable(postsDT);
+
+    //Real Methods to draw graphs
+    // drawMonthBarChart(postsDT);
+    // drawLineChart(commentsData);
+    // followersAgeData = getFollowersAge();
+    // drawSexCharts(followersSexData);
+    // drawAgeCharts(followersAgeData);
+
+    //demo ones
+
+    drawMonthBarCharts();
+    drawLineCharts();
+    drawSexChart();
+    drawAgeChart();
+    document.getElementById('pieCharts').style.display = 'none';
+    document.getElementById('gButton').disabled = '';
 }
 
 
@@ -396,11 +577,11 @@ function toggle(){
    if(dis == 'none'){
         document.getElementById('pieCharts').style.display = 'block';
         document.getElementById('commentsGraph').style.display = 'none';
-        document.getElementById('gButton').innerText = 'Show Pie Charts'
+        document.getElementById('gButton').innerText = 'Show Line Chart'
    }else{
         document.getElementById('pieCharts').style.display = 'none';
         document.getElementById('commentsGraph').style.display = 'block';
-        document.getElementById('gButton').innerText = 'Show Comments Chart'
+        document.getElementById('gButton').innerText = 'Show Pie Charts'
    }
    
 }
