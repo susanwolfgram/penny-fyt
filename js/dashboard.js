@@ -10,7 +10,7 @@ function getPostData(){
 			var itemVal = item.val();
 			posts.push(itemVal);
 		});
-		console.log(posts);
+		//console.log(posts);
 		postDT = toDataFrame(posts, "posts");
 	});
 	return postDT;
@@ -31,7 +31,7 @@ function getFollowersSex(){
 				}
 			}
 		});
-		console.log(followers);
+		//console.log(followers);
 		followersDT = toDataFrame(followers, "followersSex")
 	});
 	return followersDT;
@@ -52,7 +52,7 @@ function getFollowersAge(){
 				}
 			}
 		});
-		console.log(followers);
+		// console.log(followers);
 		followersDT = toDataFrame(followers, "followersAge")
 	});
 	return followersDT;
@@ -72,7 +72,7 @@ function getComments(){
                 }
             }
         });
-        console.log(comments);
+        // console.log(comments);
         commentsDT = toDataFrame(comments, "comments");
     });
     return commentsDT;
@@ -158,7 +158,7 @@ function toDataFrame(data, table){
         dt.addRow(['55-64', counts[4]]);
         dt.addRow(['65+', counts[5]]);
     }
-	console.log(dt.toJSON());
+	// console.log(dt.toJSON());
 	return dt;
 }
 
@@ -229,7 +229,7 @@ function drawMonthBarChart(data){
         [0], 
         [{'column': 1, 'aggregation': google.visualization.data.sum, 'type': 'number'}]
         );
-    console.log(barData.toJSON());
+    // console.log(barData.toJSON());
     var options = {
         title: "$ Raised by Month of Post Date",
         width: '100%',
@@ -294,7 +294,7 @@ function drawLineChart(data){
         [0],
         [{'column': 1, 'aggregation': google.visualization.data.sum, 'type': 'number'}]
     );
-    console.log(lineData.toJSON());
+    // console.log(lineData.toJSON());
     var options = {
         title: 'Comments in each hour of the day',
         hAxis: {
@@ -322,7 +322,7 @@ function drawSexChart(){
      var options = {
         title: 'Sex distribution of followers',
     };
-    console.log(d);
+    // console.log(d);
     var chart = new google.visualization.PieChart(document.getElementById('sexGraph'));
     chart.draw(d, options);
 
@@ -378,3 +378,13 @@ window.onload = function(){
     google.charts.load('current', {packages: ['table', 'corechart'] });
     google.charts.setOnLoadCallback(getComments);
 }
+
+
+// $( '#gButton' ).click(function(){
+//     $( '#pieCharts' ).toggle();
+//     console.log("click");
+// });
+
+// function toggleChart(){
+
+// }

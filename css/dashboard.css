@@ -5,10 +5,7 @@
 }
 
 #postlist{
-    width: 20%;
     height: 600px;
-    margin-top: 100px;
-    float: left;
 }
 
 #monthBarGraph{
@@ -25,7 +22,9 @@
     float: right;
 }
 
-
+/*#pieCharts{
+    display: none;
+}*/
 
 #sexGraph, #ageGraph{
     width: 42.5%;
@@ -34,4 +33,18 @@
     margin-top: 5%;
     margin-left: 5%;
     
+}
+
+#loadButton{
+    margin-left: 22.5%;
+    margin-right: 22.5%;
+    width: 55%;
+    margin-bottom: 25px;
+}
+
+#sidebar{
+    width: 20%;
+    height: 800px;
+    margin-top: 100px;
+    float: left;
 }
