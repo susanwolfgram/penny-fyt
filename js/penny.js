@@ -518,7 +518,6 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 			return true;
 		}
 	}
-});
 
 // app.directive('nop', function(){
 //     return function($scope, $element) {
@@ -549,4 +548,6 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 //             }
 //         }]
 //     });
-// }
+// } 
+});
+
