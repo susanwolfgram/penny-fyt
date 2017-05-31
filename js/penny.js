@@ -96,7 +96,7 @@ app.controller("myCtrl", function ($scope, $firebaseObject, $firebaseArray, $fir
 
 	$scope.follow = function (npo) {
 		if (!$scope.loggedIn) {
-			alert("Please login to follow.");
+			alert("Please login to continue.");
 		} else {
 			if ($scope.loggedIn && npo.isNpo) {
 				firebase.database().ref().child("users").child(userIdNum).child("following").child(npo.$id).set({
@@ -123,6 +123,7 @@ app.controller("myCtrl", function ($scope, $firebaseObject, $firebaseArray, $fir
 					console.log(userObj.fName + " added to followers");
 				});
 			}
+			alert("You have followed " + npo.name);
 		}
 	}
 
@@ -425,51 +426,57 @@ app.controller("myCtrl", function ($scope, $firebaseObject, $firebaseArray, $fir
 		document.querySelector(".mdl-menu__container.is-visible").classList.remove("is-visible");
 	}
 
-	$scope.addComment = function (post) {
-		var commentsDiv = document.getElementById("commentsFor" + post.$id);
-		if (commentsDiv.innerHTML) {
-			commentsDiv.innerHTML = "";
+	$scope.addComment = function (post, num) {
+		if (!$scope.loggedIn) {
+			alert("Please login to continue.");
 		} else {
-			var commentsRef = firebase.database().ref().child("posts").child(post.$id).child("comments");
-			var comments = $firebaseArray(commentsRef);
-			comments.$loaded().then(function (comments) {
+			var commentsDiv = document.getElementById("commentsFor" + post.$id + num);
+			console.log("commentsFor" + post.$id + num);
+			if (commentsDiv.innerHTML) {
 				commentsDiv.innerHTML = "";
-				var div = document.createElement("div");
-				div.classList.add("commentsDisplay");
-				commentsDiv.appendChild(div);
-				if (comments.length > 0) {
-					displayComments(comments, post);
-				}
-				var input = createCommentInput(commentsDiv);
-				input.onkeypress = function (e) {
-					if (!e) e = window.event;
-					var keyCode = e.keyCode || e.which;
-					if (keyCode == '13' && this.value) {
-						if (checkUserCredits("comment")) {
-							console.log("enter pressed");
-							firebase.database().ref().child("posts").child(post.$id).child("comments").push({
-								user: userIdNum,
-								userFName: userObj.fName,
-								userLName: userObj.lName,
-								text: this.value,
-								time: firebase.database.ServerValue.TIMESTAMP
-							}).then(function () {
-								var newCred = userObj.credits - 2;
-								firebase.database().ref().child("users").child(userIdNum).child("credits").set(newCred);
-								var newCommentCount = (post.commentCount ? post.commentCount : 0) + 1;
-								firebase.database().ref().child("posts").child(post.$id).child("commentCount").set(newCommentCount);
-								var newRaised = post.raised + 2;
-								firebase.database().ref().child("posts").child(post.$id).child("raised").set(newRaised);
-								incrementNpoCredit(post.npoId, 2);
-								displayComments(comments, post);
-								document.querySelector("#commentsFor" + post.$id + " input").value = "";
-							});
-							return false;
+			} else {
+				var commentsRef = firebase.database().ref().child("posts").child(post.$id).child("comments");
+				var comments = $firebaseArray(commentsRef);
+				comments.$loaded().then(function (comments) {
+					commentsDiv.innerHTML = "";
+					var div = document.createElement("div");
+					div.classList.add("commentsDisplay");
+					commentsDiv.appendChild(div);
+					if (comments.length > 0) {
+						displayComments(comments, post, num);
+					}
+					var input = createCommentInput(commentsDiv);
+					input.onkeypress = function (e) {
+						if (!e) e = window.event;
+						var keyCode = e.keyCode || e.which;
+						if (keyCode == '13' && this.value) {
+							if (checkUserCredits("comment")) {
+								console.log("enter pressed");
+								firebase.database().ref().child("posts").child(post.$id).child("comments").push({
+									user: userIdNum,
+									userFName: userObj.fName,
+									userLName: userObj.lName,
+									text: this.value,
+									time: firebase.database.ServerValue.TIMESTAMP
+								}).then(function () {
+									var newCred = userObj.credits - 2;
+									firebase.database().ref().child("users").child(userIdNum).child("credits").set(newCred);
+									var newCommentCount = (post.commentCount ? post.commentCount : 0) + 1;
+									firebase.database().ref().child("posts").child(post.$id).child("commentCount").set(newCommentCount);
+									var newRaised = post.raised + 2;
+									firebase.database().ref().child("posts").child(post.$id).child("raised").set(newRaised);
+									incrementNpoCredit(post.npoId, 2);
+									displayComments(comments, post, num);
+									document.querySelector("#commentsFor" + post.$id + num + " input").value = "";
+								});
+								return false;
+							}
 						}
 					}
-				}
-			});
+				});
+			}
 		}
+		
 	}
 
 	function createCommentInput(commentsDiv) {
@@ -503,8 +510,8 @@ app.controller("myCtrl", function ($scope, $firebaseObject, $firebaseArray, $fir
 		});
 	}
 
-	function displayComments(comments, post) {
-		var div = document.querySelector("#commentsFor" + post.$id + " div.commentsDisplay");
+	function displayComments(comments, post, num) {
+		var div = document.querySelector("#commentsFor" + post.$id + num + " div.commentsDisplay");
 		var ul = document.createElement("ul");
 		ul.classList.add("demo-list-item");
 		ul.classList.add("mdl-list");
