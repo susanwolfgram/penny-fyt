@@ -68,15 +68,15 @@
                 <!-- Navigation. We hide it in small screens. -->
                 <!--mdl-layout--large-screen-only-->
                 <nav class="mdl-navigation">
-                    <a class="mdl-navigation__link" ng-show="loggedIn" ng-click="feed = true; about = false; discover = false; loadfeed(); npoSignup = false; reload = false; userProfile = false;">Home</a>
-                    <a class="mdl-navigation__link" ng-click="about = true; showSignup = false; feed = false; discover = false; npoSignup = false; reload = false; userProfile = false;">About</a>
-                    <a class="mdl-navigation__link" ng-click="discover = true; about = false; feed = false; loadNpos(); npoSignup = false; showSignup = false; reload = false; userProfile = false;">Discover</a>
-                    <a class="mdl-navigation__link" ng-show="!loggedIn" ng-click="showSignup = true; about = false; npoSignup = false; discover = false;">Sign Up</a>
+                    <a class="mdl-navigation__link" ng-show="loggedIn" ng-click="feed = true; about = false; discover = false; loadfeed(); npoSignup = false; reload = false; userProfile = false; npoAbout = false;">Home</a>
+                    <a class="mdl-navigation__link" ng-click="about = true; showSignup = false; feed = false; discover = false; npoSignup = false; reload = false; userProfile = false; npoAbout = false;">About</a>
+                    <a class="mdl-navigation__link" ng-click="discover = true; about = false; feed = false; loadNpos(); npoSignup = false; showSignup = false; reload = false; userProfile = false; npoAbout = false;">Discover</a>
+                    <a class="mdl-navigation__link" ng-show="!loggedIn" ng-click="showSignup = true; about = false; npoSignup = false; discover = false; npoAbout = false;">Sign Up</a>
                     <a class="mdl-navigation__link" id="show-dialog" ng-show="!loggedIn">Login</a>
                     <!--<a class="mdl-navigation__link" ng-show="loggedIn" ng-click="logOut(); npoSignup = false;">Log Out</a>-->
 
                     <span ng-show="loggedIn">
-                <img src="assets/penny-icon.png" class="profile-pic-sm" /> {{user.fName}} {{user.lName}} ({{user.credits}}¢)
+                <img src="{{user.image}}" class="profile-pic-sm" /> {{user.fName}} {{user.lName}} ({{user.credits}}¢)
                 
                 
                 <button id="demo-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
@@ -86,7 +86,7 @@
                 </span>
 
                     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu" for="demo-menu-lower-right">
-                        <li class="mdl-menu__item" ng-click="userProfile = true; feed = false; about = false; discover = false; npoSignup = false; reload = false;">View Profile</li>
+                        <li class="mdl-menu__item" ng-click="userProfile = true; feed = false; about = false; discover = false; npoSignup = false; reload = false; loadUsersFeed();">View Profile</li>
                         <li class="mdl-menu__item" ng-click="reload = true; loadReloadSelects(); about = false; showSignup = false; feed = false; discover = false; npoSignup = false; userProfile = false;">Reload Account</li>
                         <li class="mdl-menu__item" ng-click="logOut(); npoSignup = false;">Log Out</li>
                     </ul>
@@ -260,6 +260,14 @@
                                         <p id="signUpErrorMsg"></p>
                                         <p id="pwd2Message"></p>
                                         <p id="signUpErrorMsg"></p>
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                            <input class="mdl-textfield__input" type="text" id="tagline" ng-model="tagline">
+                                            <label class="mdl-textfield__label" for="tagline">NPO Tagline</label>
+                                        </div>
+                                        <div class="mdl-textfield mdl-js-textfield" style="width: 100%;">
+                                            <textarea id="createPostTextarea" class="mdl-textfield__input" type="text" rows="3" id="description" ng-model="description"></textarea>
+                                            <label class="mdl-textfield__label" for="description">NPO Description</label>
+                                        </div>
                                         <button type="submit" class="mdl-button">Create Account</button>
                                     </form>
                                 </div>
@@ -273,14 +281,40 @@
                 <section ng-show="discover">
                     <div class="container">
                         <div id="discover">
+                            <section>
+                            <section id="search">
+                                <div class="container">
+                                    <div class="sw">
+                                        <form ng-submit="search();">
+                                            <input type="search" class="search" placeholder="Search..." ng-model="query" />
+                                            <button type="submit" class="go"><img src="assets/search.svg" alt="search icon" style="margin-left: auto; margin-right: auto;" /></span></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </section>
+                            
+                            <section id="search-results" ng-show="results">
+                                <div id="results-list">
+                                    <p style="color: #ccc;">Showing Results for "{{query}}"</p>
+                                    <ul>
+                                        <li ng-repeat="result in searchResults" ng-click="if (result.npoId) {loadNpoPage(npo);} else { alert('hello');}"><img src="{{result.image}}" class="profile-pic-md" alt="user's profile picture" />{{result.name}}
+                                        <div style="float:right; line-height: 100px;"><button class="mdl-button mdl-js-button follow-button">Follow</button></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </section>
+                            </section>
                             <h1>Discover</h1>
-                            <div id="card-feed">
-                                <div class="demo-card-square mdl-card mdl-shadow--2dp" ng-repeat="npo in npos">
-                                    <div class="mdl-card__title mdl-card--expand">
-                                        <h2 class="mdl-card__title-text">{{npo.name}}</h2>
+                            <!--Search section -->
+                            
+               
+                            <div id="card-feed" style="flex-wrap: wrap; justify-content: center;">
+                                <div class="demo-card-square mdl-card mdl-shadow--2dp" ng-repeat="npo in npos | orderBy : 'name'" style="width: 27%;" >
+                                    <div class="mdl-card__title mdl-card--expand" style="background: url('{{npo.logo}}') no-repeat; background-position: center; cursor: pointer;" ng-click="loadNpoPage(npo);">
+                                        <h2 class="mdl-card__title-text" style="color: black;">{{npo.name}}</h2>
                                     </div>
                                     <div class="mdl-card__supporting-text">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenan convallis.
+                                        {{npo.tagline}}
                                     </div>
                                     <div class="mdl-card__actions mdl-card--border">
                                         <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" ng-click="follow(npo);">
@@ -314,8 +348,8 @@
                                         Post
                                     </button>
                                     <i class="material-icons postRight" style="margin-right: 1em; cursor: pointer;" ng-click="addPhoto();">add_a_photo</i>
-                                    <div id="photoDiv" class="none">
-                                        <div class="file_input_div">
+                                    <div id="photoDiv" class="none" >
+                                        <div class="file_input_div" style="margin-left: 0;">
                                             <div class="file_input">
                                                 <label class="image_input_button mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--colored">
                                                     <i class="material-icons">file_upload</i>
@@ -426,9 +460,10 @@
 
                 <!--User Profile -->
                 <section ng-show="userProfile">
+                    <!--<div> {{userDob | date : 'MMMM dd, yyyy'}}123</div>-->
                     <section id="profile">
                         <div>
-                            <img src="assets/penny-icon.png" class="profile-pic" alt="profile thumbanil" />
+                            <img src="{{user.image}}" class="profile-pic" alt="profile thumbanil" />
 
                             <div>
                                 <button class="mdl-button mdl-js-button follow-button" ng-click="profileImageUpload = !profileImageUpload;">
@@ -454,10 +489,10 @@
                             </div>
 
                             <div class="profile-name-section">
-                                <span class="profile-name">John Doe&nbsp;</span>
+                                <span class="profile-name">{{user.fName}} {{user.lName}}&nbsp;</span>
                                 <!-- if it's their own profile -->
-                                <span class="profile-funds">0&nbsp;¢&nbsp;</span>
-                                <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab">
+                                <span class="profile-funds">{{user.credits}}&nbsp;¢&nbsp;</span>
+                                <button title="Reload Credits" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab" ng-click="reload = true; loadReloadSelects(); about = false; showSignup = false; feed = false; discover = false; npoSignup = false; userProfile = false;">
                                     <i class="material-icons">add</i>
                                 </button>
 
@@ -466,17 +501,17 @@
                                     Follow
                                 </button> -->
                             </div>
-                            <div class="profile-half">
+                            <!--<div class="profile-half">
                                 <span class="profile-number">0</span> following
                             </div>
                             <div class="profile-half">
                                 <span class="profile-number">0</span> followers
-                            </div>
+                            </div>-->
                         </div>
                 </section>
 
                 <!-- appears when either following or follower is clicked -->
-                <section id="follower-list">
+                <!--<section id="follower-list">
                     <div class="container">
                         <div style="height: 200px; overflow: auto;">
                             <ul>
@@ -511,16 +546,113 @@
                             </ul>
                         </div>
                     </div>
-                </section>
+                </section>-->
 
                     <!-- same post css as the feed -->
                     <section id="profile-posts">
-                        <div class="container">
-                            <div class="row">
+                        <div id="post-feed">
+                        <div class="demo-card-wide mdl-card mdl-shadow--2dp" ng-repeat="post in usersPosts | orderBy: '-time'">
+                            <div class="mdl-card__title" style="height: {{post.height}}; {{post.bg}};">
+                                <h2 class="mdl-card__title-text">{{post.text}}</h2>
                             </div>
+                            <div class="mdl-card__supporting-text" ng-show="!{{post.byNpo}}">
+                                <span class="postAuthor">{{post.userFName}} {{post.userLName}}</span> in support of
+                                <span class="postAuthor">{{post.npo}}</span>
+                            </div>
+                            <div class="mdl-card__supporting-text" ng-show="{{post.byNpo}}">
+                                <span class="postAuthor">{{post.userFName}}</span>
+                            </div>
+                            <div class="mdl-card__actions mdl-card--border">
+                                <a ng-click="like(post);" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                    Like
+                                </a>
+                                <a ng-click="addComment(post);" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                    Comment
+                                </a>
+                                <i class="material-icons" style="float:right; margin-top: .2em;" ng-show="post.userId == userId" ng-click="deletePost(post);"
+                                    title="Delete post">delete</i>
+                            </div>
+                            <div class="mdl-card__menu">
+                                <div id="likesFor{{post.$id}}" class="postStatistics">
+                                    <span title="Likes">&nbsp;{{post.likes}} <img src="assets/like-icon.png" style="width: 1em;"/>&nbsp;</span>
+                                    <span title="Comments" ng-click="addComment(post);" style="cursor: pointer;">{{post.commentCount}} <img src="assets/comment-icon.png" style="width: 1em;"/>&nbsp;</span>
+                                    <span title="Amount Raised">{{post.raised}}  <img src="assets/cent-icon.png" style="width: 1em;"/></span>
+                                </div>
+                            </div>
+
+                            <div id="commentsFor{{post.$id}}" class="commentDisplay"></div>
                         </div>
+                    </div>
                     </section>
                 </section>
+
+                <!-- NPO About Section -->
+                <section id="NpoAbout" ng-show="npoAbout">
+                        <section id="header-title">
+                            <div id="filter">
+                            </div>
+                            <div id="header-title-text">
+                                <h1 id="title-text"><strong>{{individualNpo.name}} 
+                                <button class="mdl-button mdl-js-button follow-button" ng-click="follow(individualNpo);">
+                                Follow
+                                </button>
+                                </h1>
+                                <p id="header-tagline">{{individualNpo.tagline}} </p>
+                            </div>
+                        </section>
+
+                        <!-- About Section -->
+                        <section id="npo-about">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="npo-about-section">
+                                        <img src="{{individualNpo.logo}}" class="npo-profile-img" /><p>{{individualNpo.description}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                
+
+                    <!-- same post css as the feed -->
+                    <section id="profile-posts">
+                        <div id="post-feed">
+                        <div class="demo-card-wide mdl-card mdl-shadow--2dp" ng-repeat="post in npoPosts | orderBy: '-time'">
+                            <div class="mdl-card__title" style="height: {{post.height}}; {{post.bg}};">
+                                <h2 class="mdl-card__title-text">{{post.text}}</h2>
+                            </div>
+                            <div class="mdl-card__supporting-text" ng-show="!{{post.byNpo}}">
+                                <span class="postAuthor">{{post.userFName}} {{post.userLName}}</span> in support of
+                                <span class="postAuthor">{{post.npo}}</span>
+                            </div>
+                            <div class="mdl-card__supporting-text" ng-show="{{post.byNpo}}">
+                                <span class="postAuthor">{{post.userFName}}</span>
+                            </div>
+                            <div class="mdl-card__actions mdl-card--border">
+                                <a ng-click="like(post);" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                    Like
+                                </a>
+                                <a ng-click="addComment(post);" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                    Comment
+                                </a>
+                                <i class="material-icons" style="float:right; margin-top: .2em;" ng-show="post.userId == userId" ng-click="deletePost(post);"
+                                    title="Delete post">delete</i>
+                            </div>
+                            <div class="mdl-card__menu">
+                                <div id="likesFor{{post.$id}}" class="postStatistics">
+                                    <span title="Likes">&nbsp;{{post.likes}} <img src="assets/like-icon.png" style="width: 1em;"/>&nbsp;</span>
+                                    <span title="Comments" ng-click="addComment(post);" style="cursor: pointer;">{{post.commentCount}} <img src="assets/comment-icon.png" style="width: 1em;"/>&nbsp;</span>
+                                    <span title="Amount Raised">{{post.raised}}  <img src="assets/cent-icon.png" style="width: 1em;"/></span>
+                                </div>
+                            </div>
+
+                            <div id="commentsFor{{post.$id}}" class="commentDisplay"></div>
+                        </div>
+                    </div>
+                    </section>
+                </section>
+
+
+                
 
                 <!--Login Dialog-->
                 <dialog class="mdl-dialog" id="dialogBox">
