@@ -279,7 +279,11 @@ app.controller("myCtrl", function ($scope, $firebaseObject, $firebaseArray, $fir
 	$scope.loadfeed = function () {
 		var postsRef = firebase.database().ref().child("posts");
 		var allPosts = $firebaseArray(postsRef);
-		var userFollowing = firebase.database().ref().child("users").child(userIdNum).child("following");
+		var userFollowing; 
+		// if ($scope.user.isNpo) {
+		// 	userFollowing = firebase.database 
+		// }
+		userFollowing = firebase.database().ref().child("users").child(userIdNum).child("following");
 		var followingArr = $firebaseArray(userFollowing);
 
 		$scope.posts = [];

@@ -310,7 +310,7 @@
                                     <p style="color: #ccc;">Showing Results for "{{query}}"</p>
                                     <ul>
                                         <li ng-repeat="result in searchResults"><img src="{{result.image}}" class="profile-pic-md" alt="user's profile picture" /><span ng-click="loadOtherUserFeed(result);">{{result.name}}</span>
-                                        <div style="float:right; line-height: 100px;"><button class="mdl-button mdl-js-button follow-button">Follow</button></div>
+                                        <div style="float:right; line-height: 100px;"><button class="mdl-button mdl-js-button follow-button" ng-click="follow(result);">Follow</button></div>
                                         </li>
                                     </ul>
                                 </div>
@@ -351,7 +351,7 @@
                                     </div>
                                     <div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fullwidth">
                                         <input class="mdl-textfield__input" type="text" id="chooseNPO" value="Tag an NPO" readonly tabIndex="-1">
-                                        <ul for="chooseNPO" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                                        <ul for="chooseNPO" class="mdl-menu mdl-menu--bottom-left mdl-js-menu" style="max-height: 250px; overflow: scroll;">
                                             <li class="mdl-menu__item" ng-repeat="npo in npos" data-val="{{npo.$id}}" ng-click="choseNpo(npo);">{{npo.name}}</li>
                                         </ul>
                                     </div>
@@ -684,7 +684,7 @@
                         <div id="post-feed" style="margin-bottom: 5em;">
                         <div class="demo-card-wide mdl-card mdl-shadow--2dp" ng-repeat="post in npoPosts | orderBy: '-time'">
                             <div class="mdl-card__title" style="height: {{post.height}}; {{post.bg}};">
-                                <h2 class="mdl-card__title-text">{{post.text}}</h2>
+                                <h2 class="mdl-card__title-text" style="background-color: #E3F2FD;">{{post.text}}</h2>
                             </div>
                             <div class="mdl-card__supporting-text" ng-show="!{{post.byNpo}}">
                                 <span class="postAuthor">{{post.userFName}} {{post.userLName}}</span> in support of
