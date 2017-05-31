@@ -858,37 +858,68 @@ function calcAge(dob){
     return age;
 }
 
-//not running after load?
-//Populates the table of NPO posts
-//Requres data to populate with as parameter
 function popPostsTable(data){
 	var table = new google.visualization.Table(document.getElementById('postlist'));
 	var tblView = new google.visualization.DataView(data);
 	tblView.setColumns([5, 1]);
     var options = {
         width:'100%', 
-        showRowNumber: true,
 
     };
 	table.draw(tblView, options);
 }
 
+function popPostTable(){
+	var table = new google.visualization.Table(document.getElementById('postlist'));
+	var d = google.visualization.arrayToDataTable([
+		['Post', 'Raised'],
+		['Haiti', 109.11],
+		['Think of the Children!',  199.76],
+		['Promote Antifa',  985.76],
+		['Black Lives Matter',  438.76],
+		['DSA',  211.71],
+		['Disaster Relief',  122.36],
+		['Leukemia Research', 9176.71],
+		['Cryogenic Freezing', 98.76],
+		['Elon Musk\'s Arrest', 2981.56],
+		['Get NDT off Twitter', 667.92],
+		['Save the kittens', 5198.76],
+		['Peace', 1740.01],
+		['Love', 1137.15],
+		['Happiness', 951.27],
+		['Serenity', 844.76],
+		['Help fire-destroyed homes', 1118.44],
+		['Lymphoma Research', 128.76],
+		['Renovate the Libary', 76.98],
+		['Buy new syringes for the hospital!', 98.76],
+		['Install solar panels around UW', 9118.76],
+		['Beds for the Homeless!', 11.76]
+
+	]);
+    var options = {
+        width:'100%', 
+
+    };
+	table.draw(d, options);
+}
+
+
 function drawMonthBarCharts(){
     var barChart = new google.visualization.ColumnChart(document.getElementById('monthBarGraph'));
     var d = google.visualization.arrayToDataTable([
         ['Month', 'Raised'],
-        ['Jan', 20.02],
-        ['Feb', 51.91],
-        ['Mar', 29.45],
-        ['Apr', 10.61],
-        ['May', 39.01],
-        ['Jun', 82.82],
-        ['Jul', 87.25],
-        ['Aug', 36.11],
-        ['Sep', 84.56],
-        ['Oct', 88.24],
-        ['Nov', 51.25],
-        ['Dec', 42.67]
+        ['Jan', 2001.02],
+        ['Feb', 5121.91],
+        ['Mar', 2719.45],
+        ['Apr', 1026.61],
+        ['May', 3998.01],
+        ['Jun', 8231.82],
+        ['Jul', 8756.25],
+        ['Aug', 3688.11],
+        ['Sep', 8445.56],
+        ['Oct', 8358.24],
+        ['Nov', 5114.25],
+        ['Dec', 4291.67]
     ]);
      var options = {
         title: "$ Raised by Month of Post Date",
@@ -979,18 +1010,18 @@ function drawLineCharts(){
     var lineChart = new google.visualization.LineChart(document.getElementById('commentsGraph'));
     var d = google.visualization.arrayToDataTable([
         ['Hours', 'Comments'],
-        ['12AM - 2AM', 20],
-        ['2AM - 4AM', 51],
-        ['4AM - 6AM', 29],
-        ['6AM - 8AM', 10],
-        ['8AM - 10AM', 39],
-        ['10AM - 12PM', 82],
-        ['12PM - 2PM', 87],
-        ['2PM - 4PM', 36],
-        ['4PM - 6PM', 84],
-        ['6PM - 8PM', 88],
-        ['8PM - 10PM', 51],
-        ['10PM - 12AM', 42]
+        ['12AM - 2AM', 2013],
+        ['2AM - 4AM', 5151],
+        ['4AM - 6AM', 2925],
+        ['6AM - 8AM', 1016],
+        ['8AM - 10AM', 3913],
+        ['10AM - 12PM', 8272],
+        ['12PM - 2PM', 8793],
+        ['2PM - 4PM', 3603],
+        ['4PM - 6PM', 8425],
+        ['6PM - 8PM', 8832],
+        ['8PM - 10PM', 5177],
+        ['10PM - 12AM', 4234]
     ]);
     var options = {
         title: 'Comments in Each Hour of the Day',
@@ -1012,8 +1043,10 @@ function drawLineCharts(){
             position:'none',
         },
         chartArea:{
-            width:'90%',
-        }
+            width:'85%',
+        },
+		width: '85%',
+		pointSize: 5
     };
     lineChart.draw(d, options);
 }
@@ -1029,7 +1062,7 @@ function drawLineChart(data){
         [{'column': 1, 'aggregation': google.visualization.data.sum, 'type': 'number'}]
     );
     // console.log(lineData.toJSON());
-    var options = {
+   var options = {
         title: 'Comments in Each Hour of the Day',
         hAxis: {
            title: 'Hour of the day'
@@ -1045,9 +1078,13 @@ function drawLineChart(data){
                 fontSize:14,
             }
         },
-        legend:{
+         legend:{
             position:'none',
-        }
+        },
+        chartArea:{
+            width:'85%',
+        },
+		width: '85%'
     };
     lineChart.draw(lineData, options);
 }
@@ -1060,9 +1097,9 @@ function getTime(data, rowNum){
 function drawSexChart(){
     var d = google.visualization.arrayToDataTable([
         ['Sex', 'Comments'],
-        ['Male', 20],
-        ['Female', 51],
-        ['Unknown', 29],
+        ['Male', 2091],
+        ['Female', 5151],
+        ['Unknown', 291],
     ]);
     var options = {
         title: 'Sex distribution of followers',
@@ -1100,13 +1137,13 @@ function drawSexChart(){
 function drawAgeChart(){
     var d = google.visualization.arrayToDataTable([
         ['Age', 'Comments'],
-        ['13-24', 51],
-        ['25-34', 9],
-        ['35-44', 9],
-        ['45-54', 90],
-        ['55-64', 84],
-        ['65+', 9],
-        ['Unknown', 10],
+        ['13-24', 513],
+        ['25-34', 957],
+        ['35-44', 294],
+        ['45-54', 907],
+        ['55-64', 384],
+        ['65+', 96],
+        ['Unknown', 101],
     ]);
     var options = {
         title: 'Age distribution of followers',
@@ -1208,7 +1245,8 @@ $scope.drawCharts = function() {
     postsDT = getPostData();
     commentsData = getComments();
     followersSexData = getFollowersSex();
-	popPostsTable(postsDT);
+	// popPostsTable(postsDT);
+	popPostTable();
 
     //Real Methods to draw graphs
     // drawMonthBarChart(postsDT);
@@ -1226,7 +1264,6 @@ $scope.drawCharts = function() {
     document.getElementById('commentsGraph').style.display = 'none';
     document.getElementById('gButton').disabled = '';
 }
-
 
     
     
