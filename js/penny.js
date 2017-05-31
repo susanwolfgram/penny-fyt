@@ -465,8 +465,9 @@ app.controller("myCtrl", function ($scope, $firebaseObject, $firebaseArray, $fir
 									text: this.value,
 									time: firebase.database.ServerValue.TIMESTAMP
 								}).then(function () {
-									var newCred = userObj.credits - 2;
-									firebase.database().ref().child("users").child(userIdNum).child("credits").set(newCred);
+									var newCred = $scope.user.isNpo ? npoObj.credits - 2 : userObj.credits - 2;
+									var userType = $scope.user.isNpo ? "npos" : "users";
+									firebase.database().ref().child(userType).child(userIdNum).child("credits").set(newCred);
 									var newCommentCount = (post.commentCount ? post.commentCount : 0) + 1;
 									firebase.database().ref().child("posts").child(post.$id).child("commentCount").set(newCommentCount);
 									var newRaised = post.raised + 2;
@@ -566,8 +567,9 @@ app.controller("myCtrl", function ($scope, $firebaseObject, $firebaseArray, $fir
 		if (checkUserCredits("like")) {
 			var newLikes = post.likes + 1;
 			var newRaised = post.raised + 1;
-			var newCred = userObj.credits - 1;
-			firebase.database().ref().child("users").child(userIdNum).child("credits").set(newCred);
+			var newCred = $scope.user.isNpo ? npoObj.credits - 1 : userObj.credits - 1;
+			var userType = $scope.user.isNpo ? "npos" : "user"; 
+			firebase.database().ref().child(userType).child(userIdNum).child("credits").set(newCred);
 			firebase.database().ref().child("posts").child(post.$id).child("likes").set(newLikes);
 			firebase.database().ref().child("posts").child(post.$id).child("raised").set(newRaised);
 			incrementNpoCredit(post.npoId, 1);
@@ -675,7 +677,8 @@ app.controller("myCtrl", function ($scope, $firebaseObject, $firebaseArray, $fir
 
 	function checkUserCredits(type) {
 		var amount = type == "like" ? 1 : 2;
-		if (userObj.credits < amount) {
+		var userType = $scope.user.isNpo ? npoObj : userObj; 
+		if (userType.credits < amount) {
 			alert("Insufficient funds, please reload your account. This can be done through your user profile page.");
 			return false;
 		} else {
