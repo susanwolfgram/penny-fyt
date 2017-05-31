@@ -5,7 +5,7 @@
 }
 
 #postlist{
-    height: 625px;
+    height: 580px;
 }
 
 #monthBarGraph{
@@ -38,7 +38,8 @@
     margin-left: 22.5%;
     margin-right: 22.5%;
     width: 55%;
-    margin-bottom: 25px;
+    margin-bottom: 5px;
+    margin-top: 10px;
 }
 
 #sidebar{
@@ -46,6 +47,7 @@
     height: 700px;
     margin-top: 100px;
     float: left;
+    text-align: center;
 }
 
 #gButton{
