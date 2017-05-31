@@ -188,12 +188,13 @@ app.controller("myCtrl", function ($scope, $firebaseObject, $firebaseArray, $fir
 			userObj.$loaded().then(function() {
 				npoObj.$loaded().then(function() {
 					if (npoObj.isNpo == 1) {
-					console.log("inside if");
-					$scope.user = npoObj;
-					google.charts.load('current', {packages: ['table', 'corechart'] });
+						console.log("inside if");
+						$scope.user = npoObj;
+						google.charts.load('current', {packages: ['table', 'corechart'] });
 					} else {
 						$scope.user = userObj;
 					}
+					$scope.loadfeed();
 				});
 			});
 			
@@ -204,7 +205,7 @@ app.controller("myCtrl", function ($scope, $firebaseObject, $firebaseArray, $fir
 			$scope.loggedIn = true;
 			$scope.userId = userIdNum;
 			allSectionsFalse();
-			$scope.loadfeed();
+			
 			$scope.loadNpos();
 			$scope.feed = true;
 		}).catch(function (error) {
@@ -280,10 +281,11 @@ app.controller("myCtrl", function ($scope, $firebaseObject, $firebaseArray, $fir
 		var postsRef = firebase.database().ref().child("posts");
 		var allPosts = $firebaseArray(postsRef);
 		var userFollowing; 
-		// if ($scope.user.isNpo) {
-		// 	userFollowing = firebase.database 
-		// }
-		userFollowing = firebase.database().ref().child("users").child(userIdNum).child("following");
+		if ($scope.user.isNpo) {
+			userFollowing = firebase.database().ref().child("npos").child(userIdNum).child("following");
+		} else {
+			userFollowing = firebase.database().ref().child("users").child(userIdNum).child("following");
+		}
 		var followingArr = $firebaseArray(userFollowing);
 
 		$scope.posts = [];
