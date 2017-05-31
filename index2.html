@@ -144,6 +144,17 @@
                                         <li ng-click="stepOne = false; stepTwo = false; stepThree = false; stepFour = true; stepFive = false" ng-class="{true : 'selected', false: ''}[stepFour]">Like and comment.</li>
                                         <li ng-click="stepOne = false; stepTwo = false; stepThree = false; stepFour = false; stepFive = true" ng-class="{true : 'selected', false: ''}[stepFive]">Post and tag content.</li>
                                     </ol>
+
+                                    <!--SUSAN THIS IS NEW STUFF -->
+                                    <p style="margin-top:150px; text-align: right; font-size: 14pt">
+                                        <span ng-show="stepOne">Sign up for an account to begin using Penny-fyt.</span>
+                                        <span ng-show="stepTwo">Using a credit or debit card, add money into your account.</span>
+                                        <span ng-show="stepThree">Explore participating NPOs to find new organizations to follow.</span>
+                                        <span ng-show="stepFour">Like posts to donate one cent; comment to contribute two cents.</span>
+                                        <span ng-show="stepFive">Post your own content and tag an NPO of your choosing to show support.</span>
+                                    </p>
+
+                                    <!-- END NEW STUFF-->
                                 </div>
                                 <div class="col-md-8 tutorial">
                                     <img ng-show="stepOne" src="assets/1.png" alt="Sign up for an account" />
