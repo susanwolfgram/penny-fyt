@@ -50,7 +50,8 @@ app.controller("myCtrl", function ($scope, $firebaseObject, $firebaseArray, $fir
 					credits: 0,
 					dob: bday,
 					gender: sex,
-					isNpo: 0
+					isNpo: 0,
+					image: 'assets/penny-logo-new.png'
 				});
 				firebase.database().ref().child("users").child(userIdNum).child("following").child(userIdNum).set({
 					name: "self"
