@@ -2,10 +2,11 @@
 
 //Gets data about NPOs posts from Firebase and returns it it as a DataTable
 function getPostData(){
+    var NPOID = "3P5X0rWHQvPKmRrFyGkzn4gZ7XA3";
 	var posts = [];
 	var postDT;
 	var postsRef = firebase.database().ref("posts");
-	postsRef.orderByChild('npoId').equalTo("3P5X0rWHQvPKmRrFyGkzn4gZ7XA3").on('value', function(snap){
+	postsRef.orderByChild('npoId').equalTo(NPOID).on('value', function(snap){
 		snap.forEach(function(item) {
 			var itemVal = item.val();
 			posts.push(itemVal);
@@ -26,7 +27,7 @@ function getFollowersSex(){
 			f = item.val().following;
             s = item.val().gender;
 			if (f && s){
-				if ("3P5X0rWHQvPKmRrFyGkzn4gZ7XA3" in f){
+				if (NPOID in f){
 					followers.push(item.val());
 				}
 			}
@@ -47,7 +48,7 @@ function getFollowersAge(){
 			f = item.val().following;
             dob = item.val().dob;
 			if (f && dob){
-				if ("3P5X0rWHQvPKmRrFyGkzn4gZ7XA3" in f){
+				if (NPOID in f){
 					followers.push(item.val());
 				}
 			}
@@ -63,7 +64,7 @@ function getComments(){
     var comments = [];
     var commentsDT;
     var commentsRef = firebase.database().ref('posts');
-    commentsRef.orderByChild('npoId').equalTo("3P5X0rWHQvPKmRrFyGkzn4gZ7XA3").on('value', function(snap){
+    commentsRef.orderByChild('npoId').equalTo(NPOID).on('value', function(snap){
         snap.forEach(function(item){
             c = item.val().comments;
             if(c){
@@ -195,7 +196,7 @@ function drawMonthBarCharts(){
     var barChart = new google.visualization.ColumnChart(document.getElementById('monthBarGraph'));
     var d = google.visualization.arrayToDataTable([
         ['Month', 'Raised'],
-        ['Jan', 20.02],
+        ['Jan', '$20.02'],
         ['Feb', 51.91],
         ['Mar', 29.45],
         ['Apr', 10.61],
