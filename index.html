@@ -307,9 +307,9 @@
                             
                             <section id="search-results" ng-show="results">
                                 <div id="results-list">
-                                    <p style="color: #ccc;">Showing Results for "{{query}}"</p>
+                                    <p style="color: #ccc;">Showing Results for "{{query}}" <i class="fa fa-times" aria-hidden="true" style="float: right; color: black;" ng-click="results = ''"></i></p>
                                     <ul>
-                                        <li ng-repeat="result in searchResults"><img src="{{result.image}}" class="profile-pic-md" alt="user's profile picture" /><span ng-click="loadOtherUserFeed(result);">{{result.name}}</span>
+                                        <li ng-repeat="result in searchResults | orderBy : 'name'"><img src="{{result.image}}" class="profile-pic-md" alt="user's profile picture" /><span ng-click="loadOtherUserFeed(result);">{{result.name}}</span>
                                         <div style="float:right; line-height: 100px;"><button class="mdl-button mdl-js-button follow-button" ng-click="follow(result);">Follow</button></div>
                                         </li>
                                     </ul>

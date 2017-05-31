@@ -568,7 +568,7 @@ app.controller("myCtrl", function ($scope, $firebaseObject, $firebaseArray, $fir
 			var newLikes = post.likes + 1;
 			var newRaised = post.raised + 1;
 			var newCred = $scope.user.isNpo ? npoObj.credits - 1 : userObj.credits - 1;
-			var userType = $scope.user.isNpo ? "npos" : "user"; 
+			var userType = $scope.user.isNpo ? "npos" : "users"; 
 			firebase.database().ref().child(userType).child(userIdNum).child("credits").set(newCred);
 			firebase.database().ref().child("posts").child(post.$id).child("likes").set(newLikes);
 			firebase.database().ref().child("posts").child(post.$id).child("raised").set(newRaised);
