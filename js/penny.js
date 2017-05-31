@@ -519,6 +519,35 @@ app.controller("myCtrl", function($scope, $firebaseObject, $firebaseArray, $fire
 		}
 	}
 
+// app.directive('nop', function(){
+//     return function($scope, $element) {
+// 		$element.find('li.comment', click(function() {
+// 			$element.find('div.commentDisplay').innerHTML = "some more stuff";
+// 		}))
+// 	}
+// });
 
+// function alert2(message, title, buttonText) {
+
+//     buttonText = (buttonText == undefined) ? "Ok" : buttonText;
+//     title = (title == undefined) ? "The page says:" : title;
+
+//     var div = $('<div>');
+//     div.html(message);
+//     div.attr('title', title);
+//     div.dialog({
+//         autoOpen: true,
+//         modal: true,
+//         draggable: false,
+//         resizable: false,
+//         buttons: [{
+//             text: buttonText,
+//             click: function () {
+//                 $(this).dialog("close");
+//                 div.remove();
+//             }
+//         }]
+//     });
+// } 
 });
 
