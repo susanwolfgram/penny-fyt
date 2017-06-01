@@ -404,7 +404,8 @@ app.controller("myCtrl", function ($scope, $firebaseObject, $firebaseArray, $fir
 			npoArr.$loaded().then(function () {
 				var combined = userArr.concat(npoArr);
 				for (var i = 0; i < combined.length; i++) {
-					if (combined[i].name.toLowerCase().includes($scope.query.toLowerCase())) {
+					
+					if (combined[i].name && combined[i].name.toLowerCase().includes($scope.query.toLowerCase())) {
 						$scope.searchResults.push(combined[i]);
 					}
 				}
